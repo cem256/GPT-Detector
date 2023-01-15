@@ -41,6 +41,7 @@ dependencies:
 
   # App Icons
   flutter_launcher_icons: ^0.11.0
+  flutter_native_splash: ^2.2.16
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +62,13 @@ flutter_icons:
   image_path: "assets/icons/logo.png"
   adaptive_icon_background: "#6200EE"
   adaptive_icon_foreground: "assets/icons/logo_foreground.png"
+
+flutter_native_splash:
+  android: true
+  ios: true
+  android12: true
+  color: "#6200EE"
+  image: "assets/icons/logo_no_bg.png"
 
 flutter:
   uses-material-design: true
