@@ -2,12 +2,14 @@ import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/constants/strings.dart';
 import '../../../../core/enums/page_state.dart';
 import '../../../../core/extensions/context_extensions.dart';
 import '../../../../locator.dart';
 import '../bloc/detector_bloc.dart';
 import '../widgets/gpt_app_bar.dart';
 import '../widgets/gpt_card.dart';
+import '../widgets/gpt_drawer.dart';
 import '../widgets/gpt_elevated_button.dart';
 import '../widgets/gpt_text_field.dart';
 
@@ -18,8 +20,9 @@ class DetectView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const GPTAppBar(
-        title: 'GPT Detector',
+        title: Strings.appName,
       ),
+      drawer: const GPTDrawer(),
       body: BlocProvider(
         create: (context) => getIt<DetectorBloc>(),
         child: _DetectViewBody(),

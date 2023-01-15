@@ -5,6 +5,6 @@ class AppTheme {
   final ThemeData appTheme = FlexThemeData.light(
     scheme: FlexScheme.material,
     typography: Typography.material2021(),
-    blendLevel: 4,
+    blendLevel: 6,
   );
 }
