@@ -100,7 +100,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                               end: state.result.realProb,
                               precision: 2,
                               duration: context.durationHigh,
-                              suffix: '% Real',
+                              suffix: '% Original',
                             );
                           },
                         ),
@@ -124,7 +124,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                               begin: 0,
                               end: state.result.fakeProb,
                               duration: context.durationHigh,
-                              suffix: '% Fake',
+                              suffix: '% AI',
                             );
                           },
                         ),
