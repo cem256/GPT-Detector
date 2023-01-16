@@ -64,7 +64,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                   content: SizedBox(
                     height: context.highValue,
                     child: const Text(
-                      'Oops, it looks like we are having trouble connecting to the server.',
+                      Strings.networkFailure,
                     ),
                   ),
                 ),
@@ -76,7 +76,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                   content: SizedBox(
                     height: context.highValue,
                     child: const Text(
-                      'Looks like you\'re disconnected. Check your internet connection and give it another try.',
+                      Strings.noInternetFailure,
                     ),
                   ),
                 ),
@@ -103,7 +103,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                               end: state.result.realProb,
                               precision: 2,
                               duration: context.durationHigh,
-                              suffix: '% Original',
+                              suffix: Strings.percentOriginal,
                             );
                           },
                         ),
@@ -127,7 +127,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                               begin: 0,
                               end: state.result.fakeProb,
                               duration: context.durationHigh,
-                              suffix: '% AI',
+                              suffix: Strings.percentAI,
                             );
                           },
                         ),
@@ -147,10 +147,10 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                     builder: (context, state) {
                       return GPTTextField(
                         controller: _controller,
-                        hintText: 'Paste text or write here',
-                        errorText: state.isValidInput ? null : 'Input cannot be empty',
-                        helperText: 'Results become more reliable after 100 tokens.',
-                        counterText: 'Tokens: ${state.result.allTokens}',
+                        hintText: Strings.textFieldHint,
+                        errorText: state.isValidInput ? null : Strings.textFieldError,
+                        helperText: Strings.textFieldHelper,
+                        counterText: '${Strings.textFieldCounter}  ${state.result.allTokens}',
                       );
                     },
                   ),
@@ -184,7 +184,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                         : null,
                     child: state.pageState == PageState.loading
                         ? const CircularProgressIndicator.adaptive(strokeWidth: 2)
-                        : const Text('Analyze Text'),
+                        : const Text(Strings.analyzeButton),
                   );
                 },
               ),
