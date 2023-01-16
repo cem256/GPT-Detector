@@ -48,4 +48,4 @@ app.*.map.json
 *.freezed.dart
 
 # environment variables
-/env
+/env/.env
