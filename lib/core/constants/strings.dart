@@ -2,7 +2,7 @@ class Strings {
   Strings._();
 
   static const String appName = 'GPT Detector';
-  static const String privacyPolicyUrl = 'https://cem256.github.io/cem256/GPT-Detector/privacy-policy.html';
+  static const String privacyPolicyUrl = 'https://cem256.github.io/GPT-Detector/privacy-policy.html';
   static const String privacyPolicy = 'Privacy Policy';
   static const String version = 'Version 1.0.0';
   static const String drawerInfo = 'Info';
