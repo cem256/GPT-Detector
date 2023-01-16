@@ -33,6 +33,7 @@ dependencies:
 
   # Utility
   flutter_dotenv: ^5.0.2
+  url_launcher: ^6.1.7
 
   # UI
   flex_color_scheme: ^6.1.2

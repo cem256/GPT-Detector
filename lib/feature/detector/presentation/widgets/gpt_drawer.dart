@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../core/constants/assets.dart';
 import '../../../../core/constants/strings.dart';
@@ -39,9 +40,10 @@ class GPTDrawer extends StatelessWidget {
               SizedBox(
                 height: context.mediumValue,
               ),
-              const ListTile(
-                leading: Icon(Icons.privacy_tip),
-                title: Text('Privacy Policy'),
+              ListTile(
+                leading: const Icon(Icons.privacy_tip),
+                title: const Text('Privacy Policy'),
+                onTap: () async => await launchUrlString(mode: LaunchMode.platformDefault, Strings.privacyPolicyUrl),
               ),
               ExpansionTile(
                 leading: const Icon(Icons.info),
