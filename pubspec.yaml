@@ -44,9 +44,14 @@ dependencies:
   flutter_launcher_icons: ^0.11.0
   flutter_native_splash: ^2.2.16
 
+dependency_overrides:
+  test_api: ^0.4.18
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mocktail: ^0.3.0
+  bloc_test: ^9.1.0
 
   # Code gen
   freezed: ^2.3.2
