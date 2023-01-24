@@ -2,6 +2,10 @@
 
 Uses the [GPT-2 Output Detector](https://github.com/openai/gpt-2-output-dataset/tree/master/detector) model to identify whether a text is written by a human or an AI.
 
+## Available on
+[![Google Play](https://play.google.com/intl/en_us/badges/images/badge_new.png)](https://play.google.com/store/apps/details?id=com.cem256.gptdetector)
+
+
 ## Built With
 
 - [Flutter](https://flutter.dev/)
