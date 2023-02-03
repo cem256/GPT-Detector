@@ -34,7 +34,7 @@ void main() {
         () {
       expect(
         detectorBloc.state.result,
-        (const DetectorEntity(fakeProb: 0.00, realProb: 0.00, allTokens: 0)),
+        const DetectorEntity(fakeProb: 0, realProb: 0, allTokens: 0),
       );
     });
 
@@ -42,7 +42,7 @@ void main() {
       expect(detectorBloc.state.isValidInput, true);
     });
 
-    blocTest(
+    blocTest<DetectorBloc, DetectorState>(
       'DetectorEvent.detectionRequested() event test case: It should emit PageState.failure when Left type returned from mockDetectUseCase',
       setUp: () {
         when(() => mockDetectUseCase(inputText)).thenAnswer(
@@ -60,7 +60,7 @@ void main() {
       ],
     );
 
-    blocTest(
+    blocTest<DetectorBloc, DetectorState>(
       'DetectorEvent.detectionRequested() event test case: It should emit PageState.loaded and a DetectorEntity instance when Right type returned from mockDetectUseCase',
       setUp: () {
         when(() => mockDetectUseCase(inputText)).thenAnswer(
@@ -79,7 +79,7 @@ void main() {
     );
   });
 
-  blocTest(
+  blocTest<DetectorBloc, DetectorState>(
     'DetectorEvent.clearTextPressed() event test case: It should emit a new state with PageState.initial value',
     build: () => detectorBloc,
     act: (bloc) => bloc.add(const DetectorEvent.clearTextPressed()),

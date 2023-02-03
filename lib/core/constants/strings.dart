@@ -14,7 +14,7 @@ class Strings {
   static const String getStarted = 'Get Started';
   static const String networkFailure = 'Oops, it looks like we are having trouble connecting to the server.';
   static const String noInternetFailure =
-      'Looks like you\'re disconnected. Check your internet connection and give it another try.';
+      "Looks like you're disconnected. Check your internet connection and give it another try.";
   static const String percentOriginal = '% Original';
   static const String percentAI = '% AI';
   static const String textFieldHint = 'Paste text or write here';

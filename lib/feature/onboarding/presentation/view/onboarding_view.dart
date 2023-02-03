@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gpt_detector/core/constants/assets.dart';
 import 'package:gpt_detector/core/constants/strings.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/extensions/widget_extensions.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_elevated_button.dart';
 import 'package:gpt_detector/feature/onboarding/presentation/bloc/onboarding_bloc.dart';
-
-import '../../../../core/constants/assets.dart';
 
 class OnboardingView extends StatelessWidget {
   const OnboardingView({super.key});

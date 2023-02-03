@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/view_constants.dart';
+import 'package:gpt_detector/core/constants/view_constants.dart';
 
 class GPTAppBar extends StatelessWidget with PreferredSizeWidget {
   const GPTAppBar({

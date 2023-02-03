@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/failures/failure.dart';
-import '../entities/detector/detector_entity.dart';
-import '../repositories/detector_repository.dart';
+import 'package:gpt_detector/core/failures/failure.dart';
+import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
+import 'package:gpt_detector/feature/detector/domain/repositories/detector_repository.dart';
 
 class DetectUseCase {
   DetectUseCase({required this.detectorRepository});

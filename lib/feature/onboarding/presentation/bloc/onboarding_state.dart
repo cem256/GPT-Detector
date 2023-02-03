@@ -12,7 +12,7 @@ class OnboardingState with _$OnboardingState {
 
   factory OnboardingState.fromMap(Map<String, dynamic> map) {
     return OnboardingState(
-      isCompleted: map['isCompleted'],
+      isCompleted: map['isCompleted'] as bool,
     );
   }
 

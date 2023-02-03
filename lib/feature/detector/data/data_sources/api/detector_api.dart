@@ -1,21 +1,20 @@
 import 'package:dio/dio.dart';
 
-import '../../../../../core/exceptions/exceptions.dart';
-import '../../model/detector/detector_model.dart';
+import 'package:gpt_detector/core/exceptions/exceptions.dart';
+import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
 
 class DetectorApi {
-  final Dio dio;
-
   DetectorApi({
     required this.dio,
   });
+  final Dio dio;
 
   Future<DetectorModel> detect(String inputText) async {
     try {
-      final response = await dio.get(
+      final response = await dio.get<Map<String, dynamic>>(
         '/?$inputText',
       );
-      dynamic model = response.data;
+      final model = response.data;
       if (model == null) {
         throw NetworkException();
       } else {

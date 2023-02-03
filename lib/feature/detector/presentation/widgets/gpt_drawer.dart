@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gpt_detector/core/constants/assets.dart';
+import 'package:gpt_detector/core/constants/strings.dart';
+import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
-import '../../../../core/constants/assets.dart';
-import '../../../../core/constants/strings.dart';
-import '../../../../core/extensions/context_extensions.dart';
 
 class GPTDrawer extends StatelessWidget {
   const GPTDrawer({super.key});
@@ -39,7 +38,7 @@ class GPTDrawer extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.privacy_tip),
                 title: const Text(Strings.privacyPolicy),
-                onTap: () async => await launchUrlString(mode: LaunchMode.platformDefault, Strings.privacyPolicyUrl),
+                onTap: () async => launchUrlString(Strings.privacyPolicyUrl),
               ),
               ExpansionTile(
                 leading: const Icon(Icons.info),

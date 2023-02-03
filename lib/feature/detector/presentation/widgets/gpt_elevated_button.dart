@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/view_constants.dart';
+import 'package:gpt_detector/core/constants/view_constants.dart';
 
 class GPTElevatedButton extends StatelessWidget {
   const GPTElevatedButton({

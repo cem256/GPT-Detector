@@ -1,13 +1,11 @@
-include: package:flutter_lints/flutter.yaml
-
-linter:
-  rules:
-    prefer_single_quotes: true
-    avoid_print: true
-
+include: package:very_good_analysis/analysis_options.3.1.0.yaml
 analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
-  errors:
-    invalid_annotation_target: ignore
+linter:
+  rules:
+    file_names: false
+    sort_pub_dependencies: false
+    public_member_api_docs: false
+    lines_longer_than_80_chars: false

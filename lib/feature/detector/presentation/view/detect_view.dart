@@ -1,18 +1,17 @@
 import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gpt_detector/core/constants/strings.dart';
+import 'package:gpt_detector/core/enums/page_state.dart';
+import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/extensions/widget_extensions.dart';
-
-import '../../../../core/constants/strings.dart';
-import '../../../../core/enums/page_state.dart';
-import '../../../../core/extensions/context_extensions.dart';
-import '../../../../locator.dart';
-import '../bloc/detector_bloc.dart';
-import '../widgets/gpt_app_bar.dart';
-import '../widgets/gpt_card.dart';
-import '../widgets/gpt_drawer.dart';
-import '../widgets/gpt_elevated_button.dart';
-import '../widgets/gpt_text_field.dart';
+import 'package:gpt_detector/feature/detector/presentation/bloc/detector_bloc.dart';
+import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_app_bar.dart';
+import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_card.dart';
+import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_drawer.dart';
+import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_elevated_button.dart';
+import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_text_field.dart';
+import 'package:gpt_detector/locator.dart';
 
 class DetectView extends StatelessWidget {
   const DetectView({super.key});
