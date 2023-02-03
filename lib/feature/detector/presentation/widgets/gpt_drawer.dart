@@ -19,18 +19,14 @@ class GPTDrawer extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  SizedBox(
+                  Image.asset(
+                    Assets.appIcon,
                     height: context.veryHighValue2x,
                     width: double.infinity,
-                    child: Image.asset(
-                      Assets.appIcon,
-                    ),
                   ),
                   Text(
                     Strings.appName,
-                    style: context.textTheme.bodyText1!.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: context.textTheme.bodyLarge,
                   ),
                   const Text(
                     Strings.version,
@@ -51,9 +47,7 @@ class GPTDrawer extends StatelessWidget {
                 childrenPadding: context.paddingAllDefault,
                 expandedAlignment: Alignment.centerLeft,
                 children: const [
-                  Text(
-                    Strings.drawerInfoText,
-                  ),
+                  Text(Strings.infoText1),
                 ],
               ),
             ],

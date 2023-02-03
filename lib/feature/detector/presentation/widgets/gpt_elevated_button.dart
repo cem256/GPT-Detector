@@ -6,7 +6,7 @@ class GPTElevatedButton extends StatelessWidget {
   const GPTElevatedButton({
     super.key,
     required this.child,
-    required this.onPressed,
+    this.onPressed,
   });
 
   final Widget child;

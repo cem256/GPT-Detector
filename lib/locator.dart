@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:gpt_detector/feature/onboarding/presentation/bloc/onboarding_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import 'core/network/network_info.dart';
@@ -16,6 +17,9 @@ final getIt = GetIt.instance;
 void initServices() {
   // Feature - Detector
   // Bloc
+  getIt.registerFactory(
+    () => OnboardingBloc(),
+  );
   getIt.registerFactory(
     () => DetectorBloc(
       detectUseCase: getIt(),

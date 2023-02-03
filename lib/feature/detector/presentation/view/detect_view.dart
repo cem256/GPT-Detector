@@ -1,6 +1,7 @@
 import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gpt_detector/core/extensions/widget_extensions.dart';
 
 import '../../../../core/constants/strings.dart';
 import '../../../../core/enums/page_state.dart';
@@ -111,9 +112,6 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: context.mediumValue,
-                ),
                 Expanded(
                   child: GPTCard(
                     color: context.theme.colorScheme.errorContainer,
@@ -135,10 +133,9 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                     ),
                   ),
                 ),
-              ],
-            ),
-            SizedBox(
-              height: context.mediumValue,
+              ].spaceBetween(
+                width: context.mediumValue,
+              ),
             ),
             Expanded(
               child: Stack(
@@ -168,28 +165,27 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                 ],
               ),
             ),
-            SizedBox(
-              height: context.mediumValue,
-            ),
-            SizedBox(
-              width: context.width,
-              height: context.highValue,
-              child: BlocBuilder<DetectorBloc, DetectorState>(
-                builder: (context, state) {
-                  return GPTElevatedButton(
+            BlocBuilder<DetectorBloc, DetectorState>(
+              builder: (context, state) {
+                return SizedBox(
+                  width: context.width,
+                  height: context.highValue,
+                  child: GPTElevatedButton(
                     onPressed: state.pageState != PageState.loading
-                        ? () => context
-                            .read<DetectorBloc>()
-                            .add(DetectorEvent.detectionRequested(textInput: _controller.text))
+                        ? () => context.read<DetectorBloc>().add(
+                              DetectorEvent.detectionRequested(textInput: _controller.text),
+                            )
                         : null,
                     child: state.pageState == PageState.loading
                         ? const CircularProgressIndicator.adaptive(strokeWidth: 2)
                         : const Text(Strings.analyzeButton),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
-          ],
+          ].spaceBetween(
+            height: context.mediumValue,
+          ),
         ),
       ),
     );

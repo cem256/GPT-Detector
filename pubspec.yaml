@@ -15,6 +15,7 @@ dependencies:
   # State management
   bloc: ^8.1.0
   flutter_bloc: ^8.1.1
+  hydrated_bloc: ^9.0.0
 
   # Networking
   dio: ^4.0.6
@@ -26,26 +27,23 @@ dependencies:
 
   # Data class generation
   freezed_annotation: ^2.2.0
-  json_annotation: ^4.7.0
+  json_annotation: ^4.8.0
 
   # Functional programming
   dartz: ^0.10.1
 
   # Utility
   flutter_dotenv: ^5.0.2
-  url_launcher: ^6.1.7
+  path_provider: ^2.0.12
+  url_launcher: ^6.1.8
 
   # UI
-  flex_color_scheme: ^6.1.2
   countup: ^0.1.4
   cupertino_icons: ^1.0.2
 
   # App Icons
   flutter_launcher_icons: ^0.11.0
   flutter_native_splash: ^2.2.16
-
-dependency_overrides:
-  test_api: ^0.4.18
 
 dev_dependencies:
   flutter_test:
@@ -56,7 +54,7 @@ dev_dependencies:
   # Code gen
   freezed: ^2.3.2
   build_runner: ^2.3.3
-  json_serializable: ^6.5.4
+  json_serializable: ^6.6.1
 
   # Linter
   flutter_lints: ^2.0.0
