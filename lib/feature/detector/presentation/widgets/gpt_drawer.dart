@@ -46,7 +46,7 @@ class GPTDrawer extends StatelessWidget {
                 childrenPadding: context.paddingAllDefault,
                 expandedAlignment: Alignment.centerLeft,
                 children: const [
-                  Text(Strings.infoText1),
+                  Text(Strings.drawerInfoText),
                 ],
               ),
             ],

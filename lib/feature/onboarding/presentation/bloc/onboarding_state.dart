@@ -1,3 +1,5 @@
+// ignore_for_file: require_trailing_commas
+
 part of 'onboarding_bloc.dart';
 
 @freezed
@@ -11,14 +13,10 @@ class OnboardingState with _$OnboardingState {
   factory OnboardingState.initial() => const OnboardingState(isCompleted: false);
 
   factory OnboardingState.fromMap(Map<String, dynamic> map) {
-    return OnboardingState(
-      isCompleted: map['isCompleted'] as bool,
-    );
+    return OnboardingState(isCompleted: map['isCompleted'] as bool);
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'isCompleted': isCompleted,
-    };
+    return {'isCompleted': isCompleted};
   }
 }

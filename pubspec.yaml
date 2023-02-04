@@ -32,6 +32,9 @@ dependencies:
   # Functional programming
   dartz: ^0.10.1
 
+  # Routing
+  auto_route: ^5.0.4
+
   # Utility
   flutter_dotenv: ^5.0.2
   path_provider: ^2.0.12
@@ -40,6 +43,7 @@ dependencies:
   # UI
   countup: ^0.1.4
   cupertino_icons: ^1.0.2
+  flutter_animate: ^3.1.0
 
   # App Icons
   flutter_launcher_icons: ^0.11.0
@@ -55,6 +59,7 @@ dev_dependencies:
   freezed: ^2.3.2
   build_runner: ^2.3.3
   json_serializable: ^6.6.1
+  auto_route_generator: ^5.0.3
 
   # Linter
   very_good_analysis: ^3.1.0
