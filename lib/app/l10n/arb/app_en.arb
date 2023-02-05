@@ -95,11 +95,15 @@
     "type": "text",
     "placeholders": {}
   },
-  "textFieldCounterText": "Tokens:",
+  "textFieldCounterText": "Tokens: {tokenCount}",
   "@textFieldCounterText": {
     "description": "TextField counter text value on the DetectView",
     "type": "text",
-    "placeholders": {}
+    "placeholders": {
+      "tokenCount": {
+        "type": "int"
+      }
+    }
   },
   "analyzeText": "Analyze Text",
   "@analyzeText": {

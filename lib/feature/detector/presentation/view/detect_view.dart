@@ -1,3 +1,5 @@
+// ignore_for_file: require_trailing_commas
+
 import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -131,9 +133,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                     ),
                   ),
                 ),
-              ].spaceBetween(
-                width: context.mediumValue,
-              ),
+              ].spaceBetween(width: context.mediumValue),
             ),
             Expanded(
               child: Stack(
@@ -145,14 +145,13 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                         hintText: context.l10n.textFieldHint,
                         errorText: state.isValidInput ? null : context.l10n.textFieldError,
                         helperText: context.l10n.textFieldHelper,
-                        counterText: '${context.l10n.textFieldCounterText}  ${state.result.allTokens}',
+                        counterText: context.l10n.textFieldCounterText(state.result.allTokens),
                       );
                     },
                   ),
-                  Positioned(
-                    right: 0,
+                  Align(
+                    alignment: Alignment.topRight,
                     child: IconButton(
-                      splashColor: Colors.transparent,
                       onPressed: () {
                         _controller.clear();
                         context.read<DetectorBloc>().add(const DetectorEvent.clearTextPressed());
@@ -181,9 +180,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                 );
               },
             ),
-          ].spaceBetween(
-            height: context.mediumValue,
-          ),
+          ].spaceBetween(height: context.mediumValue),
         ),
       ),
     );
