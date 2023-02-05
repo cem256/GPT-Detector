@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:gpt_detector/core/constants/view_constants.dart';
+import 'package:gpt_detector/core/extensions/context_extensions.dart';
 
 class GPTElevatedButton extends StatelessWidget {
   const GPTElevatedButton({
@@ -17,7 +17,7 @@ class GPTElevatedButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
-          borderRadius: ViewConstants.borderCircular,
+          borderRadius: context.defaultBorderRadius,
         ),
       ),
       onPressed: onPressed,

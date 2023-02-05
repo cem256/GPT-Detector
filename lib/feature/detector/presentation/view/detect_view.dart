@@ -1,8 +1,7 @@
 import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gpt_detector/core/constants/strings.dart';
-import 'package:gpt_detector/core/enums/page_state.dart';
+import 'package:gpt_detector/app/l10n/l10n.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/extensions/widget_extensions.dart';
 import 'package:gpt_detector/feature/detector/presentation/bloc/detector_bloc.dart';
@@ -19,8 +18,8 @@ class DetectView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const GPTAppBar(
-        title: Strings.appName,
+      appBar: GPTAppBar(
+        title: context.l10n.appName,
       ),
       drawer: const GPTDrawer(),
       body: BlocProvider(
@@ -55,7 +54,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
   Widget build(BuildContext context) {
     return BlocListener<DetectorBloc, DetectorState>(
       listener: (context, state) {
-        if (state.pageState == PageState.failure) {
+        if (state.detectorStatus == DetectorStatus.failure) {
           state.failure!.when(
             networkFailure: () => ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
@@ -63,8 +62,8 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                 SnackBar(
                   content: SizedBox(
                     height: context.highValue,
-                    child: const Text(
-                      Strings.networkFailure,
+                    child: Text(
+                      context.l10n.networkFailure,
                     ),
                   ),
                 ),
@@ -75,8 +74,8 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                 SnackBar(
                   content: SizedBox(
                     height: context.highValue,
-                    child: const Text(
-                      Strings.noInternetFailure,
+                    child: Text(
+                      context.l10n.noInternetFailure,
                     ),
                   ),
                 ),
@@ -103,7 +102,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                               end: state.result.realProb,
                               precision: 2,
                               duration: context.durationHigh,
-                              suffix: Strings.percentOriginal,
+                              suffix: context.l10n.percentOriginal,
                             );
                           },
                         ),
@@ -124,7 +123,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                               begin: 0,
                               end: state.result.fakeProb,
                               duration: context.durationHigh,
-                              suffix: Strings.percentAI,
+                              suffix: context.l10n.percentAI,
                             );
                           },
                         ),
@@ -143,10 +142,10 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                     builder: (context, state) {
                       return GPTTextField(
                         controller: _controller,
-                        hintText: Strings.textFieldHint,
-                        errorText: state.isValidInput ? null : Strings.textFieldError,
-                        helperText: Strings.textFieldHelper,
-                        counterText: '${Strings.textFieldCounter}  ${state.result.allTokens}',
+                        hintText: context.l10n.textFieldHint,
+                        errorText: state.isValidInput ? null : context.l10n.textFieldError,
+                        helperText: context.l10n.textFieldHelper,
+                        counterText: '${context.l10n.textFieldCounterText}  ${state.result.allTokens}',
                       );
                     },
                   ),
@@ -170,14 +169,14 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                   width: context.width,
                   height: context.highValue,
                   child: GPTElevatedButton(
-                    onPressed: state.pageState != PageState.loading
+                    onPressed: state.detectorStatus != DetectorStatus.loading
                         ? () => context.read<DetectorBloc>().add(
                               DetectorEvent.detectionRequested(textInput: _controller.text),
                             )
                         : null,
-                    child: state.pageState == PageState.loading
+                    child: state.detectorStatus == DetectorStatus.loading
                         ? const CircularProgressIndicator.adaptive(strokeWidth: 2)
-                        : const Text(Strings.analyzeButton),
+                        : Text(context.l10n.analyzeText),
                   ),
                 );
               },

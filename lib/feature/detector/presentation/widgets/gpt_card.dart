@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:gpt_detector/core/constants/view_constants.dart';
+import 'package:gpt_detector/core/extensions/context_extensions.dart';
 
 class GPTCard extends StatelessWidget {
   const GPTCard({
@@ -19,7 +18,7 @@ class GPTCard extends StatelessWidget {
       margin: EdgeInsets.zero,
       color: color,
       shape: RoundedRectangleBorder(
-        borderRadius: ViewConstants.borderCircular,
+        borderRadius: context.defaultBorderRadius,
       ),
       child: child,
     );

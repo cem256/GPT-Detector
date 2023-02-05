@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gpt_detector/core/failures/failure.dart';
+import 'package:gpt_detector/app/errors/failure.dart';
+
 import 'package:gpt_detector/core/network/network_info.dart';
 import 'package:gpt_detector/feature/detector/data/data_sources/api/detector_api.dart';
 import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';

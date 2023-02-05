@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gpt_detector/core/constants/assets.dart';
-import 'package:gpt_detector/core/constants/strings.dart';
+import 'package:gpt_detector/app/constants/assets.dart';
+import 'package:gpt_detector/app/l10n/l10n.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/extensions/widget_extensions.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_elevated_button.dart';
@@ -25,21 +25,24 @@ class OnboardingView extends StatelessWidget {
                 width: double.infinity,
               ),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    Strings.appName,
-                    style: context.textTheme.headlineMedium,
+                  Center(
+                    child: Text(
+                      context.l10n.appName,
+                      style: context.textTheme.headlineMedium,
+                    ),
                   ),
                   Text(
-                    Strings.infoText1,
+                    context.l10n.onboardingInfo1,
                     style: context.textTheme.bodyLarge,
                   ),
                   Text(
-                    Strings.infoText2,
+                    context.l10n.onboardingInfo2,
                     style: context.textTheme.bodyLarge,
                   ),
                   Text(
-                    Strings.infoText3,
+                    context.l10n.onboardingInfo3,
                     style: context.textTheme.bodyLarge,
                   ),
                 ]
@@ -54,7 +57,7 @@ class OnboardingView extends StatelessWidget {
                 height: context.highValue,
                 child: GPTElevatedButton(
                   onPressed: () => context.read<OnboardingBloc>().add(const OnboardingEvent.completeOnboarding()),
-                  child: const Text(Strings.getStarted),
+                  child: Text(context.l10n.getStarted),
                 ),
               ),
             ].spaceBetween(

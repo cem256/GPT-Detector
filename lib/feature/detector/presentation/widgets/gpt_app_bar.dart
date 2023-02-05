@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:gpt_detector/core/constants/view_constants.dart';
+import 'package:gpt_detector/core/extensions/context_extensions.dart';
 
 class GPTAppBar extends StatelessWidget with PreferredSizeWidget {
   const GPTAppBar({
@@ -15,9 +15,9 @@ class GPTAppBar extends StatelessWidget with PreferredSizeWidget {
     return AppBar(
       title: Text(title),
       centerTitle: true,
-      shape: const RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
-          bottom: ViewConstants.radius,
+          bottom: context.defaultRadius,
         ),
       ),
     );

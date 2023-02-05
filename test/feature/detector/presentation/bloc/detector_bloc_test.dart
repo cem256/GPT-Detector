@@ -1,8 +1,8 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gpt_detector/core/enums/page_state.dart';
-import 'package:gpt_detector/core/failures/failure.dart';
+
+import 'package:gpt_detector/app/errors/failure.dart';
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/detect_use_case.dart';
 import 'package:gpt_detector/feature/detector/presentation/bloc/detector_bloc.dart';
@@ -25,8 +25,8 @@ void main() {
     inputText = 'Test Input';
   });
   group('Detector Bloc Tests', () {
-    test("Initial value of the 'pageState' variable must be 'PageState.initial' at start", () {
-      expect(detectorBloc.state.pageState, PageState.initial);
+    test("Initial value of the 'detectorStatus' variable must be 'DetectorStatus.initial' at start", () {
+      expect(detectorBloc.state.detectorStatus, DetectorStatus.initial);
     });
 
     test(
@@ -43,7 +43,7 @@ void main() {
     });
 
     blocTest<DetectorBloc, DetectorState>(
-      'DetectorEvent.detectionRequested() event test case: It should emit PageState.failure when Left type returned from mockDetectUseCase',
+      'DetectorEvent.detectionRequested() event test case: It should emit DetectorStatus.failure when Left type returned from mockDetectUseCase',
       setUp: () {
         when(() => mockDetectUseCase(inputText)).thenAnswer(
           (_) async => const Left(Failure.networkFailure()),
@@ -52,16 +52,16 @@ void main() {
       build: () => detectorBloc,
       act: (bloc) => bloc.add(DetectorEvent.detectionRequested(textInput: inputText)),
       expect: () => [
-        DetectorState(pageState: PageState.loading),
+        DetectorState(detectorStatus: DetectorStatus.loading),
         DetectorState(
-          pageState: PageState.failure,
+          detectorStatus: DetectorStatus.failure,
           failure: const Failure.networkFailure(),
         ),
       ],
     );
 
     blocTest<DetectorBloc, DetectorState>(
-      'DetectorEvent.detectionRequested() event test case: It should emit PageState.loaded and a DetectorEntity instance when Right type returned from mockDetectUseCase',
+      'DetectorEvent.detectionRequested() event test case: It should emit DetectorStatus.loaded and a DetectorEntity instance when Right type returned from mockDetectUseCase',
       setUp: () {
         when(() => mockDetectUseCase(inputText)).thenAnswer(
           (_) async => Right(mockDetectorEntity),
@@ -70,21 +70,21 @@ void main() {
       build: () => detectorBloc,
       act: (bloc) => bloc.add(DetectorEvent.detectionRequested(textInput: inputText)),
       expect: () => [
-        DetectorState(pageState: PageState.loading),
+        DetectorState(detectorStatus: DetectorStatus.loading),
         DetectorState(
           result: mockDetectorEntity,
-          pageState: PageState.loaded,
+          detectorStatus: DetectorStatus.success,
         ),
       ],
     );
   });
 
   blocTest<DetectorBloc, DetectorState>(
-    'DetectorEvent.clearTextPressed() event test case: It should emit a new state with PageState.initial value',
+    'DetectorEvent.clearTextPressed() event test case: It should emit a new state with DetectorStatus.initial value',
     build: () => detectorBloc,
     act: (bloc) => bloc.add(const DetectorEvent.clearTextPressed()),
     expect: () => [
-      DetectorState(pageState: PageState.initial),
+      DetectorState(detectorStatus: DetectorStatus.initial),
     ],
   );
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:gpt_detector/core/constants/view_constants.dart';
+import 'package:gpt_detector/core/extensions/context_extensions.dart';
 
 class GPTTextField extends StatelessWidget {
   const GPTTextField({
@@ -29,7 +28,7 @@ class GPTTextField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         border: OutlineInputBorder(
-          borderRadius: ViewConstants.borderCircular,
+          borderRadius: context.defaultBorderRadius,
         ),
         errorText: errorText,
         helperText: helperText,

@@ -1,5 +1,3 @@
-// ignore_for_file: require_trailing_commas
-
 part of 'onboarding_bloc.dart';
 
 @freezed

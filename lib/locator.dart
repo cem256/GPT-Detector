@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
+import 'package:gpt_detector/app/theme/app_theme.dart';
+import 'package:gpt_detector/core/network/network_client.dart';
 import 'package:gpt_detector/core/network/network_info.dart';
-import 'package:gpt_detector/core/network/network_manager.dart';
-import 'package:gpt_detector/core/theme/app_theme.dart';
 import 'package:gpt_detector/feature/detector/data/data_sources/api/detector_api.dart';
 import 'package:gpt_detector/feature/detector/data/repositories/detector_repository_impl.dart';
 import 'package:gpt_detector/feature/detector/domain/repositories/detector_repository.dart';
@@ -14,20 +14,19 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 final getIt = GetIt.instance;
 
 void initServices() {
-  // Feature - Detector
   // Bloc
   getIt
-    ..registerFactory(
+    ..registerFactory<OnboardingBloc>(
       OnboardingBloc.new,
     )
-    ..registerFactory(
+    ..registerFactory<DetectorBloc>(
       () => DetectorBloc(
         detectUseCase: getIt(),
       ),
     )
 
     // Use cases
-    ..registerLazySingleton(
+    ..registerLazySingleton<DetectUseCase>(
       () => DetectUseCase(
         detectorRepository: getIt(),
       ),
@@ -42,23 +41,24 @@ void initServices() {
     )
 
     // Data sources
-    ..registerLazySingleton(
-      () => DetectorApi(dio: getIt<NetworkManager>().dio),
+    ..registerLazySingleton<DetectorApi>(
+      () => DetectorApi(networkClient: getIt()),
     )
 
     // Core
-    ..registerLazySingleton(
-      InternetConnectionChecker.new,
-    )
+
     ..registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImp(
         connectionChecker: getIt(),
       ),
     )
-    ..registerLazySingleton(
-      NetworkManager.new,
+    ..registerLazySingleton<InternetConnectionChecker>(
+      InternetConnectionChecker.new,
     )
-    ..registerLazySingleton(
+    ..registerLazySingleton<NetworkClient>(
+      NetworkClient.new,
+    )
+    ..registerLazySingleton<AppTheme>(
       AppTheme.new,
     );
 }

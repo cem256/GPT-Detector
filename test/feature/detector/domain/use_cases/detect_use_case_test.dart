@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gpt_detector/core/failures/failure.dart';
+import 'package:gpt_detector/app/errors/failure.dart';
+
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
 import 'package:gpt_detector/feature/detector/domain/repositories/detector_repository.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/detect_use_case.dart';
