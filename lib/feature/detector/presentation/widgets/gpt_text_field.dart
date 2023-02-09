@@ -5,22 +5,19 @@ class GPTTextField extends StatelessWidget {
   const GPTTextField({
     super.key,
     required this.controller,
+    required this.onChanged,
     required this.hintText,
-    required this.errorText,
-    required this.helperText,
-    required this.counterText,
   });
 
   final TextEditingController controller;
+  final void Function(String)? onChanged;
   final String hintText;
-  final String? errorText;
-  final String helperText;
-  final String counterText;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      onChanged: onChanged,
       textAlignVertical: TextAlignVertical.top,
       keyboardType: TextInputType.multiline,
       expands: true,
@@ -30,9 +27,6 @@ class GPTTextField extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: context.defaultBorderRadius,
         ),
-        errorText: errorText,
-        helperText: helperText,
-        counterText: counterText,
       ),
     );
   }

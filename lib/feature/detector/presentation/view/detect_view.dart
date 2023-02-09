@@ -3,9 +3,11 @@
 import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:form_inputs/form_inputs.dart';
 import 'package:gpt_detector/app/l10n/l10n.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/extensions/widget_extensions.dart';
+import 'package:gpt_detector/core/utils/snackbar/snackbar_utils.dart';
 import 'package:gpt_detector/feature/detector/presentation/bloc/detector_bloc.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_app_bar.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_card.dart';
@@ -48,40 +50,24 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<DetectorBloc, DetectorState>(
       listener: (context, state) {
-        if (state.detectorStatus == DetectorStatus.failure) {
+        if (state.status.isSubmissionFailure) {
           state.failure!.when(
-            networkFailure: () => ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(
-                  content: SizedBox(
-                    height: context.highValue,
-                    child: Text(
-                      context.l10n.networkFailure,
-                    ),
-                  ),
-                ),
-              ),
-            noInternetFailure: () => ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(
-                  content: SizedBox(
-                    height: context.highValue,
-                    child: Text(
-                      context.l10n.noInternetFailure,
-                    ),
-                  ),
-                ),
-              ),
+            networkFailure: () => SnackbarUtils.showSnackbar(
+              context: context,
+              message: context.l10n.networkFailure,
+            ),
+            noInternetFailure: () => SnackbarUtils.showSnackbar(
+              context: context,
+              message: context.l10n.noInternetFailure,
+            ),
           );
         }
       },
@@ -142,25 +128,41 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                     builder: (context, state) {
                       return GPTTextField(
                         controller: _controller,
+                        onChanged: (text) => context.read<DetectorBloc>().add(DetectorEvent.textChanged(text: text)),
                         hintText: context.l10n.textFieldHint,
-                        errorText: state.isValidInput ? null : context.l10n.textFieldError,
-                        helperText: context.l10n.textFieldHelper,
-                        counterText: context.l10n.textFieldCounterText(state.result.allTokens),
                       );
                     },
                   ),
                   Align(
                     alignment: Alignment.topRight,
                     child: IconButton(
+                      icon: const Icon(Icons.clear),
                       onPressed: () {
                         _controller.clear();
                         context.read<DetectorBloc>().add(const DetectorEvent.clearTextPressed());
                       },
-                      icon: const Icon(Icons.clear),
                     ),
                   ),
                 ],
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  context.l10n.textFieldHelper,
+                  style: context.textTheme.bodySmall,
+                ),
+                BlocBuilder<DetectorBloc, DetectorState>(
+                  buildWhen: (previous, current) => previous.result.allTokens != current.result.allTokens,
+                  builder: (context, state) {
+                    return Text(
+                      context.l10n.textFieldCounterText(state.result.allTokens),
+                      style: context.textTheme.bodySmall,
+                    );
+                  },
+                ),
+              ],
             ),
             BlocBuilder<DetectorBloc, DetectorState>(
               builder: (context, state) {
@@ -168,12 +170,12 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                   width: context.width,
                   height: context.highValue,
                   child: GPTElevatedButton(
-                    onPressed: state.detectorStatus != DetectorStatus.loading
-                        ? () => context.read<DetectorBloc>().add(
-                              DetectorEvent.detectionRequested(textInput: _controller.text),
-                            )
+                    onPressed: state.status.isValidated
+                        ? () => context
+                            .read<DetectorBloc>()
+                            .add(DetectorEvent.detectionRequested(userInput: _controller.text))
                         : null,
-                    child: state.detectorStatus == DetectorStatus.loading
+                    child: state.status.isSubmissionInProgress
                         ? const CircularProgressIndicator.adaptive(strokeWidth: 2)
                         : Text(context.l10n.analyzeText),
                   ),

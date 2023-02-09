@@ -8,7 +8,7 @@ import 'package:gpt_detector/app/environment/environment.dart';
 import 'package:gpt_detector/app/l10n/l10n.dart';
 import 'package:gpt_detector/app/router/app_router.gr.dart';
 import 'package:gpt_detector/app/theme/app_theme.dart';
-import 'package:gpt_detector/core/utility/bloc/simple_bloc_observer.dart';
+import 'package:gpt_detector/core/utils/observer/bloc_observer.dart';
 import 'package:gpt_detector/feature/onboarding/presentation/bloc/onboarding_bloc.dart';
 import 'package:gpt_detector/locator.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -17,7 +17,7 @@ import 'package:path_provider/path_provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash();
-  Bloc.observer = SimpleBlocObserver();
+  Bloc.observer = AppBlocObserver();
 
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),

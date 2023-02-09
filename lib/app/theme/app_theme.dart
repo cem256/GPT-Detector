@@ -33,7 +33,5 @@ class AppTheme {
       inversePrimary: Color(0xffda99ff),
       surfaceTint: Color(0xff6200ee),
     ),
-  ).copyWith(
-    typography: Typography.material2021(),
-  );
+  ).copyWith(typography: Typography.material2021());
 }

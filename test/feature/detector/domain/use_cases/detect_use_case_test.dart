@@ -15,30 +15,30 @@ void main() {
   late MockDetectorRepository mockDetectorRepository;
   late DetectUseCase detectUseCase;
   late MockDetectorEntity mockDetectorEntity;
-  late String inputText;
+  late String userInput;
 
   setUp(() {
     mockDetectorRepository = MockDetectorRepository();
     detectUseCase = DetectUseCase(detectorRepository: mockDetectorRepository);
     mockDetectorEntity = MockDetectorEntity();
-    inputText = 'Test Input';
+    userInput = 'Test Input';
   });
 
   group('Detect Use Case Test', () {
     test('Should return a single instance of a Detector Entity when no exception caught', () async {
-      when(() => mockDetectorRepository.detect(inputText)).thenAnswer((_) async => Right(mockDetectorEntity));
-      final result = await detectUseCase(inputText);
+      when(() => mockDetectorRepository.detect(userInput)).thenAnswer((_) async => Right(mockDetectorEntity));
+      final result = await detectUseCase(userInput);
 
-      verify(() => detectUseCase(inputText));
+      verify(() => detectUseCase(userInput));
       expect(result, isA<Right<Failure, DetectorEntity>>());
     });
 
     test('Should return Failure type of object when an exception caught', () async {
-      when(() => mockDetectorRepository.detect(inputText))
+      when(() => mockDetectorRepository.detect(userInput))
           .thenAnswer((_) async => const Left(Failure.networkFailure()));
-      final result = await detectUseCase(inputText);
+      final result = await detectUseCase(userInput);
 
-      verify(() => detectUseCase(inputText));
+      verify(() => detectUseCase(userInput));
       expect(result, isA<Left<Failure, DetectorEntity>>());
     });
   });

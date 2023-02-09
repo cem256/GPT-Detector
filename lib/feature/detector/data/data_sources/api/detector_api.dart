@@ -6,9 +6,9 @@ class DetectorApi {
   DetectorApi({required NetworkClient networkClient}) : _networkClient = networkClient;
   final NetworkClient _networkClient;
 
-  Future<DetectorModel> detect(String inputText) async {
+  Future<DetectorModel> detect(String userInput) async {
     try {
-      final response = await _networkClient.get<Map<String, dynamic>>('/?$inputText');
+      final response = await _networkClient.get<Map<String, dynamic>>('/?$userInput');
       final model = response.data;
       if (model == null) {
         throw NetworkException();

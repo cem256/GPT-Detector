@@ -53,13 +53,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "networkFailure": "Oops, it looks like we are having trouble connecting to the server.",
+  "networkFailure": "Oops, looks like we are having trouble connecting to the server.",
   "@networkFailure": {
     "description": "Displayed in case of a Failure.networkfailure()",
     "type": "text",
     "placeholders": {}
   },
-  "noInternetFailure": "Looks like you're disconnected. Check your internet connection and give it another try.",
+  "noInternetFailure": "Please check you Internet connection.",
   "@noInternetFailure": {
     "description": "Displayed in case of a Failure.noInternetFailure()",
     "type": "text",
@@ -80,12 +80,6 @@
   "textFieldHint": "Paste text or write here...",
   "@textFieldHint": {
     "description": "TextField hint value on the DetectView",
-    "type": "text",
-    "placeholders": {}
-  },
-  "textFieldError": "Input cannot be empty",
-  "@textFieldError": {
-    "description": "TextField error text value on the DetectView",
     "type": "text",
     "placeholders": {}
   },

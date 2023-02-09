@@ -17,10 +17,10 @@ class DetectorRepositoryImpl implements DetectorRepository {
   final NetworkInfo _networkInfo;
 
   @override
-  Future<Either<Failure, DetectorEntity>> detect(String inputText) async {
+  Future<Either<Failure, DetectorEntity>> detect(String userInput) async {
     if (await _networkInfo.isConnected) {
       try {
-        final response = await _detectorApi.detect(inputText);
+        final response = await _detectorApi.detect(userInput);
 
         return right(response.toDetectorEntity());
       } catch (_) {

@@ -21,7 +21,7 @@ void main() {
   late MockNetworkInfo mockNetworkInfo;
   late DetectorRepository detectorRepository;
   late MockDetectorModel mockDetectorModel;
-  late String inputText;
+  late String userInput;
 
   setUp(() {
     mockDetectorApi = MockDetectorApi();
@@ -31,7 +31,7 @@ void main() {
       networkInfo: mockNetworkInfo,
     );
     mockDetectorModel = MockDetectorModel();
-    inputText = 'Test Input';
+    userInput = 'Test Input';
   });
 
   group('Check the device connection', () {
@@ -47,20 +47,20 @@ void main() {
   group('Detect Requests', () {
     test('Should return  Detector Entity when there is no exception', () async {
       when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(() => mockDetectorApi.detect(inputText)).thenAnswer((_) async => mockDetectorModel);
-      final result = await detectorRepository.detect(inputText);
+      when(() => mockDetectorApi.detect(userInput)).thenAnswer((_) async => mockDetectorModel);
+      final result = await detectorRepository.detect(userInput);
 
-      verify(() => mockDetectorApi.detect(inputText));
+      verify(() => mockDetectorApi.detect(userInput));
       expect(result, isA<Right<Failure, DetectorEntity>>());
     });
   });
 
   test('Should return Failure type of object when an exception caught', () async {
     when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-    when(() => mockDetectorApi.detect(inputText)).thenThrow(Exception());
-    final result = await detectorRepository.detect(inputText);
+    when(() => mockDetectorApi.detect(userInput)).thenThrow(Exception());
+    final result = await detectorRepository.detect(userInput);
 
-    verify(() => mockDetectorApi.detect(inputText));
+    verify(() => mockDetectorApi.detect(userInput));
     expect(result, isA<Left<Failure, DetectorEntity>>());
   });
 }

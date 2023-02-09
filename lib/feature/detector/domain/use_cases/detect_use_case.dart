@@ -10,7 +10,7 @@ class DetectUseCase {
 
   final DetectorRepository _detectorRepository;
 
-  Future<Either<Failure, DetectorEntity>> call(String inputText) {
-    return _detectorRepository.detect(inputText);
+  Future<Either<Failure, DetectorEntity>> call(String userInput) {
+    return _detectorRepository.detect(userInput);
   }
 }

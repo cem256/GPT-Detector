@@ -45,8 +45,11 @@ dependencies:
   flutter_dotenv: ^5.0.2
   path_provider: ^2.0.12
   url_launcher: ^6.1.8
-
   intl: ^0.17.0
+
+  # Packages
+  form_inputs:
+    path: packages/form_inputs
 
   # UI
   countup: ^0.1.4

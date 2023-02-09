@@ -24,45 +24,42 @@ class OnboardingView extends StatelessWidget {
                 height: context.veryHighValue2x,
                 width: double.infinity,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Text(
-                      context.l10n.appName,
-                      style: context.textTheme.headlineMedium,
-                    ),
-                  ),
-                  Text(
-                    context.l10n.onboardingInfo1,
-                    style: context.textTheme.bodyLarge,
-                  ),
-                  Text(
-                    context.l10n.onboardingInfo2,
-                    style: context.textTheme.bodyLarge,
-                  ),
-                  Text(
-                    context.l10n.onboardingInfo3,
-                    style: context.textTheme.bodyLarge,
-                  ),
-                ]
-                    .animate(interval: 600.ms)
-                    .fadeIn(duration: 900.ms, delay: 300.ms)
-                    .move(begin: const Offset(-16, 0), curve: Curves.easeOutQuad)
-                    .spaceBetween(height: context.mediumValue),
-              ),
-              const Spacer(),
-              SizedBox(
-                width: context.width,
-                height: context.highValue,
-                child: GPTElevatedButton(
-                  onPressed: () => context.read<OnboardingBloc>().add(const OnboardingEvent.completeOnboarding()),
-                  child: Text(context.l10n.getStarted),
+              Center(
+                child: Text(
+                  context.l10n.appName,
+                  style: context.textTheme.headlineMedium,
                 ),
               ),
-            ].spaceBetween(
-              height: context.mediumValue,
-            ),
+              Text(
+                context.l10n.onboardingInfo1,
+                style: context.textTheme.bodyLarge,
+              ),
+              Text(
+                context.l10n.onboardingInfo2,
+                style: context.textTheme.bodyLarge,
+              ),
+              Text(
+                context.l10n.onboardingInfo3,
+                style: context.textTheme.bodyLarge,
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizedBox(
+                    width: context.width,
+                    height: context.highValue,
+                    child: GPTElevatedButton(
+                      onPressed: () => context.read<OnboardingBloc>().add(const OnboardingEvent.completeOnboarding()),
+                      child: Text(context.l10n.getStarted),
+                    ),
+                  ),
+                ),
+              ),
+            ]
+                .animate(interval: 400.ms)
+                .fadeIn(duration: 600.ms, delay: 200.ms)
+                .move(begin: const Offset(-16, 0), curve: Curves.easeOutQuad)
+                .spaceBetween(height: context.mediumValue),
           ),
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:form_inputs/form_inputs.dart';
 
 import 'package:gpt_detector/app/errors/failure.dart';
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
@@ -16,17 +17,17 @@ void main() {
   late DetectorBloc detectorBloc;
   late MockDetectUseCase mockDetectUseCase;
   late MockDetectorEntity mockDetectorEntity;
-  late String inputText;
+  late String userInput;
 
   setUp(() {
     mockDetectUseCase = MockDetectUseCase();
     detectorBloc = DetectorBloc(detectUseCase: mockDetectUseCase);
     mockDetectorEntity = MockDetectorEntity();
-    inputText = 'Test Input';
+    userInput = 'Test Input';
   });
   group('Detector Bloc Tests', () {
-    test("Initial value of the 'detectorStatus' variable must be 'DetectorStatus.initial' at start", () {
-      expect(detectorBloc.state.detectorStatus, DetectorStatus.initial);
+    test("Initial value of the 'status' variable must be 'FormzStatus.pure' at start", () {
+      expect(detectorBloc.state.status, FormzStatus.pure);
     });
 
     test(
@@ -38,53 +39,49 @@ void main() {
       );
     });
 
-    test("Default value of the 'isValidInput' variable must be 'true' at start", () {
-      expect(detectorBloc.state.isValidInput, true);
-    });
-
     blocTest<DetectorBloc, DetectorState>(
-      'DetectorEvent.detectionRequested() event test case: It should emit DetectorStatus.failure when Left type returned from mockDetectUseCase',
+      'DetectorEvent.detectionRequested() event test case: It should emit FormzStatus.submissionFailure when Left type returned from mockDetectUseCase',
       setUp: () {
-        when(() => mockDetectUseCase(inputText)).thenAnswer(
+        when(() => mockDetectUseCase(userInput)).thenAnswer(
           (_) async => const Left(Failure.networkFailure()),
         );
       },
       build: () => detectorBloc,
-      act: (bloc) => bloc.add(DetectorEvent.detectionRequested(textInput: inputText)),
+      act: (bloc) => bloc.add(DetectorEvent.detectionRequested(userInput: userInput)),
       expect: () => [
-        DetectorState(detectorStatus: DetectorStatus.loading),
+        DetectorState(status: FormzStatus.submissionInProgress),
         DetectorState(
-          detectorStatus: DetectorStatus.failure,
+          status: FormzStatus.submissionFailure,
           failure: const Failure.networkFailure(),
         ),
       ],
     );
 
     blocTest<DetectorBloc, DetectorState>(
-      'DetectorEvent.detectionRequested() event test case: It should emit DetectorStatus.loaded and a DetectorEntity instance when Right type returned from mockDetectUseCase',
+      'DetectorEvent.detectionRequested() event test case: It should emit FormzStatus.submissionInProgress and a DetectorEntity instance when Right type returned from mockDetectUseCase',
       setUp: () {
-        when(() => mockDetectUseCase(inputText)).thenAnswer(
+        when(() => mockDetectUseCase(userInput)).thenAnswer(
           (_) async => Right(mockDetectorEntity),
         );
       },
       build: () => detectorBloc,
-      act: (bloc) => bloc.add(DetectorEvent.detectionRequested(textInput: inputText)),
+      act: (bloc) => bloc.add(DetectorEvent.detectionRequested(userInput: userInput)),
       expect: () => [
-        DetectorState(detectorStatus: DetectorStatus.loading),
+        DetectorState(status: FormzStatus.submissionInProgress),
         DetectorState(
           result: mockDetectorEntity,
-          detectorStatus: DetectorStatus.success,
+          status: FormzStatus.submissionSuccess,
         ),
       ],
     );
   });
 
   blocTest<DetectorBloc, DetectorState>(
-    'DetectorEvent.clearTextPressed() event test case: It should emit a new state with DetectorStatus.initial value',
+    'DetectorEvent.clearTextPressed() event test case: It should emit a new DetectorState()',
     build: () => detectorBloc,
     act: (bloc) => bloc.add(const DetectorEvent.clearTextPressed()),
     expect: () => [
-      DetectorState(detectorStatus: DetectorStatus.initial),
+      DetectorState(),
     ],
   );
 }
