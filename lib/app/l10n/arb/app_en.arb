@@ -53,13 +53,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "networkFailure": "Oops, looks like we are having trouble connecting to the server.",
+  "networkFailure": "Oops, looks like we're having trouble connecting to the server.",
   "@networkFailure": {
     "description": "Displayed in case of a Failure.networkfailure()",
     "type": "text",
     "placeholders": {}
   },
-  "noInternetFailure": "Please check you Internet connection.",
+  "noInternetFailure": "Please check your Internet connection.",
   "@noInternetFailure": {
     "description": "Displayed in case of a Failure.noInternetFailure()",
     "type": "text",

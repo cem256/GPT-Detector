@@ -23,6 +23,7 @@ class GPTTextField extends StatelessWidget {
       expands: true,
       maxLines: null,
       decoration: InputDecoration(
+        contentPadding: const EdgeInsets.fromLTRB(16, 16, 32, 40),
         hintText: hintText,
         border: OutlineInputBorder(
           borderRadius: context.defaultBorderRadius,

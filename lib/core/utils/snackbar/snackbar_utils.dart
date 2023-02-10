@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gpt_detector/core/extensions/context_extensions.dart';
 
 class SnackbarUtils {
   SnackbarUtils._();
@@ -8,6 +9,7 @@ class SnackbarUtils {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
+          padding: context.paddingAllDefault,
           content: Text(message),
         ),
       );

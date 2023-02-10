@@ -133,14 +133,30 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                       );
                     },
                   ),
-                  Align(
-                    alignment: Alignment.topRight,
+                  Positioned(
+                    right: 0,
                     child: IconButton(
                       icon: const Icon(Icons.clear),
                       onPressed: () {
                         _controller.clear();
                         context.read<DetectorBloc>().add(const DetectorEvent.clearTextPressed());
                       },
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.photo_library),
+                          onPressed: () {},
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.photo_camera),
+                          onPressed: () {},
+                        ),
+                      ],
                     ),
                   ),
                 ],
