@@ -2,7 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:gpt_detector/app/theme/app_theme.dart';
 import 'package:gpt_detector/core/network/network_client.dart';
 import 'package:gpt_detector/core/network/network_info.dart';
-import 'package:gpt_detector/feature/detector/data/data_sources/api/detector_api.dart';
+import 'package:gpt_detector/feature/detector/data/data_sources/remote/detector_remote_data_source.dart';
 import 'package:gpt_detector/feature/detector/data/repositories/detector_repository_impl.dart';
 import 'package:gpt_detector/feature/detector/domain/repositories/detector_repository.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/detect_use_case.dart';
@@ -35,14 +35,14 @@ void initServices() {
     // Repository
     ..registerLazySingleton<DetectorRepository>(
       () => DetectorRepositoryImpl(
-        detectorApi: getIt(),
+        detectorRemoteDataSource: getIt(),
         networkInfo: getIt(),
       ),
     )
 
     // Data sources
-    ..registerLazySingleton<DetectorApi>(
-      () => DetectorApi(networkClient: getIt()),
+    ..registerLazySingleton<DetectorRemoteDataSource>(
+      () => DetectorRemoteDataSource(networkClient: getIt()),
     )
 
     // Core

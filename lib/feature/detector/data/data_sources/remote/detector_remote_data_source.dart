@@ -2,8 +2,10 @@ import 'package:gpt_detector/app/errors/exceptions.dart';
 import 'package:gpt_detector/core/network/network_client.dart';
 import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
 
-class DetectorApi {
-  DetectorApi({required NetworkClient networkClient}) : _networkClient = networkClient;
+class DetectorRemoteDataSource {
+  DetectorRemoteDataSource({
+    required NetworkClient networkClient,
+  }) : _networkClient = networkClient;
   final NetworkClient _networkClient;
 
   Future<DetectorModel> detect(String userInput) async {

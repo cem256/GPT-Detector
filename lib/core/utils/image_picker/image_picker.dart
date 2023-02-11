@@ -11,18 +11,12 @@ class ImagePickerUtilsImpl implements ImagePickerUtils {
   @override
   Future<XFile?> selectFromGallery() async {
     final image = await _imagePicker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      return image;
-    }
-    return null;
+    return image;
   }
 
   @override
   Future<XFile?> takePhoto() async {
     final image = await _imagePicker.pickImage(source: ImageSource.camera);
-    if (image != null) {
-      return image;
-    }
-    return null;
+    return image;
   }
 }

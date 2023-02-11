@@ -1,5 +1,3 @@
-// ignore_for_file: require_trailing_commas
-
 import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +5,11 @@ import 'package:form_inputs/form_inputs.dart';
 import 'package:gpt_detector/app/l10n/l10n.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/extensions/widget_extensions.dart';
+import 'package:gpt_detector/core/permission/permission_manager.dart';
+import 'package:gpt_detector/core/utils/image_picker/image_picker.dart';
+import 'package:gpt_detector/core/utils/permission_handler/permission_handler.dart';
 import 'package:gpt_detector/core/utils/snackbar/snackbar_utils.dart';
+import 'package:gpt_detector/core/utils/text_recognizer/text_recognizer.dart';
 import 'package:gpt_detector/feature/detector/presentation/bloc/detector_bloc.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_app_bar.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_card.dart';
@@ -150,11 +152,23 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                       children: [
                         IconButton(
                           icon: const Icon(Icons.photo_library),
-                          onPressed: () {},
+                          onPressed: () {
+                            OCRManager(
+                              permissionHandler: PermissionHandlerUtilsImpl(),
+                              imagePicker: ImagePickerUtilsImpl(),
+                              textRecognizer: TextRecognizerUtilsImpl(),
+                            ).ocrFromGallery();
+                          },
                         ),
                         IconButton(
                           icon: const Icon(Icons.photo_camera),
-                          onPressed: () {},
+                          onPressed: () {
+                            OCRManager(
+                              permissionHandler: PermissionHandlerUtilsImpl(),
+                              imagePicker: ImagePickerUtilsImpl(),
+                              textRecognizer: TextRecognizerUtilsImpl(),
+                            ).ocrFromCamera();
+                          },
                         ),
                       ],
                     ),
