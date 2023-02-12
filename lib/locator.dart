@@ -13,21 +13,21 @@ import 'package:gpt_detector/feature/detector/domain/repositories/detector_repos
 import 'package:gpt_detector/feature/detector/domain/use_cases/detect_use_case.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/ocr_from_camera_use_case.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/ocr_from_gallery_use_case.dart';
-import 'package:gpt_detector/feature/detector/presentation/bloc/detector_bloc.dart';
-import 'package:gpt_detector/feature/onboarding/presentation/bloc/onboarding_bloc.dart';
+import 'package:gpt_detector/feature/detector/presentation/cubit/detector_cubit.dart';
+import 'package:gpt_detector/feature/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 // Global service locator
 final getIt = GetIt.instance;
 
 void initServices() {
-  // Bloc
+  // Cubit
   getIt
-    ..registerFactory<OnboardingBloc>(
-      OnboardingBloc.new,
+    ..registerFactory<OnboardingCubit>(
+      OnboardingCubit.new,
     )
-    ..registerFactory<DetectorBloc>(
-      () => DetectorBloc(
+    ..registerFactory<DetectorCubit>(
+      () => DetectorCubit(
         detectUseCase: getIt(),
         ocrFromGalleryUseCase: getIt(),
         ocrFromCameraUseCase: getIt(),

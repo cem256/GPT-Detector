@@ -5,9 +5,8 @@ import 'package:form_inputs/form_inputs.dart';
 import 'package:gpt_detector/app/l10n/l10n.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/extensions/widget_extensions.dart';
-
 import 'package:gpt_detector/core/utils/snackbar/snackbar_utils.dart';
-import 'package:gpt_detector/feature/detector/presentation/bloc/detector_bloc.dart';
+import 'package:gpt_detector/feature/detector/presentation/cubit/detector_cubit.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_app_bar.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_card.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_drawer.dart';
@@ -26,7 +25,7 @@ class DetectView extends StatelessWidget {
       ),
       drawer: const GPTDrawer(),
       body: BlocProvider(
-        create: (context) => getIt<DetectorBloc>(),
+        create: (context) => getIt<DetectorCubit>(),
         child: _DetectViewBody(),
       ),
     );
@@ -55,7 +54,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<DetectorBloc, DetectorState>(
+    return BlocListener<DetectorCubit, DetectorState>(
       listener: (context, state) {
         if (state.status.isSubmissionFailure) {
           state.failure!.when(
@@ -82,7 +81,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                     child: SizedBox(
                       height: context.highValue,
                       child: Center(
-                        child: BlocBuilder<DetectorBloc, DetectorState>(
+                        child: BlocBuilder<DetectorCubit, DetectorState>(
                           buildWhen: (previous, current) => previous.result.realProb != current.result.realProb,
                           builder: (context, state) {
                             return Countup(
@@ -104,7 +103,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                     child: SizedBox(
                       height: context.highValue,
                       child: Center(
-                        child: BlocBuilder<DetectorBloc, DetectorState>(
+                        child: BlocBuilder<DetectorCubit, DetectorState>(
                           buildWhen: (previous, current) => previous.result.fakeProb != current.result.realProb,
                           builder: (context, state) {
                             return Countup(
@@ -127,12 +126,12 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                 children: [
                   GPTTextField(
                     controller: _controller,
-                    onChanged: (text) => context.read<DetectorBloc>().add(DetectorEvent.textChanged(text: text)),
+                    onChanged: (text) => context.read<DetectorCubit>().textChanged(text: text),
                     hintText: context.l10n.textFieldHint,
                   ),
                   Positioned(
                     right: 0,
-                    child: BlocListener<DetectorBloc, DetectorState>(
+                    child: BlocListener<DetectorCubit, DetectorState>(
                       listenWhen: (previous, current) {
                         return previous.userInput.value != current.userInput.value &&
                             _controller.text != current.userInput.value;
@@ -142,7 +141,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                       },
                       child: IconButton(
                         icon: const Icon(Icons.clear),
-                        onPressed: () => context.read<DetectorBloc>().add(const DetectorEvent.clearTextPressed()),
+                        onPressed: () => context.read<DetectorCubit>().clearTextPressed(),
                       ),
                     ),
                   ),
@@ -153,12 +152,11 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                       children: [
                         IconButton(
                           icon: const Icon(Icons.photo_library),
-                          onPressed: () =>
-                              context.read<DetectorBloc>().add(const DetectorEvent.ocrFromGalleryPressed()),
+                          onPressed: () => context.read<DetectorCubit>().ocrFromGalleryPressed(),
                         ),
                         IconButton(
                           icon: const Icon(Icons.photo_camera),
-                          onPressed: () => context.read<DetectorBloc>().add(const DetectorEvent.ocrFromCameraPressed()),
+                          onPressed: () => context.read<DetectorCubit>().ocrFromCameraPressed(),
                         ),
                       ],
                     ),
@@ -173,7 +171,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                   context.l10n.textFieldHelper,
                   style: context.textTheme.bodySmall,
                 ),
-                BlocBuilder<DetectorBloc, DetectorState>(
+                BlocBuilder<DetectorCubit, DetectorState>(
                   buildWhen: (previous, current) => previous.result.allTokens != current.result.allTokens,
                   builder: (context, state) {
                     return Text(
@@ -187,15 +185,11 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
             SizedBox(
               width: context.width,
               height: context.highValue,
-              child: BlocBuilder<DetectorBloc, DetectorState>(
+              child: BlocBuilder<DetectorCubit, DetectorState>(
                 builder: (context, state) {
                   return GPTElevatedButton(
                     onPressed: state.status.isValidated
-                        ? () => context.read<DetectorBloc>().add(
-                              DetectorEvent.detectionRequested(
-                                userInput: state.userInput.value,
-                              ),
-                            )
+                        ? () => context.read<DetectorCubit>().detectionRequested(text: state.userInput.value)
                         : null,
                     child: state.status.isSubmissionInProgress
                         ? const CircularProgressIndicator.adaptive(strokeWidth: 2)

@@ -9,7 +9,7 @@ import 'package:gpt_detector/app/l10n/l10n.dart';
 import 'package:gpt_detector/app/router/app_router.gr.dart';
 import 'package:gpt_detector/app/theme/app_theme.dart';
 import 'package:gpt_detector/core/utils/observer/bloc_observer.dart';
-import 'package:gpt_detector/feature/onboarding/presentation/bloc/onboarding_bloc.dart';
+import 'package:gpt_detector/feature/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:gpt_detector/locator.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -38,8 +38,8 @@ class GPTDetector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<OnboardingBloc>(),
-      child: BlocBuilder<OnboardingBloc, OnboardingState>(
+      create: (context) => getIt<OnboardingCubit>(),
+      child: BlocBuilder<OnboardingCubit, OnboardingState>(
         builder: (context, onboarding) {
           final routes = <PageRouteInfo<dynamic>>[];
           onboarding.isCompleted ? routes.add(const DetectRoute()) : routes.add(const OnboardingRoute());

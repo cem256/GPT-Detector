@@ -2,13 +2,12 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:form_inputs/form_inputs.dart';
-
 import 'package:gpt_detector/app/errors/failure.dart';
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/detect_use_case.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/ocr_from_camera_use_case.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/ocr_from_gallery_use_case.dart';
-import 'package:gpt_detector/feature/detector/presentation/bloc/detector_bloc.dart';
+import 'package:gpt_detector/feature/detector/presentation/cubit/detector_cubit.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockDetectUseCase extends Mock implements DetectUseCase {}
@@ -20,7 +19,7 @@ class MockOCRFromCameraUseCase extends Mock implements OCRFromCameraUseCase {}
 class MockDetectorEntity extends Mock implements DetectorEntity {}
 
 void main() {
-  late DetectorBloc detectorBloc;
+  late DetectorCubit detectorCubit;
   late MockDetectUseCase mockDetectUseCase;
   late MockOCRFromGalleryUseCase mockOCRFromGalleryUseCase;
   late MockOCRFromCameraUseCase mockOCRFromCameraUseCase;
@@ -31,7 +30,7 @@ void main() {
     mockDetectUseCase = MockDetectUseCase();
     mockOCRFromGalleryUseCase = MockOCRFromGalleryUseCase();
     mockOCRFromCameraUseCase = MockOCRFromCameraUseCase();
-    detectorBloc = DetectorBloc(
+    detectorCubit = DetectorCubit(
       detectUseCase: mockDetectUseCase,
       ocrFromGalleryUseCase: mockOCRFromGalleryUseCase,
       ocrFromCameraUseCase: mockOCRFromCameraUseCase,
@@ -41,27 +40,27 @@ void main() {
   });
   group('Detector Bloc Tests', () {
     test("Initial value of the 'status' variable must be 'FormzStatus.pure' at start", () {
-      expect(detectorBloc.state.status, FormzStatus.pure);
+      expect(detectorCubit.state.status, FormzStatus.pure);
     });
 
     test(
         "Default value of the 'result' variable must be \"(DetectorEntity(fakeProb: 0.00, realProb: 0.00, allTokens: 0)\" at start",
         () {
       expect(
-        detectorBloc.state.result,
+        detectorCubit.state.result,
         const DetectorEntity(fakeProb: 0, realProb: 0, allTokens: 0),
       );
     });
 
-    blocTest<DetectorBloc, DetectorState>(
-      'DetectorEvent.detectionRequested() event test case: It should emit FormzStatus.submissionFailure when Left type returned from mockDetectUseCase',
+    blocTest<DetectorCubit, DetectorState>(
+      'DetectorCubit.detectionRequested() event test case: It should emit FormzStatus.submissionFailure when Left type returned from mockDetectUseCase',
       setUp: () {
         when(() => mockDetectUseCase(userInput)).thenAnswer(
           (_) async => const Left(Failure.networkFailure()),
         );
       },
-      build: () => detectorBloc,
-      act: (bloc) => bloc.add(DetectorEvent.detectionRequested(userInput: userInput)),
+      build: () => detectorCubit,
+      act: (bloc) => bloc.detectionRequested(text: userInput),
       expect: () => [
         DetectorState(status: FormzStatus.submissionInProgress),
         DetectorState(
@@ -71,15 +70,15 @@ void main() {
       ],
     );
 
-    blocTest<DetectorBloc, DetectorState>(
-      'DetectorEvent.detectionRequested() event test case: It should emit FormzStatus.submissionInProgress and a DetectorEntity instance when Right type returned from mockDetectUseCase',
+    blocTest<DetectorCubit, DetectorState>(
+      'DetectorCubit.detectionRequested() event test case: It should emit FormzStatus.submissionInProgress and a DetectorEntity instance when Right type returned from mockDetectUseCase',
       setUp: () {
         when(() => mockDetectUseCase(userInput)).thenAnswer(
           (_) async => Right(mockDetectorEntity),
         );
       },
-      build: () => detectorBloc,
-      act: (bloc) => bloc.add(DetectorEvent.detectionRequested(userInput: userInput)),
+      build: () => detectorCubit,
+      act: (bloc) => bloc.detectionRequested(text: userInput),
       expect: () => [
         DetectorState(status: FormzStatus.submissionInProgress),
         DetectorState(
@@ -90,10 +89,10 @@ void main() {
     );
   });
 
-  blocTest<DetectorBloc, DetectorState>(
-    'DetectorEvent.clearTextPressed() event test case: It should emit a new DetectorState()',
-    build: () => detectorBloc,
-    act: (bloc) => bloc.add(const DetectorEvent.clearTextPressed()),
+  blocTest<DetectorCubit, DetectorState>(
+    'DetectorCubit.clearTextPressed() event test case: It should emit a new DetectorState()',
+    build: () => detectorCubit,
+    act: (bloc) => bloc.clearTextPressed(),
     expect: () => [
       DetectorState(),
     ],

@@ -1,16 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
-part 'onboarding_event.dart';
 part 'onboarding_state.dart';
-part 'onboarding_bloc.freezed.dart';
+part 'onboarding_cubit.freezed.dart';
 
-class OnboardingBloc extends HydratedBloc<OnboardingEvent, OnboardingState> {
-  OnboardingBloc() : super(OnboardingState.initial()) {
-    on<_CompleteOnboarding>(_onCompleteOnboarding);
-  }
+class OnboardingCubit extends HydratedCubit<OnboardingState> {
+  OnboardingCubit() : super(OnboardingState.initial());
 
-  void _onCompleteOnboarding(_CompleteOnboarding event, Emitter<OnboardingState> emit) {
+  void completeOnboarding() {
     emit(const OnboardingState(isCompleted: true));
   }
 

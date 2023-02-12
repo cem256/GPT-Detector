@@ -1,4 +1,4 @@
-part of 'detector_bloc.dart';
+part of 'detector_cubit.dart';
 
 @freezed
 class DetectorState with _$DetectorState {
