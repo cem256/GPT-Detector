@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
 import 'package:gpt_detector/core/network/network_info.dart';
+import 'package:gpt_detector/core/utils/permission_handler/permission_handler.dart';
 import 'package:gpt_detector/core/utils/text_recognizer/text_recognizer.dart';
 import 'package:gpt_detector/feature/detector/data/data_sources/local/gallery_local_data_source.dart';
 import 'package:gpt_detector/feature/detector/data/data_sources/remote/detector_remote_data_source.dart';
@@ -12,15 +13,19 @@ class DetectorRepositoryImpl implements DetectorRepository {
   DetectorRepositoryImpl({
     required DetectorRemoteDataSource detectorRemoteDataSource,
     required GalleryLocalDataSource galleryLocalDataSource,
+    required PermissionHandlerUtils permissionHandlerUtils,
     required TextRecognizerUtils textRecognizerUtils,
     required NetworkInfo networkInfo,
   })  : _detectorRemoteDataSource = detectorRemoteDataSource,
         _galleryLocalDataSource = galleryLocalDataSource,
+        _permissionHandlerUtils = permissionHandlerUtils,
         _textRecognizerUtils = textRecognizerUtils,
         _networkInfo = networkInfo;
 
   final DetectorRemoteDataSource _detectorRemoteDataSource;
+
   final GalleryLocalDataSource _galleryLocalDataSource;
+  final PermissionHandlerUtils _permissionHandlerUtils;
   final TextRecognizerUtils _textRecognizerUtils;
   final NetworkInfo _networkInfo;
 
@@ -41,14 +46,21 @@ class DetectorRepositoryImpl implements DetectorRepository {
 
   @override
   Future<Either<Failure, String>> ocrFromGallery() async {
-    final filePath = await _galleryLocalDataSource.getImagePath();
-    if (filePath == null) {
-      // TODO: handle error state
-      return left(const Failure.networkFailure());
+    final hasPermission = await _permissionHandlerUtils.hasGalleryPermission();
+
+    if (hasPermission) {
+      final filePath = await _galleryLocalDataSource.getImagePath();
+      if (filePath == null) {
+        // TODO: no file selected or unknown path
+        return left(const Failure.networkFailure());
+      } else {
+        final recognizedText = await _textRecognizerUtils.recognizeText(filePath);
+        // TODO: no text detected
+        return recognizedText.isEmpty ? left(const Failure.noInternetFailure()) : right(recognizedText);
+      }
     } else {
-      final recognizedText = await _textRecognizerUtils.recognizeText(filePath);
-      // TODO: handle error state
-      return recognizedText.isEmpty ? left(const Failure.noInternetFailure()) : right(recognizedText);
+      // TODO: return no permission;
+      return left(const Failure.networkFailure());
     }
   }
 

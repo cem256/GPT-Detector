@@ -48,6 +48,7 @@ void initServices() {
       () => DetectorRepositoryImpl(
         detectorRemoteDataSource: getIt(),
         galleryLocalDataSource: getIt(),
+        permissionHandlerUtils: getIt(),
         textRecognizerUtils: getIt(),
         networkInfo: getIt(),
       ),
@@ -59,7 +60,6 @@ void initServices() {
     )
     ..registerLazySingleton<GalleryLocalDataSource>(
       () => GalleryLocalDataSource(
-        permissionHandler: getIt(),
         imagePicker: getIt(),
       ),
     )
