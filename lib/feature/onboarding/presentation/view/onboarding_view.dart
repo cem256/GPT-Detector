@@ -18,6 +18,7 @@ class OnboardingView extends StatelessWidget {
         child: Padding(
           padding: context.paddingAllDefault,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
                 Assets.appIcon,

@@ -5,7 +5,7 @@ class GalleryLocalDataSource {
 
   final ImagePickerUtils _imagePicker;
 
-  Future<String?> getImagePath() async {
+  Future<String?> selectFromGallery() async {
     final image = await _imagePicker.selectFromGallery();
     return image?.path;
   }

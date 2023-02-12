@@ -6,6 +6,7 @@ import 'package:form_inputs/form_inputs.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/detect_use_case.dart';
+import 'package:gpt_detector/feature/detector/domain/use_cases/ocr_from_camera_use_case.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/ocr_from_gallery_use_case.dart';
 import 'package:gpt_detector/feature/detector/presentation/bloc/detector_bloc.dart';
 import 'package:mocktail/mocktail.dart';
@@ -14,21 +15,26 @@ class MockDetectUseCase extends Mock implements DetectUseCase {}
 
 class MockOCRFromGalleryUseCase extends Mock implements OCRFromGalleryUseCase {}
 
+class MockOCRFromCameraUseCase extends Mock implements OCRFromCameraUseCase {}
+
 class MockDetectorEntity extends Mock implements DetectorEntity {}
 
 void main() {
   late DetectorBloc detectorBloc;
   late MockDetectUseCase mockDetectUseCase;
   late MockOCRFromGalleryUseCase mockOCRFromGalleryUseCase;
+  late MockOCRFromCameraUseCase mockOCRFromCameraUseCase;
   late MockDetectorEntity mockDetectorEntity;
   late String userInput;
 
   setUp(() {
     mockDetectUseCase = MockDetectUseCase();
     mockOCRFromGalleryUseCase = MockOCRFromGalleryUseCase();
+    mockOCRFromCameraUseCase = MockOCRFromCameraUseCase();
     detectorBloc = DetectorBloc(
       detectUseCase: mockDetectUseCase,
       ocrFromGalleryUseCase: mockOCRFromGalleryUseCase,
+      ocrFromCameraUseCase: mockOCRFromCameraUseCase,
     );
     mockDetectorEntity = MockDetectorEntity();
     userInput = 'Test Input';

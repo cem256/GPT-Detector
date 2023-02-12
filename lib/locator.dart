@@ -5,11 +5,13 @@ import 'package:gpt_detector/core/network/network_info.dart';
 import 'package:gpt_detector/core/utils/image_picker/image_picker.dart';
 import 'package:gpt_detector/core/utils/permission_handler/permission_handler.dart';
 import 'package:gpt_detector/core/utils/text_recognizer/text_recognizer.dart';
+import 'package:gpt_detector/feature/detector/data/data_sources/local/camera_local_data_source.dart';
 import 'package:gpt_detector/feature/detector/data/data_sources/local/gallery_local_data_source.dart';
 import 'package:gpt_detector/feature/detector/data/data_sources/remote/detector_remote_data_source.dart';
 import 'package:gpt_detector/feature/detector/data/repositories/detector_repository_impl.dart';
 import 'package:gpt_detector/feature/detector/domain/repositories/detector_repository.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/detect_use_case.dart';
+import 'package:gpt_detector/feature/detector/domain/use_cases/ocr_from_camera_use_case.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/ocr_from_gallery_use_case.dart';
 import 'package:gpt_detector/feature/detector/presentation/bloc/detector_bloc.dart';
 import 'package:gpt_detector/feature/onboarding/presentation/bloc/onboarding_bloc.dart';
@@ -28,6 +30,7 @@ void initServices() {
       () => DetectorBloc(
         detectUseCase: getIt(),
         ocrFromGalleryUseCase: getIt(),
+        ocrFromCameraUseCase: getIt(),
       ),
     )
 
@@ -42,12 +45,18 @@ void initServices() {
         detectorRepository: getIt(),
       ),
     )
+    ..registerLazySingleton<OCRFromCameraUseCase>(
+      () => OCRFromCameraUseCase(
+        detectorRepository: getIt(),
+      ),
+    )
 
     // Repository
     ..registerLazySingleton<DetectorRepository>(
       () => DetectorRepositoryImpl(
         detectorRemoteDataSource: getIt(),
         galleryLocalDataSource: getIt(),
+        cameraLocalDataSource: getIt(),
         permissionHandlerUtils: getIt(),
         textRecognizerUtils: getIt(),
         networkInfo: getIt(),
@@ -60,6 +69,11 @@ void initServices() {
     )
     ..registerLazySingleton<GalleryLocalDataSource>(
       () => GalleryLocalDataSource(
+        imagePicker: getIt(),
+      ),
+    )
+    ..registerLazySingleton<CameraLocalDataSource>(
+      () => CameraLocalDataSource(
         imagePicker: getIt(),
       ),
     )

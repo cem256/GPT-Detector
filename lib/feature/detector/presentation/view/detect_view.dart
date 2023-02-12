@@ -158,13 +158,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                         ),
                         IconButton(
                           icon: const Icon(Icons.photo_camera),
-                          onPressed: () {
-                            // OCRManager(
-                            //   permissionHandler: PermissionHandlerUtilsImpl(),
-                            //   imagePicker: ImagePickerUtilsImpl(),
-                            //   textRecognizer: TextRecognizerUtilsImpl(),
-                            // ).ocrFromCamera();
-                          },
+                          onPressed: () => context.read<DetectorBloc>().add(const DetectorEvent.ocrFromCameraPressed()),
                         ),
                       ],
                     ),
