@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
 
 import 'package:gpt_detector/core/network/network_info.dart';
+import 'package:gpt_detector/core/utils/text_recognizer/text_recognizer.dart';
+import 'package:gpt_detector/feature/detector/data/data_sources/local/gallery_local_data_source.dart';
 import 'package:gpt_detector/feature/detector/data/data_sources/remote/detector_remote_data_source.dart';
 import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
 import 'package:gpt_detector/feature/detector/data/repositories/detector_repository_impl.dart';
@@ -12,12 +14,18 @@ import 'package:mocktail/mocktail.dart';
 
 class MockDetectorRemoteDataSource extends Mock implements DetectorRemoteDataSource {}
 
+class MockGalleryLocalDataSource extends Mock implements GalleryLocalDataSource {}
+
+class MockTextRecognizerUtils extends Mock implements TextRecognizerUtils {}
+
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 class MockDetectorModel extends Mock implements DetectorModel {}
 
 void main() {
   late MockDetectorRemoteDataSource detectorRemoteDataSource;
+  late MockGalleryLocalDataSource galleryLocalDataSource;
+  late MockTextRecognizerUtils textRecognizerUtils;
   late MockNetworkInfo mockNetworkInfo;
   late DetectorRepository detectorRepository;
   late MockDetectorModel mockDetectorModel;
@@ -25,9 +33,13 @@ void main() {
 
   setUp(() {
     detectorRemoteDataSource = MockDetectorRemoteDataSource();
+    galleryLocalDataSource = MockGalleryLocalDataSource();
+    textRecognizerUtils = MockTextRecognizerUtils();
     mockNetworkInfo = MockNetworkInfo();
     detectorRepository = DetectorRepositoryImpl(
       detectorRemoteDataSource: detectorRemoteDataSource,
+      galleryLocalDataSource: galleryLocalDataSource,
+      textRecognizerUtils: textRecognizerUtils,
       networkInfo: mockNetworkInfo,
     );
     mockDetectorModel = MockDetectorModel();

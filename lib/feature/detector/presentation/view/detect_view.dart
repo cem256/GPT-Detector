@@ -5,11 +5,8 @@ import 'package:form_inputs/form_inputs.dart';
 import 'package:gpt_detector/app/l10n/l10n.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/extensions/widget_extensions.dart';
-import 'package:gpt_detector/core/permission/permission_manager.dart';
-import 'package:gpt_detector/core/utils/image_picker/image_picker.dart';
-import 'package:gpt_detector/core/utils/permission_handler/permission_handler.dart';
+
 import 'package:gpt_detector/core/utils/snackbar/snackbar_utils.dart';
-import 'package:gpt_detector/core/utils/text_recognizer/text_recognizer.dart';
 import 'package:gpt_detector/feature/detector/presentation/bloc/detector_bloc.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_app_bar.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_card.dart';
@@ -86,6 +83,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                       height: context.highValue,
                       child: Center(
                         child: BlocBuilder<DetectorBloc, DetectorState>(
+                          buildWhen: (previous, current) => previous.result.realProb != current.result.realProb,
                           builder: (context, state) {
                             return Countup(
                               begin: 0,
@@ -107,6 +105,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                       height: context.highValue,
                       child: Center(
                         child: BlocBuilder<DetectorBloc, DetectorState>(
+                          buildWhen: (previous, current) => previous.result.fakeProb != current.result.realProb,
                           builder: (context, state) {
                             return Countup(
                               precision: 2,
@@ -126,23 +125,25 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
             Expanded(
               child: Stack(
                 children: [
-                  BlocBuilder<DetectorBloc, DetectorState>(
-                    builder: (context, state) {
-                      return GPTTextField(
-                        controller: _controller,
-                        onChanged: (text) => context.read<DetectorBloc>().add(DetectorEvent.textChanged(text: text)),
-                        hintText: context.l10n.textFieldHint,
-                      );
-                    },
+                  GPTTextField(
+                    controller: _controller,
+                    onChanged: (text) => context.read<DetectorBloc>().add(DetectorEvent.textChanged(text: text)),
+                    hintText: context.l10n.textFieldHint,
                   ),
                   Positioned(
                     right: 0,
-                    child: IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        _controller.clear();
-                        context.read<DetectorBloc>().add(const DetectorEvent.clearTextPressed());
+                    child: BlocListener<DetectorBloc, DetectorState>(
+                      listenWhen: (previous, current) {
+                        return previous.userInput.value != current.userInput.value &&
+                            _controller.text != current.userInput.value;
                       },
+                      listener: (context, state) {
+                        _controller.text = state.userInput.value;
+                      },
+                      child: IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () => context.read<DetectorBloc>().add(const DetectorEvent.clearTextPressed()),
+                      ),
                     ),
                   ),
                   Positioned(
@@ -152,22 +153,17 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                       children: [
                         IconButton(
                           icon: const Icon(Icons.photo_library),
-                          onPressed: () {
-                            OCRManager(
-                              permissionHandler: PermissionHandlerUtilsImpl(),
-                              imagePicker: ImagePickerUtilsImpl(),
-                              textRecognizer: TextRecognizerUtilsImpl(),
-                            ).ocrFromGallery();
-                          },
+                          onPressed: () =>
+                              context.read<DetectorBloc>().add(const DetectorEvent.ocrFromGalleryPressed()),
                         ),
                         IconButton(
                           icon: const Icon(Icons.photo_camera),
                           onPressed: () {
-                            OCRManager(
-                              permissionHandler: PermissionHandlerUtilsImpl(),
-                              imagePicker: ImagePickerUtilsImpl(),
-                              textRecognizer: TextRecognizerUtilsImpl(),
-                            ).ocrFromCamera();
+                            // OCRManager(
+                            //   permissionHandler: PermissionHandlerUtilsImpl(),
+                            //   imagePicker: ImagePickerUtilsImpl(),
+                            //   textRecognizer: TextRecognizerUtilsImpl(),
+                            // ).ocrFromCamera();
                           },
                         ),
                       ],
@@ -194,23 +190,25 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                 ),
               ],
             ),
-            BlocBuilder<DetectorBloc, DetectorState>(
-              builder: (context, state) {
-                return SizedBox(
-                  width: context.width,
-                  height: context.highValue,
-                  child: GPTElevatedButton(
+            SizedBox(
+              width: context.width,
+              height: context.highValue,
+              child: BlocBuilder<DetectorBloc, DetectorState>(
+                builder: (context, state) {
+                  return GPTElevatedButton(
                     onPressed: state.status.isValidated
-                        ? () => context
-                            .read<DetectorBloc>()
-                            .add(DetectorEvent.detectionRequested(userInput: _controller.text))
+                        ? () => context.read<DetectorBloc>().add(
+                              DetectorEvent.detectionRequested(
+                                userInput: state.userInput.value,
+                              ),
+                            )
                         : null,
                     child: state.status.isSubmissionInProgress
                         ? const CircularProgressIndicator.adaptive(strokeWidth: 2)
                         : Text(context.l10n.analyzeText),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ].spaceBetween(height: context.mediumValue),
         ),

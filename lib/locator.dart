@@ -2,10 +2,15 @@ import 'package:get_it/get_it.dart';
 import 'package:gpt_detector/app/theme/app_theme.dart';
 import 'package:gpt_detector/core/network/network_client.dart';
 import 'package:gpt_detector/core/network/network_info.dart';
+import 'package:gpt_detector/core/utils/image_picker/image_picker.dart';
+import 'package:gpt_detector/core/utils/permission_handler/permission_handler.dart';
+import 'package:gpt_detector/core/utils/text_recognizer/text_recognizer.dart';
+import 'package:gpt_detector/feature/detector/data/data_sources/local/gallery_local_data_source.dart';
 import 'package:gpt_detector/feature/detector/data/data_sources/remote/detector_remote_data_source.dart';
 import 'package:gpt_detector/feature/detector/data/repositories/detector_repository_impl.dart';
 import 'package:gpt_detector/feature/detector/domain/repositories/detector_repository.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/detect_use_case.dart';
+import 'package:gpt_detector/feature/detector/domain/use_cases/ocr_from_gallery_use_case.dart';
 import 'package:gpt_detector/feature/detector/presentation/bloc/detector_bloc.dart';
 import 'package:gpt_detector/feature/onboarding/presentation/bloc/onboarding_bloc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -22,6 +27,7 @@ void initServices() {
     ..registerFactory<DetectorBloc>(
       () => DetectorBloc(
         detectUseCase: getIt(),
+        ocrFromGalleryUseCase: getIt(),
       ),
     )
 
@@ -31,11 +37,18 @@ void initServices() {
         detectorRepository: getIt(),
       ),
     )
+    ..registerLazySingleton<OCRFromGalleryUseCase>(
+      () => OCRFromGalleryUseCase(
+        detectorRepository: getIt(),
+      ),
+    )
 
     // Repository
     ..registerLazySingleton<DetectorRepository>(
       () => DetectorRepositoryImpl(
         detectorRemoteDataSource: getIt(),
+        galleryLocalDataSource: getIt(),
+        textRecognizerUtils: getIt(),
         networkInfo: getIt(),
       ),
     )
@@ -44,9 +57,14 @@ void initServices() {
     ..registerLazySingleton<DetectorRemoteDataSource>(
       () => DetectorRemoteDataSource(networkClient: getIt()),
     )
+    ..registerLazySingleton<GalleryLocalDataSource>(
+      () => GalleryLocalDataSource(
+        permissionHandler: getIt(),
+        imagePicker: getIt(),
+      ),
+    )
 
     // Core
-
     ..registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImp(
         connectionChecker: getIt(),
@@ -60,5 +78,16 @@ void initServices() {
     )
     ..registerLazySingleton<AppTheme>(
       AppTheme.new,
+    )
+
+    // Utils
+    ..registerLazySingleton<PermissionHandlerUtils>(
+      PermissionHandlerUtilsImpl.new,
+    )
+    ..registerLazySingleton<ImagePickerUtils>(
+      ImagePickerUtilsImpl.new,
+    )
+    ..registerLazySingleton<TextRecognizerUtils>(
+      TextRecognizerUtilsImpl.new,
     );
 }

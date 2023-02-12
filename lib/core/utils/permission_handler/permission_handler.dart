@@ -4,15 +4,35 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 abstract class PermissionHandlerUtils {
-  Future<bool> hasGalleryPermission();
   Future<bool> hasCameraPermission();
-  Future<void> requestGalleryPermission();
-  Future<void> requestCameraPermission();
+  Future<bool> hasGalleryPermission();
 }
 
 class PermissionHandlerUtilsImpl implements PermissionHandlerUtils {
   @override
+  Future<bool> hasCameraPermission() async {
+    final hasPermission = await _isCameraPermissionGranted();
+
+    if (hasPermission) {
+      return true;
+    } else {
+      await _requestCameraPermission();
+      return false;
+    }
+  }
+
+  @override
   Future<bool> hasGalleryPermission() async {
+    final hasPermission = await _isGalleryPermissionGranted();
+    if (hasPermission) {
+      return true;
+    } else {
+      await _requestGalleryPermission();
+      return false;
+    }
+  }
+
+  Future<bool> _isGalleryPermissionGranted() async {
     late final PermissionStatus status;
     if (Platform.isAndroid) {
       final permission = await _getAndroidGalleryPermissionType();
@@ -23,14 +43,12 @@ class PermissionHandlerUtilsImpl implements PermissionHandlerUtils {
     return status.isGranted;
   }
 
-  @override
-  Future<bool> hasCameraPermission() async {
+  Future<bool> _isCameraPermissionGranted() async {
     final status = await Permission.camera.status;
     return status.isGranted;
   }
 
-  @override
-  Future<void> requestGalleryPermission() async {
+  Future<void> _requestGalleryPermission() async {
     if (Platform.isAndroid) {
       final permission = await _getAndroidGalleryPermissionType();
 
@@ -52,8 +70,7 @@ class PermissionHandlerUtilsImpl implements PermissionHandlerUtils {
     }
   }
 
-  @override
-  Future<void> requestCameraPermission() async {
+  Future<void> _requestCameraPermission() async {
     if (Platform.isAndroid) {
       const permission = Permission.camera;
 
