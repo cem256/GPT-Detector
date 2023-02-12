@@ -9,7 +9,9 @@ import 'package:gpt_detector/feature/detector/data/data_sources/remote/detector_
 import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
 import 'package:gpt_detector/feature/detector/domain/repositories/detector_repository.dart';
+import 'package:injectable/injectable.dart';
 
+@LazySingleton(as: DetectorRepository)
 class DetectorRepositoryImpl implements DetectorRepository {
   DetectorRepositoryImpl({
     required DetectorRemoteDataSource detectorRemoteDataSource,

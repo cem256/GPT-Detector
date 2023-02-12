@@ -1,5 +1,7 @@
 import 'package:gpt_detector/core/utils/image_picker/image_picker.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class CameraLocalDataSource {
   CameraLocalDataSource({required ImagePickerUtils imagePicker}) : _imagePicker = imagePicker;
 

@@ -7,10 +7,12 @@ import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_
 import 'package:gpt_detector/feature/detector/domain/use_cases/detect_use_case.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/ocr_from_camera_use_case.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/ocr_from_gallery_use_case.dart';
+import 'package:injectable/injectable.dart';
 
 part 'detector_cubit.freezed.dart';
 part 'detector_state.dart';
 
+@injectable
 class DetectorCubit extends Cubit<DetectorState> {
   DetectorCubit({
     required DetectUseCase detectUseCase,

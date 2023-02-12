@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
+@lazySingleton
 class AppTheme {
   final ThemeData theme = ThemeData.from(
     colorScheme: const ColorScheme(

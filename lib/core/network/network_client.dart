@@ -1,13 +1,14 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:gpt_detector/app/environment/environment.dart';
+import 'package:gpt_detector/app/env/env.dart';
+import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
+@lazySingleton
 class NetworkClient {
   NetworkClient() {
     _dio = Dio();
-    _dio.options.baseUrl = Environment.baseUrl;
+    _dio.options.baseUrl = Env.baseUrl;
     _dio.options.connectTimeout = 10000;
     _dio.options.sendTimeout = 10000;
     _dio.options.receiveTimeout = 10000;

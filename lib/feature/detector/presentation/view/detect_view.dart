@@ -12,7 +12,7 @@ import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_card.dart
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_drawer.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_elevated_button.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_text_field.dart';
-import 'package:gpt_detector/locator.dart';
+import 'package:gpt_detector/injection.dart';
 
 class DetectView extends StatelessWidget {
   const DetectView({super.key});

@@ -4,13 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:gpt_detector/app/environment/environment.dart';
+import 'package:gpt_detector/app/env/env.dart';
 import 'package:gpt_detector/app/l10n/l10n.dart';
 import 'package:gpt_detector/app/router/app_router.gr.dart';
 import 'package:gpt_detector/app/theme/app_theme.dart';
 import 'package:gpt_detector/core/utils/observer/bloc_observer.dart';
 import 'package:gpt_detector/feature/onboarding/presentation/cubit/onboarding_cubit.dart';
-import 'package:gpt_detector/locator.dart';
+import 'package:gpt_detector/injection.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -23,9 +23,9 @@ Future<void> main() async {
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
 
-  initServices();
+  configureDependencies();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  await dotenv.load(fileName: Environment.fileName);
+  await dotenv.load(fileName: Env.fileName);
 
   runApp(GPTDetector());
 }

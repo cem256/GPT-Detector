@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:injectable/injectable.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 abstract class PermissionHandlerUtils {
@@ -8,6 +9,7 @@ abstract class PermissionHandlerUtils {
   Future<bool> hasGalleryPermission();
 }
 
+@LazySingleton(as: PermissionHandlerUtils)
 class PermissionHandlerUtilsImpl implements PermissionHandlerUtils {
   @override
   Future<bool> hasCameraPermission() async {
