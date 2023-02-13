@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
 
 import 'package:gpt_detector/core/network/network_info.dart';
+import 'package:gpt_detector/core/utils/image_cropper/image_cropper.dart';
 import 'package:gpt_detector/core/utils/permission_handler/permission_handler.dart';
 import 'package:gpt_detector/core/utils/text_recognizer/text_recognizer.dart';
 import 'package:gpt_detector/feature/detector/data/data_sources/local/camera_local_data_source.dart';
@@ -22,6 +23,8 @@ class MockCameraLocalDataSource extends Mock implements CameraLocalDataSource {}
 
 class MockPermissionHandlerUtils extends Mock implements PermissionHandlerUtils {}
 
+class MockImageCropperUtils extends Mock implements ImageCropperUtils {}
+
 class MockTextRecognizerUtils extends Mock implements TextRecognizerUtils {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
@@ -33,6 +36,7 @@ void main() {
   late MockGalleryLocalDataSource galleryLocalDataSource;
   late MockCameraLocalDataSource cameraLocalDataSource;
   late MockPermissionHandlerUtils permissionHandlerUtils;
+  late MockImageCropperUtils imageCropperUtils;
   late MockTextRecognizerUtils textRecognizerUtils;
   late MockNetworkInfo mockNetworkInfo;
   late DetectorRepository detectorRepository;
@@ -44,6 +48,7 @@ void main() {
     galleryLocalDataSource = MockGalleryLocalDataSource();
     cameraLocalDataSource = MockCameraLocalDataSource();
     permissionHandlerUtils = MockPermissionHandlerUtils();
+    imageCropperUtils = MockImageCropperUtils();
     textRecognizerUtils = MockTextRecognizerUtils();
     mockNetworkInfo = MockNetworkInfo();
     detectorRepository = DetectorRepositoryImpl(
@@ -51,6 +56,7 @@ void main() {
       galleryLocalDataSource: galleryLocalDataSource,
       cameraLocalDataSource: cameraLocalDataSource,
       permissionHandlerUtils: permissionHandlerUtils,
+      imageCropperUtils: imageCropperUtils,
       textRecognizerUtils: textRecognizerUtils,
       networkInfo: mockNetworkInfo,
     );

@@ -3,10 +3,10 @@ import 'package:gpt_detector/core/extensions/context_extensions.dart';
 
 class GPTTextField extends StatelessWidget {
   const GPTTextField({
-    super.key,
     required this.controller,
     required this.onChanged,
     required this.hintText,
+    super.key,
   });
 
   final TextEditingController controller;

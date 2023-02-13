@@ -3,9 +3,9 @@ import 'package:gpt_detector/core/extensions/context_extensions.dart';
 
 class GPTCard extends StatelessWidget {
   const GPTCard({
-    super.key,
     required this.child,
     required this.color,
+    super.key,
   });
 
   final Widget child;

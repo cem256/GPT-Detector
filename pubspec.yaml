@@ -44,6 +44,7 @@ dependencies:
   permission_handler: ^10.2.0
   device_info_plus: ^8.1.0
   image_picker: ^0.8.6+1
+  image_cropper: ^3.0.1
   flutter_dotenv: ^5.0.2
   path_provider: ^2.0.12
   url_launcher: ^6.1.8
@@ -79,7 +80,7 @@ dev_dependencies:
   injectable_generator: ^2.1.4
 
   # Linter
-  very_good_analysis: ^3.1.0
+  very_good_analysis: ^4.0.0
 
 flutter_icons:
   android: true

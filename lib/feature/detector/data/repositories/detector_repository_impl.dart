@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
 import 'package:gpt_detector/core/network/network_info.dart';
+import 'package:gpt_detector/core/utils/image_cropper/image_cropper.dart';
 import 'package:gpt_detector/core/utils/permission_handler/permission_handler.dart';
 import 'package:gpt_detector/core/utils/text_recognizer/text_recognizer.dart';
 import 'package:gpt_detector/feature/detector/data/data_sources/local/camera_local_data_source.dart';
@@ -18,12 +19,14 @@ class DetectorRepositoryImpl implements DetectorRepository {
     required GalleryLocalDataSource galleryLocalDataSource,
     required CameraLocalDataSource cameraLocalDataSource,
     required PermissionHandlerUtils permissionHandlerUtils,
+    required ImageCropperUtils imageCropperUtils,
     required TextRecognizerUtils textRecognizerUtils,
     required NetworkInfo networkInfo,
   })  : _detectorRemoteDataSource = detectorRemoteDataSource,
         _galleryLocalDataSource = galleryLocalDataSource,
         _cameraLocalDataSource = cameraLocalDataSource,
         _permissionHandlerUtils = permissionHandlerUtils,
+        _imageCropperUtils = imageCropperUtils,
         _textRecognizerUtils = textRecognizerUtils,
         _networkInfo = networkInfo;
 
@@ -31,6 +34,7 @@ class DetectorRepositoryImpl implements DetectorRepository {
   final GalleryLocalDataSource _galleryLocalDataSource;
   final CameraLocalDataSource _cameraLocalDataSource;
   final PermissionHandlerUtils _permissionHandlerUtils;
+  final ImageCropperUtils _imageCropperUtils;
   final TextRecognizerUtils _textRecognizerUtils;
   final NetworkInfo _networkInfo;
 
@@ -59,9 +63,15 @@ class DetectorRepositoryImpl implements DetectorRepository {
         // TODO: no file selected or unknown path
         return left(const Failure.networkFailure());
       } else {
-        final recognizedText = await _textRecognizerUtils.recognizeTextFormFilePath(filePath: filePath);
-        // TODO: no text detected
-        return recognizedText.isEmpty ? left(const Failure.noInternetFailure()) : right(recognizedText);
+        final croppedFilePath = await _imageCropperUtils.cropPhoto(filePath: filePath);
+        if (croppedFilePath == null) {
+          // TODO: file not cropped  or unknown path
+          return left(const Failure.networkFailure());
+        } else {
+          final recognizedText = await _textRecognizerUtils.recognizeTextFormFilePath(filePath: croppedFilePath);
+          // TODO: no text detected
+          return recognizedText.isEmpty ? left(const Failure.noInternetFailure()) : right(recognizedText);
+        }
       }
     } else {
       // TODO: return no permission;
@@ -79,9 +89,15 @@ class DetectorRepositoryImpl implements DetectorRepository {
         // TODO: no photo taken or unknown path
         return left(const Failure.networkFailure());
       } else {
-        final recognizedText = await _textRecognizerUtils.recognizeTextFormFilePath(filePath: filePath);
-        // TODO: no text detected
-        return recognizedText.isEmpty ? left(const Failure.noInternetFailure()) : right(recognizedText);
+        final croppedFilePath = await _imageCropperUtils.cropPhoto(filePath: filePath);
+        if (croppedFilePath == null) {
+          // TODO: file not cropped  or unknown path
+          return left(const Failure.networkFailure());
+        } else {
+          final recognizedText = await _textRecognizerUtils.recognizeTextFormFilePath(filePath: croppedFilePath);
+          // TODO: no text detected
+          return recognizedText.isEmpty ? left(const Failure.noInternetFailure()) : right(recognizedText);
+        }
       }
     } else {
       // TODO: return no permission;

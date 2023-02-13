@@ -4,8 +4,8 @@ import 'package:gpt_detector/core/extensions/context_extensions.dart';
 
 class GPTAppBar extends StatelessWidget with PreferredSizeWidget {
   const GPTAppBar({
-    super.key,
     required this.title,
+    super.key,
   });
 
   final String title;

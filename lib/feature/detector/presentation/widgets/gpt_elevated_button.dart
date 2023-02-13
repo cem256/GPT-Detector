@@ -4,9 +4,9 @@ import 'package:gpt_detector/core/extensions/context_extensions.dart';
 
 class GPTElevatedButton extends StatelessWidget {
   const GPTElevatedButton({
-    super.key,
     required this.child,
     this.onPressed,
+    super.key,
   });
 
   final Widget child;
