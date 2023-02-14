@@ -7,7 +7,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:gpt_detector/app/env/env.dart';
 import 'package:gpt_detector/app/l10n/l10n.dart';
 import 'package:gpt_detector/app/router/app_router.gr.dart';
-import 'package:gpt_detector/app/theme/app_theme.dart';
+import 'package:gpt_detector/app/theme/light/light_theme.dart';
 import 'package:gpt_detector/core/utils/observer/bloc_observer.dart';
 import 'package:gpt_detector/feature/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:gpt_detector/injection.dart';
@@ -47,7 +47,7 @@ class GPTDetector extends StatelessWidget {
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
             // Theme
-            theme: getIt<AppTheme>().theme,
+            theme: getIt<LightTheme>().theme,
 
             // Localization
             localizationsDelegates: AppLocalizations.localizationsDelegates,

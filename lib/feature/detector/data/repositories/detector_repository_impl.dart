@@ -60,22 +60,22 @@ class DetectorRepositoryImpl implements DetectorRepository {
     if (hasPermission) {
       final filePath = await _galleryLocalDataSource.selectFromGallery();
       if (filePath == null) {
-        // TODO: no file selected or unknown path
-        return left(const Failure.networkFailure());
+        // No file selected or unknown path
+        return left(const Failure.ocrFailure());
       } else {
         final croppedFilePath = await _imageCropperUtils.cropPhoto(filePath: filePath);
         if (croppedFilePath == null) {
-          // TODO: file not cropped  or unknown path
-          return left(const Failure.networkFailure());
+          // File not cropped  or unknown path
+          return left(const Failure.ocrFailure());
         } else {
           final recognizedText = await _textRecognizerUtils.recognizeTextFormFilePath(filePath: croppedFilePath);
-          // TODO: no text detected
-          return recognizedText.isEmpty ? left(const Failure.noInternetFailure()) : right(recognizedText);
+          // No text detected
+          return recognizedText.isEmpty ? left(const Failure.ocrFailure()) : right(recognizedText);
         }
       }
     } else {
-      // TODO: return no permission;
-      return left(const Failure.networkFailure());
+      //  No permission
+      return left(const Failure.noPermission());
     }
   }
 
@@ -86,22 +86,22 @@ class DetectorRepositoryImpl implements DetectorRepository {
     if (hasPermission) {
       final filePath = await _cameraLocalDataSource.takePhoto();
       if (filePath == null) {
-        // TODO: no photo taken or unknown path
-        return left(const Failure.networkFailure());
+        // No photo taken or unknown path
+        return left(const Failure.ocrFailure());
       } else {
         final croppedFilePath = await _imageCropperUtils.cropPhoto(filePath: filePath);
         if (croppedFilePath == null) {
-          // TODO: file not cropped  or unknown path
-          return left(const Failure.networkFailure());
+          // File not cropped  or unknown path
+          return left(const Failure.ocrFailure());
         } else {
           final recognizedText = await _textRecognizerUtils.recognizeTextFormFilePath(filePath: croppedFilePath);
-          // TODO: no text detected
-          return recognizedText.isEmpty ? left(const Failure.noInternetFailure()) : right(recognizedText);
+          // No text detected
+          return recognizedText.isEmpty ? left(const Failure.ocrFailure()) : right(recognizedText);
         }
       }
     } else {
-      // TODO: return no permission;
-      return left(const Failure.networkFailure());
+      // No permission
+      return left(const Failure.noPermission());
     }
   }
 }

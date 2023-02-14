@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:gpt_detector/app/theme/base/base_theme.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-class AppTheme {
-  final ThemeData theme = ThemeData.from(
-    colorScheme: const ColorScheme(
+class LightTheme extends BaseTheme {
+  @override
+  ThemeData get theme {
+    return ThemeData(
+      appBarTheme: super.theme.appBarTheme,
+      cardTheme: super.theme.cardTheme,
+      elevatedButtonTheme: super.theme.elevatedButtonTheme,
+      inputDecorationTheme: super.theme.inputDecorationTheme,
+      colorScheme: _colorScheme,
+    ).copyWith(typography: super.theme.typography);
+  }
+
+  ColorScheme get _colorScheme {
+    return const ColorScheme(
       brightness: Brightness.light,
       primary: Color(0xff6200ee),
       onPrimary: Color(0xffffffff),
@@ -34,6 +46,6 @@ class AppTheme {
       onInverseSurface: Color(0xfff5f5f5),
       inversePrimary: Color(0xffda99ff),
       surfaceTint: Color(0xff6200ee),
-    ),
-  ).copyWith(typography: Typography.material2021());
+    );
+  }
 }

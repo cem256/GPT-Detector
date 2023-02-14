@@ -7,10 +7,8 @@ import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/extensions/widget_extensions.dart';
 import 'package:gpt_detector/core/utils/snackbar/snackbar_utils.dart';
 import 'package:gpt_detector/feature/detector/presentation/cubit/detector_cubit.dart';
-import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_app_bar.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_card.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_drawer.dart';
-import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_elevated_button.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_text_field.dart';
 import 'package:gpt_detector/injection.dart';
 
@@ -20,8 +18,8 @@ class DetectView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GPTAppBar(
-        title: context.l10n.appName,
+      appBar: AppBar(
+        title: Text(context.l10n.appName),
       ),
       drawer: const GPTDrawer(),
       body: BlocProvider(
@@ -57,7 +55,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
     return BlocListener<DetectorCubit, DetectorState>(
       listener: (context, state) {
         if (state.status.isSubmissionFailure) {
-          state.failure!.when(
+          state.failure!.whenOrNull(
             networkFailure: () => SnackbarUtils.showSnackbar(
               context: context,
               message: context.l10n.networkFailure,
@@ -69,136 +67,138 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
           );
         }
       },
-      child: Padding(
-        padding: context.paddingAllDefault,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: GPTCard(
-                    color: context.theme.colorScheme.tertiaryContainer,
-                    child: SizedBox(
-                      height: context.highValue,
-                      child: Center(
-                        child: BlocBuilder<DetectorCubit, DetectorState>(
-                          buildWhen: (previous, current) => previous.result.realProb != current.result.realProb,
-                          builder: (context, state) {
-                            return Countup(
-                              begin: 0,
-                              end: state.result.realProb,
-                              precision: 2,
-                              duration: context.durationHigh,
-                              suffix: context.l10n.percentOriginal,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: GPTCard(
-                    color: context.theme.colorScheme.errorContainer,
-                    child: SizedBox(
-                      height: context.highValue,
-                      child: Center(
-                        child: BlocBuilder<DetectorCubit, DetectorState>(
-                          buildWhen: (previous, current) => previous.result.fakeProb != current.result.realProb,
-                          builder: (context, state) {
-                            return Countup(
-                              precision: 2,
-                              begin: 0,
-                              end: state.result.fakeProb,
-                              duration: context.durationHigh,
-                              suffix: context.l10n.percentAI,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ].spaceBetween(width: context.mediumValue),
-            ),
-            Expanded(
-              child: Stack(
+      child: SafeArea(
+        child: Padding(
+          padding: context.paddingAllDefault,
+          child: Column(
+            children: [
+              Row(
                 children: [
-                  GPTTextField(
-                    controller: _controller,
-                    onChanged: (text) => context.read<DetectorCubit>().textChanged(text: text),
-                    hintText: context.l10n.textFieldHint,
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: BlocListener<DetectorCubit, DetectorState>(
-                      listenWhen: (previous, current) {
-                        return previous.userInput.value != current.userInput.value &&
-                            _controller.text != current.userInput.value;
-                      },
-                      listener: (context, state) {
-                        _controller.text = state.userInput.value;
-                      },
-                      child: IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () => context.read<DetectorCubit>().clearTextPressed(),
+                  Expanded(
+                    child: GPTCard(
+                      color: context.theme.colorScheme.tertiaryContainer,
+                      child: SizedBox(
+                        height: context.highValue,
+                        child: Center(
+                          child: BlocBuilder<DetectorCubit, DetectorState>(
+                            buildWhen: (previous, current) => previous.result.realProb != current.result.realProb,
+                            builder: (context, state) {
+                              return Countup(
+                                begin: 0,
+                                end: state.result.realProb,
+                                precision: 2,
+                                duration: context.durationHigh,
+                                suffix: context.l10n.percentOriginal,
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.photo_library),
-                          onPressed: () => context.read<DetectorCubit>().ocrFromGalleryPressed(),
+                  Expanded(
+                    child: GPTCard(
+                      color: context.theme.colorScheme.errorContainer,
+                      child: SizedBox(
+                        height: context.highValue,
+                        child: Center(
+                          child: BlocBuilder<DetectorCubit, DetectorState>(
+                            buildWhen: (previous, current) => previous.result.fakeProb != current.result.realProb,
+                            builder: (context, state) {
+                              return Countup(
+                                precision: 2,
+                                begin: 0,
+                                end: state.result.fakeProb,
+                                duration: context.durationHigh,
+                                suffix: context.l10n.percentAI,
+                              );
+                            },
+                          ),
                         ),
-                        IconButton(
-                          icon: const Icon(Icons.photo_camera),
-                          onPressed: () => context.read<DetectorCubit>().ocrFromCameraPressed(),
-                        ),
-                      ],
+                      ),
                     ),
+                  ),
+                ].spaceBetween(width: context.mediumValue),
+              ),
+              Expanded(
+                child: Stack(
+                  children: [
+                    GPTTextField(
+                      controller: _controller,
+                      onChanged: (text) => context.read<DetectorCubit>().textChanged(text: text),
+                      hintText: context.l10n.textFieldHint,
+                    ),
+                    Positioned(
+                      right: 0,
+                      child: BlocListener<DetectorCubit, DetectorState>(
+                        listenWhen: (previous, current) {
+                          return previous.userInput.value != current.userInput.value &&
+                              _controller.text != current.userInput.value;
+                        },
+                        listener: (context, state) {
+                          _controller.text = state.userInput.value;
+                        },
+                        child: IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () => context.read<DetectorCubit>().clearTextPressed(),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.photo_library),
+                            onPressed: () => context.read<DetectorCubit>().ocrFromGalleryPressed(),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.photo_camera),
+                            onPressed: () => context.read<DetectorCubit>().ocrFromCameraPressed(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    context.l10n.textFieldHelper,
+                    style: context.textTheme.bodySmall,
+                  ),
+                  BlocBuilder<DetectorCubit, DetectorState>(
+                    buildWhen: (previous, current) => previous.result.allTokens != current.result.allTokens,
+                    builder: (context, state) {
+                      return Text(
+                        context.l10n.textFieldCounterText(state.result.allTokens),
+                        style: context.textTheme.bodySmall,
+                      );
+                    },
                   ),
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  context.l10n.textFieldHelper,
-                  style: context.textTheme.bodySmall,
-                ),
-                BlocBuilder<DetectorCubit, DetectorState>(
-                  buildWhen: (previous, current) => previous.result.allTokens != current.result.allTokens,
+              SizedBox(
+                width: context.width,
+                height: context.highValue,
+                child: BlocBuilder<DetectorCubit, DetectorState>(
                   builder: (context, state) {
-                    return Text(
-                      context.l10n.textFieldCounterText(state.result.allTokens),
-                      style: context.textTheme.bodySmall,
+                    return ElevatedButton(
+                      onPressed: state.status.isValidated
+                          ? () => context.read<DetectorCubit>().detectionRequested(text: state.userInput.value)
+                          : null,
+                      child: state.status.isSubmissionInProgress
+                          ? const CircularProgressIndicator.adaptive(strokeWidth: 2)
+                          : Text(context.l10n.analyzeText),
                     );
                   },
                 ),
-              ],
-            ),
-            SizedBox(
-              width: context.width,
-              height: context.highValue,
-              child: BlocBuilder<DetectorCubit, DetectorState>(
-                builder: (context, state) {
-                  return GPTElevatedButton(
-                    onPressed: state.status.isValidated
-                        ? () => context.read<DetectorCubit>().detectionRequested(text: state.userInput.value)
-                        : null,
-                    child: state.status.isSubmissionInProgress
-                        ? const CircularProgressIndicator.adaptive(strokeWidth: 2)
-                        : Text(context.l10n.analyzeText),
-                  );
-                },
               ),
-            ),
-          ].spaceBetween(height: context.mediumValue),
+            ].spaceBetween(height: context.mediumValue),
+          ),
         ),
       ),
     );

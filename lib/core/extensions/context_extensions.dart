@@ -60,14 +60,6 @@ extension DurationExtension on BuildContext {
   Duration get durationHigh => const Duration(milliseconds: 1000);
 }
 
-extension BorderRadiusExtension on BuildContext {
-  BorderRadius get defaultBorderRadius => BorderRadius.circular(12);
-}
-
-extension RadiusExtension on BuildContext {
-  Radius get defaultRadius => const Radius.circular(12);
-}
-
 extension ThemeExtension on BuildContext {
   ThemeData get theme => Theme.of(this);
   TextTheme get textTheme => theme.textTheme;

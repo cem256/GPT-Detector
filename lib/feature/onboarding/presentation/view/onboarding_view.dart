@@ -5,7 +5,6 @@ import 'package:gpt_detector/app/constants/assets.dart';
 import 'package:gpt_detector/app/l10n/l10n.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/extensions/widget_extensions.dart';
-import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_elevated_button.dart';
 import 'package:gpt_detector/feature/onboarding/presentation/cubit/onboarding_cubit.dart';
 
 class OnboardingView extends StatelessWidget {
@@ -49,7 +48,7 @@ class OnboardingView extends StatelessWidget {
                   child: SizedBox(
                     width: context.width,
                     height: context.highValue,
-                    child: GPTElevatedButton(
+                    child: ElevatedButton(
                       onPressed: () => context.read<OnboardingCubit>().completeOnboarding(),
                       child: Text(context.l10n.getStarted),
                     ),
