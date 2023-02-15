@@ -8,7 +8,9 @@ abstract class ImagePickerUtils {
 
 @LazySingleton(as: ImagePickerUtils)
 class ImagePickerUtilsImpl implements ImagePickerUtils {
-  final ImagePicker _imagePicker = ImagePicker();
+  ImagePickerUtilsImpl({required ImagePicker imagePicker}) : _imagePicker = imagePicker;
+
+  final ImagePicker _imagePicker;
 
   @override
   Future<XFile?> selectFromGallery() async {

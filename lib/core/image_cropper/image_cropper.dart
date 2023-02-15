@@ -11,7 +11,9 @@ abstract class ImageCropperUtils {
 
 @LazySingleton(as: ImageCropperUtils)
 class ImageCropperUtilsImpl implements ImageCropperUtils {
-  final ImageCropper _imageCropper = ImageCropper();
+  ImageCropperUtilsImpl({required ImageCropper imageCropper}) : _imageCropper = imageCropper;
+
+  final ImageCropper _imageCropper;
   @override
   Future<String?> cropPhoto({required String filePath}) async {
     final file = await _imageCropper.cropImage(

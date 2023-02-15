@@ -1,11 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
-
+import 'package:gpt_detector/core/image_cropper/image_cropper.dart';
 import 'package:gpt_detector/core/network/network_info.dart';
-import 'package:gpt_detector/core/utils/image_cropper/image_cropper.dart';
-import 'package:gpt_detector/core/utils/permission_handler/permission_handler.dart';
-import 'package:gpt_detector/core/utils/text_recognizer/text_recognizer.dart';
+import 'package:gpt_detector/core/permission_handler/permission_handler.dart';
+import 'package:gpt_detector/core/text_recognizer/text_recognizer.dart';
 import 'package:gpt_detector/feature/detector/data/data_sources/local/camera_local_data_source.dart';
 import 'package:gpt_detector/feature/detector/data/data_sources/local/gallery_local_data_source.dart';
 import 'package:gpt_detector/feature/detector/data/data_sources/remote/detector_remote_data_source.dart';

@@ -1,4 +1,4 @@
-import 'package:gpt_detector/core/utils/image_picker/image_picker.dart';
+import 'package:gpt_detector/core/image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton

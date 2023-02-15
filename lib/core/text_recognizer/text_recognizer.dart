@@ -9,13 +9,16 @@ abstract class TextRecognizerUtils {
 
 @LazySingleton(as: TextRecognizerUtils)
 class TextRecognizerUtilsImpl implements TextRecognizerUtils {
+  TextRecognizerUtilsImpl({required TextRecognizer textRecognizer}) : _textRecognizer = textRecognizer;
+
+  final TextRecognizer _textRecognizer;
+
   @override
   Future<String> recognizeTextFormFilePath({required String filePath}) async {
     final inputImage = InputImage.fromFilePath(filePath);
-    final textRecognizer = TextRecognizer();
-    final recognizedText = await textRecognizer.processImage(inputImage);
+    final recognizedText = await _textRecognizer.processImage(inputImage);
 
-    await textRecognizer.close();
+    await _textRecognizer.close();
 
     return recognizedText.text;
   }

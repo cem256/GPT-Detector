@@ -11,6 +11,10 @@ abstract class PermissionHandlerUtils {
 
 @LazySingleton(as: PermissionHandlerUtils)
 class PermissionHandlerUtilsImpl implements PermissionHandlerUtils {
+  PermissionHandlerUtilsImpl({required DeviceInfoPlugin deviceInfoPlugin}) : _deviceInfoPlugin = deviceInfoPlugin;
+
+  final DeviceInfoPlugin _deviceInfoPlugin;
+
   @override
   Future<bool> hasCameraPermission() async {
     final hasPermission = await _isCameraPermissionGranted();
@@ -99,7 +103,7 @@ class PermissionHandlerUtilsImpl implements PermissionHandlerUtils {
   ///* Returns [Permission.storage] if device sdk version is <=32
   ///* Returns [Permission.photos] if device sdk version is >32
   Future<Permission> _getAndroidGalleryPermissionType() async {
-    final deviceInfo = await DeviceInfoPlugin().androidInfo;
+    final deviceInfo = await _deviceInfoPlugin.androidInfo;
     late final Permission permission;
     if (deviceInfo.version.sdkInt <= 32) {
       permission = Permission.storage;
