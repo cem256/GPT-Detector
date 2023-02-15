@@ -83,14 +83,14 @@ void main() {
       verify(() => detectorRemoteDataSource.detect(userInput));
       expect(result, isA<Right<Failure, DetectorEntity>>());
     });
-  });
 
-  test('Should return Failure type of object when an exception caught', () async {
-    when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-    when(() => detectorRemoteDataSource.detect(userInput)).thenThrow(Exception());
-    final result = await detectorRepository.detect(userInput);
+    test('Should return Failure type of object when an exception caught', () async {
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(() => detectorRemoteDataSource.detect(userInput)).thenThrow(Exception());
+      final result = await detectorRepository.detect(userInput);
 
-    verify(() => detectorRemoteDataSource.detect(userInput));
-    expect(result, isA<Left<Failure, DetectorEntity>>());
+      verify(() => detectorRemoteDataSource.detect(userInput));
+      expect(result, isA<Left<Failure, DetectorEntity>>());
+    });
   });
 }

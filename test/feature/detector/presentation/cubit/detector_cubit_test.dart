@@ -24,7 +24,10 @@ void main() {
   late MockOCRFromGalleryUseCase mockOCRFromGalleryUseCase;
   late MockOCRFromCameraUseCase mockOCRFromCameraUseCase;
   late MockDetectorEntity mockDetectorEntity;
-  late String userInput;
+  late String validUserInput;
+  late UserInputForm validInputForm;
+  late String invalidUserInput;
+  late UserInputForm invalidInputForm;
 
   setUp(() {
     mockDetectUseCase = MockDetectUseCase();
@@ -36,9 +39,12 @@ void main() {
       ocrFromCameraUseCase: mockOCRFromCameraUseCase,
     );
     mockDetectorEntity = MockDetectorEntity();
-    userInput = 'Test Input';
+    validUserInput = 'valid input';
+    validInputForm = UserInputForm.dirty(validUserInput);
+    invalidUserInput = '';
+    invalidInputForm = UserInputForm.dirty(invalidUserInput);
   });
-  group('Detector Bloc Tests', () {
+  group('DetectorCubit.detectionRequested()', () {
     test("Initial value of the 'status' variable must be 'FormzStatus.pure' at start", () {
       expect(detectorCubit.state.status, FormzStatus.pure);
     });
@@ -53,14 +59,14 @@ void main() {
     });
 
     blocTest<DetectorCubit, DetectorState>(
-      'DetectorCubit.detectionRequested() event test case: It should emit FormzStatus.submissionFailure when Left type returned from mockDetectUseCase',
+      'It should emit FormzStatus.submissionFailure when Left type returned from mockDetectUseCase',
       setUp: () {
-        when(() => mockDetectUseCase(userInput)).thenAnswer(
+        when(() => mockDetectUseCase(validUserInput)).thenAnswer(
           (_) async => const Left(Failure.networkFailure()),
         );
       },
       build: () => detectorCubit,
-      act: (bloc) => bloc.detectionRequested(text: userInput),
+      act: (bloc) => bloc.detectionRequested(text: validUserInput),
       expect: () => [
         DetectorState(status: FormzStatus.submissionInProgress),
         DetectorState(
@@ -71,14 +77,14 @@ void main() {
     );
 
     blocTest<DetectorCubit, DetectorState>(
-      'DetectorCubit.detectionRequested() event test case: It should emit FormzStatus.submissionInProgress and a DetectorEntity instance when Right type returned from mockDetectUseCase',
+      'It should emit FormzStatus.submissionInProgress and a DetectorEntity instance when Right type returned from mockDetectUseCase',
       setUp: () {
-        when(() => mockDetectUseCase(userInput)).thenAnswer(
+        when(() => mockDetectUseCase(validUserInput)).thenAnswer(
           (_) async => Right(mockDetectorEntity),
         );
       },
       build: () => detectorCubit,
-      act: (bloc) => bloc.detectionRequested(text: userInput),
+      act: (bloc) => bloc.detectionRequested(text: validUserInput),
       expect: () => [
         DetectorState(status: FormzStatus.submissionInProgress),
         DetectorState(
@@ -88,13 +94,104 @@ void main() {
       ],
     );
   });
+  group('DetectorCubit.textChanged()', () {
+    blocTest<DetectorCubit, DetectorState>(
+      'It should emit a userInput and FormzStatus.invalid when input is empty',
+      build: () => detectorCubit,
+      act: (bloc) => bloc.textChanged(text: invalidUserInput),
+      expect: () => [
+        DetectorState(userInput: invalidInputForm, status: Formz.validate([invalidInputForm])),
+      ],
+    );
 
-  blocTest<DetectorCubit, DetectorState>(
-    'DetectorCubit.clearTextPressed() event test case: It should emit a new DetectorState()',
-    build: () => detectorCubit,
-    act: (bloc) => bloc.clearTextPressed(),
-    expect: () => [
-      DetectorState(),
-    ],
-  );
+    blocTest<DetectorCubit, DetectorState>(
+      ' It should emit a userInput and FormzStatus.valid when input is not empty',
+      build: () => detectorCubit,
+      act: (bloc) => bloc.textChanged(text: validUserInput),
+      expect: () => [
+        DetectorState(userInput: validInputForm, status: Formz.validate([validInputForm])),
+      ],
+    );
+  });
+
+  group('DetectorCubit.clearTextPressed()', () {
+    blocTest<DetectorCubit, DetectorState>(
+      'It should emit a new DetectorState()',
+      build: () => detectorCubit,
+      act: (bloc) => bloc.clearTextPressed(),
+      expect: () => [
+        DetectorState(),
+      ],
+    );
+  });
+
+  group('DetectorCubit.ocrFromGalleryPressed()', () {
+    blocTest<DetectorCubit, DetectorState>(
+      'It should emit Failure object when left is returned',
+      setUp: () {
+        when(() => mockOCRFromGalleryUseCase()).thenAnswer(
+          (_) async => const Left(Failure.noPermission()),
+        );
+      },
+      build: () => detectorCubit,
+      act: (bloc) => bloc.ocrFromGalleryPressed(),
+      expect: () => [
+        DetectorState(
+          failure: const Failure.noPermission(),
+        ),
+      ],
+    );
+
+    blocTest<DetectorCubit, DetectorState>(
+      'It should emit userInput and FormzStatus.valid  when Right is returned',
+      setUp: () {
+        when(() => mockOCRFromGalleryUseCase()).thenAnswer(
+          (_) async => Right(validUserInput),
+        );
+      },
+      build: () => detectorCubit,
+      act: (bloc) => bloc.ocrFromGalleryPressed(),
+      expect: () => [
+        DetectorState(
+          userInput: validInputForm,
+          status: FormzStatus.valid,
+        ),
+      ],
+    );
+  });
+
+  group('DetectorCubit.ocrFromCameraPressed()', () {
+    blocTest<DetectorCubit, DetectorState>(
+      'It should emit Failure object when left is returned',
+      setUp: () {
+        when(() => mockOCRFromCameraUseCase()).thenAnswer(
+          (_) async => const Left(Failure.noPermission()),
+        );
+      },
+      build: () => detectorCubit,
+      act: (bloc) => bloc.ocrFromCameraPressed(),
+      expect: () => [
+        DetectorState(
+          failure: const Failure.noPermission(),
+        ),
+      ],
+    );
+
+    blocTest<DetectorCubit, DetectorState>(
+      'It should emit userInput and FormzStatus.valid  when Right is returned',
+      setUp: () {
+        when(() => mockOCRFromCameraUseCase()).thenAnswer(
+          (_) async => Right(validUserInput),
+        );
+      },
+      build: () => detectorCubit,
+      act: (bloc) => bloc.ocrFromCameraPressed(),
+      expect: () => [
+        DetectorState(
+          userInput: validInputForm,
+          status: FormzStatus.valid,
+        ),
+      ],
+    );
+  });
 }
