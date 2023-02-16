@@ -9,7 +9,7 @@ abstract class PermissionClient {
   Future<bool> hasGalleryPermission();
 }
 
-@LazySingleton(as: PermissionClient)
+@Injectable(as: PermissionClient)
 class PermissionClientImpl implements PermissionClient {
   PermissionClientImpl({required DeviceInfoPlugin deviceInfoPlugin}) : _deviceInfoPlugin = deviceInfoPlugin;
 

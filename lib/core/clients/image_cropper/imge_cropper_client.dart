@@ -9,7 +9,7 @@ abstract class ImageCropperClient {
   Future<String?> cropPhoto({required String filePath});
 }
 
-@LazySingleton(as: ImageCropperClient)
+@Injectable(as: ImageCropperClient)
 class ImageCropperClientImpl implements ImageCropperClient {
   ImageCropperClientImpl({required ImageCropper imageCropper}) : _imageCropper = imageCropper;
 

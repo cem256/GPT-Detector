@@ -5,7 +5,7 @@ abstract class NetworkInfoClient {
   Future<bool> get isConnected;
 }
 
-@LazySingleton(as: NetworkInfoClient)
+@Injectable(as: NetworkInfoClient)
 class NetworkInfoClientImpl implements NetworkInfoClient {
   NetworkInfoClientImpl({required InternetConnectionChecker connectionChecker})
       : _connectionChecker = connectionChecker;

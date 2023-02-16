@@ -1,7 +1,7 @@
 import 'package:gpt_detector/core/clients/image_picker/image_picker_client.dart';
 import 'package:injectable/injectable.dart';
 
-@lazySingleton
+@injectable
 class GalleryLocalDataSource {
   GalleryLocalDataSource({required ImagePickerClient imagePicker}) : _imagePicker = imagePicker;
 

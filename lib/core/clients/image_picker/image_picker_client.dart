@@ -6,7 +6,7 @@ abstract class ImagePickerClient {
   Future<XFile?> takePhoto();
 }
 
-@LazySingleton(as: ImagePickerClient)
+@Injectable(as: ImagePickerClient)
 class ImagePickerClientImpl implements ImagePickerClient {
   ImagePickerClientImpl({required ImagePicker imagePicker}) : _imagePicker = imagePicker;
 

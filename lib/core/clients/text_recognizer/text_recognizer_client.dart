@@ -7,7 +7,7 @@ abstract class TextRecognizerClient {
   Future<String> recognizeTextFormFilePath({required String filePath});
 }
 
-@LazySingleton(as: TextRecognizerClient)
+@Injectable(as: TextRecognizerClient)
 class TextRecognizerClientImpl implements TextRecognizerClient {
   TextRecognizerClientImpl({required TextRecognizer textRecognizer}) : _textRecognizer = textRecognizer;
 
