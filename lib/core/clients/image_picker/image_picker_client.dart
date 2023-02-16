@@ -1,14 +1,14 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 
-abstract class ImagePickerUtils {
+abstract class ImagePickerClient {
   Future<XFile?> selectFromGallery();
   Future<XFile?> takePhoto();
 }
 
-@LazySingleton(as: ImagePickerUtils)
-class ImagePickerUtilsImpl implements ImagePickerUtils {
-  ImagePickerUtilsImpl({required ImagePicker imagePicker}) : _imagePicker = imagePicker;
+@LazySingleton(as: ImagePickerClient)
+class ImagePickerClientImpl implements ImagePickerClient {
+  ImagePickerClientImpl({required ImagePicker imagePicker}) : _imagePicker = imagePicker;
 
   final ImagePicker _imagePicker;
 

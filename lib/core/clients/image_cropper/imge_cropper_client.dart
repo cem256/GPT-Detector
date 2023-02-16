@@ -5,13 +5,13 @@ import 'package:gpt_detector/injection.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:injectable/injectable.dart';
 
-abstract class ImageCropperUtils {
+abstract class ImageCropperClient {
   Future<String?> cropPhoto({required String filePath});
 }
 
-@LazySingleton(as: ImageCropperUtils)
-class ImageCropperUtilsImpl implements ImageCropperUtils {
-  ImageCropperUtilsImpl({required ImageCropper imageCropper}) : _imageCropper = imageCropper;
+@LazySingleton(as: ImageCropperClient)
+class ImageCropperClientImpl implements ImageCropperClient {
+  ImageCropperClientImpl({required ImageCropper imageCropper}) : _imageCropper = imageCropper;
 
   final ImageCropper _imageCropper;
   @override

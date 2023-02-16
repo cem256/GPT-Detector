@@ -1,5 +1,5 @@
 import 'package:gpt_detector/app/errors/exceptions.dart';
-import 'package:gpt_detector/core/network/network_client.dart';
+import 'package:gpt_detector/core/clients/network/network_client.dart';
 import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
 import 'package:injectable/injectable.dart';
 

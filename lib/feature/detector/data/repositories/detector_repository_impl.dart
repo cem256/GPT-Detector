@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
-import 'package:gpt_detector/core/image_cropper/image_cropper.dart';
-import 'package:gpt_detector/core/network/network_info.dart';
-import 'package:gpt_detector/core/permission_handler/permission_handler.dart';
-import 'package:gpt_detector/core/text_recognizer/text_recognizer.dart';
+import 'package:gpt_detector/core/clients/image_cropper/imge_cropper_client.dart';
+import 'package:gpt_detector/core/clients/network_info/network_info_client.dart';
+import 'package:gpt_detector/core/clients/permission_client/permission_client.dart';
+import 'package:gpt_detector/core/clients/text_recognizer/text_recognizer_client.dart';
 import 'package:gpt_detector/feature/detector/data/data_sources/local/camera_local_data_source.dart';
 import 'package:gpt_detector/feature/detector/data/data_sources/local/gallery_local_data_source.dart';
 import 'package:gpt_detector/feature/detector/data/data_sources/remote/detector_remote_data_source.dart';
@@ -18,29 +18,29 @@ class DetectorRepositoryImpl implements DetectorRepository {
     required DetectorRemoteDataSource detectorRemoteDataSource,
     required GalleryLocalDataSource galleryLocalDataSource,
     required CameraLocalDataSource cameraLocalDataSource,
-    required PermissionHandlerUtils permissionHandlerUtils,
-    required ImageCropperUtils imageCropperUtils,
-    required TextRecognizerUtils textRecognizerUtils,
-    required NetworkInfo networkInfo,
+    required PermissionClient permissionClient,
+    required ImageCropperClient imageCropperClient,
+    required TextRecognizerClient textRecognizerClient,
+    required NetworkInfoClient networkInfoClient,
   })  : _detectorRemoteDataSource = detectorRemoteDataSource,
         _galleryLocalDataSource = galleryLocalDataSource,
         _cameraLocalDataSource = cameraLocalDataSource,
-        _permissionHandlerUtils = permissionHandlerUtils,
-        _imageCropperUtils = imageCropperUtils,
-        _textRecognizerUtils = textRecognizerUtils,
-        _networkInfo = networkInfo;
+        _permissionClient = permissionClient,
+        _imageCropperClient = imageCropperClient,
+        _textRecognizerClient = textRecognizerClient,
+        _networkInfoClient = networkInfoClient;
 
   final DetectorRemoteDataSource _detectorRemoteDataSource;
   final GalleryLocalDataSource _galleryLocalDataSource;
   final CameraLocalDataSource _cameraLocalDataSource;
-  final PermissionHandlerUtils _permissionHandlerUtils;
-  final ImageCropperUtils _imageCropperUtils;
-  final TextRecognizerUtils _textRecognizerUtils;
-  final NetworkInfo _networkInfo;
+  final PermissionClient _permissionClient;
+  final ImageCropperClient _imageCropperClient;
+  final TextRecognizerClient _textRecognizerClient;
+  final NetworkInfoClient _networkInfoClient;
 
   @override
   Future<Either<Failure, DetectorEntity>> detect(String userInput) async {
-    if (await _networkInfo.isConnected) {
+    if (await _networkInfoClient.isConnected) {
       try {
         final response = await _detectorRemoteDataSource.detect(userInput);
 
@@ -55,7 +55,7 @@ class DetectorRepositoryImpl implements DetectorRepository {
 
   @override
   Future<Either<Failure, String>> ocrFromGallery() async {
-    final hasPermission = await _permissionHandlerUtils.hasGalleryPermission();
+    final hasPermission = await _permissionClient.hasGalleryPermission();
 
     if (hasPermission) {
       final filePath = await _galleryLocalDataSource.selectFromGallery();
@@ -63,12 +63,12 @@ class DetectorRepositoryImpl implements DetectorRepository {
         // No file selected or unknown path
         return left(const Failure.ocrFailure());
       } else {
-        final croppedFilePath = await _imageCropperUtils.cropPhoto(filePath: filePath);
+        final croppedFilePath = await _imageCropperClient.cropPhoto(filePath: filePath);
         if (croppedFilePath == null) {
           // File not cropped  or unknown path
           return left(const Failure.ocrFailure());
         } else {
-          final recognizedText = await _textRecognizerUtils.recognizeTextFormFilePath(filePath: croppedFilePath);
+          final recognizedText = await _textRecognizerClient.recognizeTextFormFilePath(filePath: croppedFilePath);
           // No text detected
           return recognizedText.isEmpty ? left(const Failure.ocrFailure()) : right(recognizedText);
         }
@@ -81,7 +81,7 @@ class DetectorRepositoryImpl implements DetectorRepository {
 
   @override
   Future<Either<Failure, String>> ocrFromCamera() async {
-    final hasPermission = await _permissionHandlerUtils.hasCameraPermission();
+    final hasPermission = await _permissionClient.hasCameraPermission();
 
     if (hasPermission) {
       final filePath = await _cameraLocalDataSource.takePhoto();
@@ -89,12 +89,12 @@ class DetectorRepositoryImpl implements DetectorRepository {
         // No photo taken or unknown path
         return left(const Failure.ocrFailure());
       } else {
-        final croppedFilePath = await _imageCropperUtils.cropPhoto(filePath: filePath);
+        final croppedFilePath = await _imageCropperClient.cropPhoto(filePath: filePath);
         if (croppedFilePath == null) {
           // File not cropped  or unknown path
           return left(const Failure.ocrFailure());
         } else {
-          final recognizedText = await _textRecognizerUtils.recognizeTextFormFilePath(filePath: croppedFilePath);
+          final recognizedText = await _textRecognizerClient.recognizeTextFormFilePath(filePath: croppedFilePath);
           // No text detected
           return recognizedText.isEmpty ? left(const Failure.ocrFailure()) : right(recognizedText);
         }
