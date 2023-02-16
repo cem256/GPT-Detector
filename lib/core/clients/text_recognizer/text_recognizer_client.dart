@@ -3,19 +3,22 @@
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:injectable/injectable.dart';
 
-abstract class TextRecognizerUtils {
+abstract class TextRecognizerClient {
   Future<String> recognizeTextFormFilePath({required String filePath});
 }
 
-@LazySingleton(as: TextRecognizerUtils)
-class TextRecognizerUtilsImpl implements TextRecognizerUtils {
+@Injectable(as: TextRecognizerClient)
+class TextRecognizerClientImpl implements TextRecognizerClient {
+  TextRecognizerClientImpl({required TextRecognizer textRecognizer}) : _textRecognizer = textRecognizer;
+
+  final TextRecognizer _textRecognizer;
+
   @override
   Future<String> recognizeTextFormFilePath({required String filePath}) async {
     final inputImage = InputImage.fromFilePath(filePath);
-    final textRecognizer = TextRecognizer();
-    final recognizedText = await textRecognizer.processImage(inputImage);
+    final recognizedText = await _textRecognizer.processImage(inputImage);
 
-    await textRecognizer.close();
+    await _textRecognizer.close();
 
     return recognizedText.text;
   }

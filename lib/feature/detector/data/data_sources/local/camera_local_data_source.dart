@@ -1,11 +1,11 @@
-import 'package:gpt_detector/core/utils/image_picker/image_picker.dart';
+import 'package:gpt_detector/core/clients/image_picker/image_picker_client.dart';
 import 'package:injectable/injectable.dart';
 
-@lazySingleton
+@injectable
 class CameraLocalDataSource {
-  CameraLocalDataSource({required ImagePickerUtils imagePicker}) : _imagePicker = imagePicker;
+  CameraLocalDataSource({required ImagePickerClient imagePicker}) : _imagePicker = imagePicker;
 
-  final ImagePickerUtils _imagePicker;
+  final ImagePickerClient _imagePicker;
 
   Future<String?> takePhoto() async {
     final image = await _imagePicker.takePhoto();
