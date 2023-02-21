@@ -175,7 +175,7 @@ SPEC CHECKSUMS:
   Protobuf: 120350fc38646e2dedc26f49ecba778184ea1de2
   share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
-  url_launcher_ios: ae1517e5e344f5544fb090b079e11f399dfbe4d2
+  url_launcher_ios: fb12c43172927bb5cf75aeebd073f883801f1993
 
 PODFILE CHECKSUM: 76012da054efeb90128a5611e40a7f31fde22c6d
 

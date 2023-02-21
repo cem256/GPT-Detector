@@ -90,6 +90,7 @@ flutter_icons:
   remove_alpha_ios: true
   image_path: "assets/icons/logo.png"
   adaptive_icon_background: "#6200EE"
+  # Padding 8%
   adaptive_icon_foreground: "assets/icons/logo_foreground.png"
 
 flutter_native_splash:
