@@ -5,15 +5,10 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 class LightTheme extends BaseTheme {
   @override
-  ThemeData get theme {
-    return ThemeData(
-      appBarTheme: super.theme.appBarTheme,
-      cardTheme: super.theme.cardTheme,
-      elevatedButtonTheme: super.theme.elevatedButtonTheme,
-      inputDecorationTheme: super.theme.inputDecorationTheme,
-      colorScheme: _colorScheme,
-    ).copyWith(typography: super.theme.typography);
-  }
+  Brightness get brightness => Brightness.light;
+
+  @override
+  ColorScheme get colorScheme => _colorScheme;
 
   ColorScheme get _colorScheme {
     return const ColorScheme(

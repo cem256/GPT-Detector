@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gpt_detector/app/constants/assets.dart';
-import 'package:gpt_detector/app/constants/strings.dart';
+import 'package:gpt_detector/app/constants/asset_constants.dart';
+import 'package:gpt_detector/app/constants/string_constants.dart';
 import 'package:gpt_detector/app/l10n/l10n.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/utils/rate_app/rate_app.dart';
@@ -22,7 +22,7 @@ class GPTDrawer extends StatelessWidget {
               Column(
                 children: [
                   Image.asset(
-                    Assets.appIcon,
+                    AssetConstants.appIcon,
                     height: context.veryHighValue2x,
                     width: double.infinity,
                   ),
@@ -48,7 +48,7 @@ class GPTDrawer extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.privacy_tip),
                 title: Text(context.l10n.privacyPolicy),
-                onTap: () async => UrlLauncherUtils.launchUrlFromString(url: Strings.privacyPolicyUrl),
+                onTap: () async => UrlLauncherUtils.launchUrlFromString(url: StringConstants.privacyPolicyUrl),
               ),
               ListTile(
                 leading: const Icon(Icons.star),

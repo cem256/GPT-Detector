@@ -5,6 +5,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @module
 abstract class ClientModules {
@@ -13,6 +14,10 @@ abstract class ClientModules {
 
   @injectable
   Dio get dio => Dio();
+
+  @injectable
+  @preResolve
+  Future<SharedPreferences> get sharedPreferences => SharedPreferences.getInstance();
 
   @injectable
   ImageCropper get imageCropper => ImageCropper();

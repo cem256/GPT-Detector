@@ -19,12 +19,14 @@ dependencies:
   # State management
   bloc: ^8.1.0
   flutter_bloc: ^8.1.1
-  hydrated_bloc: ^9.0.0
 
   # Networking
   dio: ^4.0.6
   pretty_dio_logger: ^1.1.1
   internet_connection_checker: ^1.0.0+1
+
+  # Caching
+  shared_preferences: ^2.1.0
 
   # Dependency injection
   injectable: ^2.1.0
@@ -37,16 +39,12 @@ dependencies:
   # Functional programming
   dartz: ^0.10.1
 
-  # Routing
-  auto_route: ^5.0.4
-
   # Utility
   permission_handler: ^10.2.0
   device_info_plus: ^8.1.0
   image_picker: ^0.8.6+1
   image_cropper: ^3.0.1
   flutter_dotenv: ^5.0.2
-  path_provider: ^2.0.12
   in_app_review: ^2.0.6
   url_launcher: ^6.1.8
   share_plus: ^6.3.1
@@ -78,7 +76,6 @@ dev_dependencies:
   freezed: ^2.3.2
   build_runner: ^2.3.3
   json_serializable: ^6.6.1
-  auto_route_generator: ^5.0.3
   injectable_generator: ^2.1.4
 
   # Linter

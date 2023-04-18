@@ -1,25 +1,21 @@
+import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:gpt_detector/feature/onboarding/domain/use_cases/complete_onboarding_use_case.dart';
+
 import 'package:injectable/injectable.dart';
 
 part 'onboarding_state.dart';
 part 'onboarding_cubit.freezed.dart';
 
 @injectable
-class OnboardingCubit extends HydratedCubit<OnboardingState> {
-  OnboardingCubit() : super(OnboardingState.initial());
+class OnboardingCubit extends Cubit<OnboardingState> {
+  OnboardingCubit({required CompleteOnboardingUseCase completeOnboardingUseCase})
+      : _completeOnboardingUseCase = completeOnboardingUseCase,
+        super(const OnboardingState());
 
-  void completeOnboarding() {
-    emit(const OnboardingState(isCompleted: true));
-  }
+  final CompleteOnboardingUseCase _completeOnboardingUseCase;
 
-  @override
-  OnboardingState? fromJson(Map<String, dynamic> json) {
-    return OnboardingState.fromMap(json);
-  }
-
-  @override
-  Map<String, dynamic>? toJson(OnboardingState state) {
-    return state.toMap();
+  Future<void> completeOnboarding() async {
+    await _completeOnboardingUseCase.call();
   }
 }

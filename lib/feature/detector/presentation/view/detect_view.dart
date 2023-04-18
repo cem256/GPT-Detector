@@ -181,21 +181,17 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                   ),
                 ],
               ),
-              SizedBox(
-                width: context.width,
-                height: context.highValue,
-                child: BlocBuilder<DetectorCubit, DetectorState>(
-                  builder: (context, state) {
-                    return ElevatedButton(
-                      onPressed: state.status.isValidated
-                          ? () => context.read<DetectorCubit>().detectionRequested(text: state.userInput.value)
-                          : null,
-                      child: state.status.isSubmissionInProgress
-                          ? const CircularProgressIndicator.adaptive(strokeWidth: 2)
-                          : Text(context.l10n.analyzeText),
-                    );
-                  },
-                ),
+              BlocBuilder<DetectorCubit, DetectorState>(
+                builder: (context, state) {
+                  return ElevatedButton(
+                    onPressed: state.status.isValidated
+                        ? () => context.read<DetectorCubit>().detectionRequested(text: state.userInput.value)
+                        : null,
+                    child: state.status.isSubmissionInProgress
+                        ? const CircularProgressIndicator.adaptive()
+                        : Text(context.l10n.analyzeText),
+                  );
+                },
               ),
             ].spaceBetween(height: context.mediumValue),
           ),
