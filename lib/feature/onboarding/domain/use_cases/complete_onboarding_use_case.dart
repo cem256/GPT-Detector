@@ -11,5 +11,6 @@ class CompleteOnboardingUseCase {
 
   Future<void> call() async {
     await _onboardingRepository.completeOnboarding();
+    return;
   }
 }
