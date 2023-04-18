@@ -12,7 +12,7 @@ class DetectorRemoteDataSource {
 
   Future<DetectorModel> detect(String userInput) async {
     try {
-      final response = await _networkClient.get<Map<String, dynamic>>('/?$userInput');
+      final response = await _networkClient.get<Map<String, dynamic>>('/?query=$userInput');
       final model = response.data;
       if (model == null) {
         throw NetworkException();
