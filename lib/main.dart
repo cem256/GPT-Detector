@@ -15,7 +15,7 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetBinding);
   Bloc.observer = AppBlocObserver();
 
-  configureDependencies();
+  await configureDependencies();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await dotenv.load(fileName: Env.fileName);
   runApp(const GPTDetector());

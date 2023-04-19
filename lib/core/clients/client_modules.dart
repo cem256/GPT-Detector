@@ -9,25 +9,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 @module
 abstract class ClientModules {
-  @injectable
   InternetConnectionChecker get connectionChecker => InternetConnectionChecker();
 
-  @injectable
   Dio get dio => Dio();
 
-  @injectable
   @preResolve
   Future<SharedPreferences> get sharedPreferences => SharedPreferences.getInstance();
 
-  @injectable
   ImageCropper get imageCropper => ImageCropper();
 
-  @injectable
   ImagePicker get imagePicker => ImagePicker();
 
-  @injectable
   DeviceInfoPlugin get deviceInfoPlugin => DeviceInfoPlugin();
 
-  @injectable
   TextRecognizer get textRecognizer => TextRecognizer();
 }
