@@ -11,6 +11,7 @@ class NetworkClient {
     required Dio dio,
   }) : _dio = dio {
     _dio.options.baseUrl = Env.baseUrl;
+    dio.options.headers['Authorization'] = 'Bearer ${Env.bearer}';
     _dio.options.connectTimeout = 10000;
     _dio.options.sendTimeout = 10000;
     _dio.options.receiveTimeout = 10000;
