@@ -17,6 +17,7 @@ class GPTTextField extends StatelessWidget {
     return TextField(
       controller: controller,
       onChanged: onChanged,
+      textInputAction: TextInputAction.done,
       textAlignVertical: TextAlignVertical.top,
       keyboardType: TextInputType.multiline,
       expands: true,

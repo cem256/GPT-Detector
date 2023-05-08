@@ -6,6 +6,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:gpt_detector/app/env/env.dart';
 import 'package:gpt_detector/app/l10n/l10n.dart';
 import 'package:gpt_detector/app/theme/light/light_theme.dart';
+import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/utils/observer/bloc_observer.dart';
 import 'package:gpt_detector/feature/splash/presentation/view/splash_view.dart';
 import 'package:gpt_detector/injection.dart';
@@ -28,6 +29,17 @@ class GPTDetector extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
+      builder: (context, child) => MediaQuery(
+        // Disables font scaling and bold text
+        data: context.mediaQuery.copyWith(textScaleFactor: 1, boldText: false),
+        // Dismisses the keyboard globally
+        child: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: child,
+        ),
+      ),
+
       // Theme
       theme: getIt<LightTheme>().theme,
 
