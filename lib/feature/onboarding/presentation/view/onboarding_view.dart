@@ -55,10 +55,6 @@ class _OnboardingViewBody extends StatelessWidget {
               context.l10n.onboardingInfo2,
               style: context.textTheme.bodyLarge,
             ),
-            Text(
-              context.l10n.onboardingInfo3,
-              style: context.textTheme.bodyLarge,
-            ),
             const Spacer(),
             ElevatedButton(
               onPressed: () async {

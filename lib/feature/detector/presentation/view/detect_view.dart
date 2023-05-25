@@ -80,12 +80,12 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                       child: SizedBox(
                         height: context.highValue,
                         child: Center(
-                          child: BlocBuilder<DetectorCubit, DetectorState>(
-                            buildWhen: (previous, current) => previous.result.realProb != current.result.realProb,
+                          child: BlocSelector<DetectorCubit, DetectorState, double>(
+                            selector: (state) => state.result.realProb,
                             builder: (context, state) {
                               return Countup(
                                 begin: 0,
-                                end: state.result.realProb,
+                                end: state,
                                 precision: 2,
                                 duration: context.durationHigh,
                                 suffix: context.l10n.percentOriginal,
@@ -102,13 +102,13 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                       child: SizedBox(
                         height: context.highValue,
                         child: Center(
-                          child: BlocBuilder<DetectorCubit, DetectorState>(
-                            buildWhen: (previous, current) => previous.result.fakeProb != current.result.realProb,
+                          child: BlocSelector<DetectorCubit, DetectorState, double>(
+                            selector: (state) => state.result.fakeProb,
                             builder: (context, state) {
                               return Countup(
                                 precision: 2,
                                 begin: 0,
-                                end: state.result.fakeProb,
+                                end: state,
                                 duration: context.durationHigh,
                                 suffix: context.l10n.percentAI,
                               );
@@ -166,15 +166,22 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    context.l10n.textFieldHelper,
-                    style: context.textTheme.bodySmall,
+                  BlocSelector<DetectorCubit, DetectorState, bool>(
+                    selector: (state) => state.status.isValidated,
+                    builder: (context, state) {
+                      return !state
+                          ? Text(
+                              context.l10n.textFieldHelper,
+                              style: context.textTheme.bodySmall,
+                            )
+                          : const SizedBox.shrink();
+                    },
                   ),
-                  BlocBuilder<DetectorCubit, DetectorState>(
-                    buildWhen: (previous, current) => previous.result.allTokens != current.result.allTokens,
+                  BlocSelector<DetectorCubit, DetectorState, int>(
+                    selector: (state) => state.userInput.value.trim().length,
                     builder: (context, state) {
                       return Text(
-                        context.l10n.textFieldCounterText(state.result.allTokens),
+                        context.l10n.textFieldCounterText(state),
                         style: context.textTheme.bodySmall,
                       );
                     },
@@ -182,9 +189,12 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                 ],
               ),
               BlocBuilder<DetectorCubit, DetectorState>(
+                buildWhen: (previous, current) =>
+                    (previous.status.isValidated && !previous.status.isSubmissionInProgress) !=
+                    (current.status.isValidated && !current.status.isSubmissionInProgress),
                 builder: (context, state) {
                   return ElevatedButton(
-                    onPressed: state.status.isValidated
+                    onPressed: state.status.isValidated && !state.status.isSubmissionInProgress
                         ? () => context.read<DetectorCubit>().detectionRequested(text: state.userInput.value)
                         : null,
                     child: state.status.isSubmissionInProgress

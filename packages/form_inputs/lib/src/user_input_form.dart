@@ -10,7 +10,7 @@ class UserInputForm extends FormzInput<String, UserInputFormError> {
   const UserInputForm.dirty([super.value = '']) : super.dirty();
   @override
   UserInputFormError? validator(String value) {
-    if (value.trim().isEmpty) {
+    if (value.trim().length < 200) {
       return UserInputFormError.invalidInput;
     }
     return null;
