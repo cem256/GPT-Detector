@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,6 +19,17 @@ class MockOCRFromGalleryUseCase extends Mock implements OCRFromGalleryUseCase {}
 class MockOCRFromCameraUseCase extends Mock implements OCRFromCameraUseCase {}
 
 class MockDetectorEntity extends Mock implements DetectorEntity {}
+
+String generateRandomString(int len) {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  final rnd = Random();
+  return String.fromCharCodes(
+    Iterable.generate(
+      len,
+      (_) => chars.codeUnitAt(rnd.nextInt(chars.length)),
+    ),
+  );
+}
 
 void main() {
   late DetectorCubit detectorCubit;
@@ -39,7 +52,7 @@ void main() {
       ocrFromCameraUseCase: mockOCRFromCameraUseCase,
     );
     mockDetectorEntity = MockDetectorEntity();
-    validUserInput = 'valid input';
+    validUserInput = generateRandomString(200);
     validInputForm = UserInputForm.dirty(validUserInput);
     invalidUserInput = '';
     invalidInputForm = UserInputForm.dirty(invalidUserInput);

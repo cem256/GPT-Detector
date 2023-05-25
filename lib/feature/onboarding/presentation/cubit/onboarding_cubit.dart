@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:gpt_detector/feature/onboarding/domain/use_cases/complete_onboarding_use_case.dart';
 

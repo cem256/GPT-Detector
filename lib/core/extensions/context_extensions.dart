@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 extension MediaQueryExtension on BuildContext {
+  MediaQueryData get mediaQuery => MediaQuery.of(this);
   double get height => MediaQuery.of(this).size.height;
   double get width => MediaQuery.of(this).size.width;
 

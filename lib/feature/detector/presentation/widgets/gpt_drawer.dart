@@ -15,52 +15,57 @@ class GPTDrawer extends StatelessWidget {
     return Drawer(
       backgroundColor: context.theme.scaffoldBackgroundColor,
       child: SafeArea(
-        child: Padding(
-          padding: context.paddingAllDefault,
-          child: Column(
-            children: [
-              Column(
-                children: [
-                  Image.asset(
-                    AssetConstants.appIcon,
-                    height: context.veryHighValue2x,
-                    width: double.infinity,
-                  ),
-                  Text(
-                    context.l10n.appName,
-                    style: context.textTheme.bodyLarge,
-                  ),
-                  Text(
-                    context.l10n.version,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: context.mediumValue,
-              ),
-              ExpansionTile(
-                leading: const Icon(Icons.info),
-                title: Text(context.l10n.drawerInfo),
-                childrenPadding: context.paddingAllDefault,
-                expandedAlignment: Alignment.centerLeft,
-                children: [Text(context.l10n.drawerInfoDetail)],
-              ),
-              ListTile(
-                leading: const Icon(Icons.privacy_tip),
-                title: Text(context.l10n.privacyPolicy),
-                onTap: () async => UrlLauncherUtils.launchUrlFromString(url: StringConstants.privacyPolicyUrl),
-              ),
-              ListTile(
-                leading: const Icon(Icons.star),
-                title: Text(context.l10n.drawerRateUs),
-                onTap: () async => RateAppUtils.rateApp(),
-              ),
-              ListTile(
-                leading: const Icon(Icons.share),
-                title: Text(context.l10n.drawerShareApp),
-                onTap: () async => ShareAppUtils.shareApp(),
-              ),
-            ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: context.paddingAllDefault,
+            child: Column(
+              children: [
+                Column(
+                  children: [
+                    Image.asset(
+                      AssetConstants.appIcon,
+                      height: context.veryHighValue2x,
+                      width: double.infinity,
+                    ),
+                    Text(
+                      context.l10n.appName,
+                      style: context.textTheme.bodyLarge,
+                    ),
+                    Text(
+                      context.l10n.version,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: context.mediumValue,
+                ),
+                ExpansionTile(
+                  leading: const Icon(Icons.info),
+                  title: Text(context.l10n.drawerInfo),
+                  childrenPadding: context.paddingAllDefault,
+                  expandedAlignment: Alignment.centerLeft,
+                  children: [
+                    Text(context.l10n.drawerInfoDetail1),
+                    Text(context.l10n.drawerInfoDetail2),
+                  ],
+                ),
+                ListTile(
+                  leading: const Icon(Icons.privacy_tip),
+                  title: Text(context.l10n.privacyPolicy),
+                  onTap: () async => UrlLauncherUtils.launchUrlFromString(url: StringConstants.privacyPolicyUrl),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.star),
+                  title: Text(context.l10n.drawerRateUs),
+                  onTap: () async => RateAppUtils.rateApp(),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.share),
+                  title: Text(context.l10n.drawerShareApp),
+                  onTap: () async => ShareAppUtils.shareApp(),
+                ),
+              ],
+            ),
           ),
         ),
       ),
