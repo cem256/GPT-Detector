@@ -38,9 +38,9 @@ class _SplashViewBodyState extends State<_SplashViewBody> {
 
   void _checkIsOnboardingCompleted() {
     if (context.read<SplashCubit>().state.isOnboardingCompleted ?? false) {
-      AppRouter.pushReplacement<void>(context, const DetectView());
+      AppRouter.pushReplacement(context, const DetectView());
     } else {
-      AppRouter.pushReplacement<void>(context, const OnboardingView());
+      AppRouter.pushReplacement(context, const OnboardingView());
     }
     FlutterNativeSplash.remove();
   }

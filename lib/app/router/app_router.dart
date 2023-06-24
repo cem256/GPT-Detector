@@ -11,8 +11,8 @@ abstract class AppRouter {
     );
   }
 
-  static Future<T?> pushReplacement<T>(BuildContext context, Widget widget) {
-    return Navigator.of(context).push<T>(
+  static Future<void> pushReplacement(BuildContext context, Widget widget) {
+    return Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) {
           return widget;

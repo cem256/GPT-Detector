@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -156,7 +154,6 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                             onPressed: () async {
                               await context.read<DetectorCubit>().ocrFromGalleryPressed();
                               if (context.mounted) {
-                                log(context.read<DetectorCubit>().state.userInput.value);
                                 _controller.text = context.read<DetectorCubit>().state.userInput.value;
                               }
                             },
