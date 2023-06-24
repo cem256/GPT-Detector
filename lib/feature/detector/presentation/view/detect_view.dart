@@ -145,11 +145,21 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                         children: [
                           IconButton(
                             icon: const Icon(Icons.photo_library),
-                            onPressed: () => context.read<DetectorCubit>().ocrFromGalleryPressed(),
+                            onPressed: () async {
+                              await context.read<DetectorCubit>().ocrFromGalleryPressed();
+                              if (context.mounted) {
+                                _controller.text = context.read<DetectorCubit>().state.userInput.value;
+                              }
+                            },
                           ),
                           IconButton(
                             icon: const Icon(Icons.photo_camera),
-                            onPressed: () => context.read<DetectorCubit>().ocrFromCameraPressed(),
+                            onPressed: () async {
+                              await context.read<DetectorCubit>().ocrFromCameraPressed();
+                              if (context.mounted) {
+                                _controller.text = context.read<DetectorCubit>().state.userInput.value;
+                              }
+                            },
                           ),
                         ],
                       ),

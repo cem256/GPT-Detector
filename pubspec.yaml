@@ -50,7 +50,7 @@ dependencies:
   intl: ^0.18.0
 
   # OCR
-  google_mlkit_text_recognition: ^0.6.0
+  google_mlkit_text_recognition: ^0.8.1
 
   # Packages
   form_inputs:
