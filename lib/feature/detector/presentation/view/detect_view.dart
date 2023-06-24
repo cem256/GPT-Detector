@@ -66,6 +66,12 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
             ),
           );
         }
+        if (state.status.isSubmissionSuccess && !state.result.isSupportedLanguage) {
+          SnackbarUtils.showSnackbar(
+            context: context,
+            message: context.l10n.unsupportedLanguage,
+          );
+        }
       },
       child: SafeArea(
         child: Padding(
@@ -130,18 +136,12 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                     ),
                     Positioned(
                       right: 0,
-                      child: BlocListener<DetectorCubit, DetectorState>(
-                        listenWhen: (previous, current) {
-                          return previous.userInput.value != current.userInput.value &&
-                              _controller.text != current.userInput.value;
+                      child: IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          _controller.clear();
+                          context.read<DetectorCubit>().clearTextPressed();
                         },
-                        listener: (context, state) {
-                          _controller.text = state.userInput.value;
-                        },
-                        child: IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () => context.read<DetectorCubit>().clearTextPressed(),
-                        ),
                       ),
                     ),
                     Positioned(
@@ -151,11 +151,21 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                         children: [
                           IconButton(
                             icon: const Icon(Icons.photo_library),
-                            onPressed: () => context.read<DetectorCubit>().ocrFromGalleryPressed(),
+                            onPressed: () async {
+                              await context.read<DetectorCubit>().ocrFromGalleryPressed();
+                              if (context.mounted) {
+                                _controller.text = context.read<DetectorCubit>().state.userInput.value;
+                              }
+                            },
                           ),
                           IconButton(
                             icon: const Icon(Icons.photo_camera),
-                            onPressed: () => context.read<DetectorCubit>().ocrFromCameraPressed(),
+                            onPressed: () async {
+                              await context.read<DetectorCubit>().ocrFromCameraPressed();
+                              if (context.mounted) {
+                                _controller.text = context.read<DetectorCubit>().state.userInput.value;
+                              }
+                            },
                           ),
                         ],
                       ),
@@ -195,7 +205,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                 builder: (context, state) {
                   return ElevatedButton(
                     onPressed: state.status.isValidated && !state.status.isSubmissionInProgress
-                        ? () => context.read<DetectorCubit>().detectionRequested(text: state.userInput.value)
+                        ? () => context.read<DetectorCubit>().detectionRequested(text: _controller.text)
                         : null,
                     child: state.status.isSubmissionInProgress
                         ? const CircularProgressIndicator.adaptive()

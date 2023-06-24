@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:gpt_detector/app/router/app_router.dart';
 import 'package:gpt_detector/feature/detector/presentation/view/detect_view.dart';
 import 'package:gpt_detector/feature/onboarding/presentation/view/onboarding_view.dart';
 import 'package:gpt_detector/feature/splash/presentation/cubit/splash_cubit.dart';
@@ -37,9 +38,9 @@ class _SplashViewBodyState extends State<_SplashViewBody> {
 
   void _checkIsOnboardingCompleted() {
     if (context.read<SplashCubit>().state.isOnboardingCompleted ?? false) {
-      Navigator.pushReplacement(context, MaterialPageRoute<void>(builder: (context) => const DetectView()));
+      AppRouter.pushReplacement(context, const DetectView());
     } else {
-      Navigator.pushReplacement(context, MaterialPageRoute<void>(builder: (context) => const OnboardingView()));
+      AppRouter.pushReplacement(context, const OnboardingView());
     }
     FlutterNativeSplash.remove();
   }

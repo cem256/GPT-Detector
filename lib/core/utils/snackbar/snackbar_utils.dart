@@ -8,6 +8,7 @@ abstract class SnackbarUtils {
       ..showSnackBar(
         SnackBar(
           padding: context.paddingAllDefault,
+          duration: context.durationVeryHigh,
           content: Text(message),
         ),
       );

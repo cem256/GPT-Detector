@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gpt_detector/app/constants/asset_constants.dart';
 import 'package:gpt_detector/app/l10n/l10n.dart';
+import 'package:gpt_detector/app/router/app_router.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/extensions/widget_extensions.dart';
 import 'package:gpt_detector/feature/detector/presentation/view/detect_view.dart';
@@ -60,12 +61,7 @@ class _OnboardingViewBody extends StatelessWidget {
               onPressed: () async {
                 await context.read<OnboardingCubit>().completeOnboarding();
                 if (context.mounted) {
-                  unawaited(
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute<void>(builder: (context) => const DetectView()),
-                    ),
-                  );
+                  unawaited(AppRouter.pushReplacement(context, const DetectView()));
                 }
               },
               child: Text(context.l10n.getStarted),

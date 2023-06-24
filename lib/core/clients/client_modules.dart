@@ -1,5 +1,6 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:google_mlkit_language_id/google_mlkit_language_id.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,4 +24,6 @@ abstract class ClientModules {
   DeviceInfoPlugin get deviceInfoPlugin => DeviceInfoPlugin();
 
   TextRecognizer get textRecognizer => TextRecognizer();
+
+  LanguageIdentifier get languageIdentifier => LanguageIdentifier(confidenceThreshold: 0.5);
 }
