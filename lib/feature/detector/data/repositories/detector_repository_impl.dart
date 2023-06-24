@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
 import 'package:gpt_detector/core/clients/image_cropper/imge_cropper_client.dart';
+import 'package:gpt_detector/core/clients/language_identifier/language_identifier_client.dart';
 import 'package:gpt_detector/core/clients/network_info/network_info_client.dart';
 import 'package:gpt_detector/core/clients/permission_client/permission_client.dart';
 import 'package:gpt_detector/core/clients/text_recognizer/text_recognizer_client.dart';
@@ -21,6 +22,7 @@ class DetectorRepositoryImpl implements DetectorRepository {
     required PermissionClient permissionClient,
     required ImageCropperClient imageCropperClient,
     required TextRecognizerClient textRecognizerClient,
+    required LanguageIdentifierClient languageIdentifierClient,
     required NetworkInfoClient networkInfoClient,
   })  : _detectorRemoteDataSource = detectorRemoteDataSource,
         _galleryLocalDataSource = galleryLocalDataSource,
@@ -28,6 +30,7 @@ class DetectorRepositoryImpl implements DetectorRepository {
         _permissionClient = permissionClient,
         _imageCropperClient = imageCropperClient,
         _textRecognizerClient = textRecognizerClient,
+        _languageIdentifierClient = languageIdentifierClient,
         _networkInfoClient = networkInfoClient;
 
   final DetectorRemoteDataSource _detectorRemoteDataSource;
@@ -36,15 +39,21 @@ class DetectorRepositoryImpl implements DetectorRepository {
   final PermissionClient _permissionClient;
   final ImageCropperClient _imageCropperClient;
   final TextRecognizerClient _textRecognizerClient;
+  final LanguageIdentifierClient _languageIdentifierClient;
   final NetworkInfoClient _networkInfoClient;
+
+  final List<String> _supportedLanguages = ['en'];
 
   @override
   Future<Either<Failure, DetectorEntity>> detect(String userInput) async {
     if (await _networkInfoClient.isConnected) {
       try {
-        final response = await _detectorRemoteDataSource.detect(userInput);
+        final detectedLanguage = await _languageIdentifierClient.identifyLanguage(userInput: userInput);
 
-        return right(response.toDetectorEntity());
+        final response = await _detectorRemoteDataSource.detect(userInput);
+        return _supportedLanguages.contains(detectedLanguage)
+            ? right(response.toDetectorEntity(isSupportedLanguage: true))
+            : right(response.toDetectorEntity(isSupportedLanguage: false));
       } catch (_) {
         return left(const Failure.networkFailure());
       }

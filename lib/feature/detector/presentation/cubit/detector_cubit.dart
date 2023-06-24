@@ -21,7 +21,7 @@ class DetectorCubit extends Cubit<DetectorState> {
   })  : _detectUseCase = detectUseCase,
         _ocrFromGalleryUseCase = ocrFromGalleryUseCase,
         _ocrFromCameraUseCase = ocrFromCameraUseCase,
-        super(DetectorState());
+        super(DetectorState.initial());
 
   final DetectUseCase _detectUseCase;
   final OCRFromGalleryUseCase _ocrFromGalleryUseCase;
@@ -29,6 +29,7 @@ class DetectorCubit extends Cubit<DetectorState> {
 
   Future<void> detectionRequested({required String text}) async {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
+
     final response = await _detectUseCase.call(text);
 
     response.fold(
@@ -43,16 +44,14 @@ class DetectorCubit extends Cubit<DetectorState> {
   }
 
   void clearTextPressed() {
-    emit(DetectorState());
+    emit(DetectorState.initial());
   }
 
   Future<void> ocrFromGalleryPressed() async {
     final result = await _ocrFromGalleryUseCase.call();
 
     result.fold(
-      (failure) {
-        emit(state.copyWith(failure: failure));
-      },
+      (failure) => emit(state.copyWith(failure: failure)),
       (recognizedImage) {
         final userInput = UserInputForm.dirty(recognizedImage);
         emit(state.copyWith(userInput: userInput, status: Formz.validate([userInput])));
@@ -64,9 +63,7 @@ class DetectorCubit extends Cubit<DetectorState> {
     final result = await _ocrFromCameraUseCase.call();
 
     result.fold(
-      (failure) {
-        emit(state.copyWith(failure: failure));
-      },
+      (failure) => emit(state.copyWith(failure: failure)),
       (recognizedImage) {
         final userInput = UserInputForm.dirty(recognizedImage);
         emit(state.copyWith(userInput: userInput, status: Formz.validate([userInput])));

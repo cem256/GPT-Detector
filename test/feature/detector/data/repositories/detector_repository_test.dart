@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
 import 'package:gpt_detector/core/clients/image_cropper/imge_cropper_client.dart';
+import 'package:gpt_detector/core/clients/language_identifier/language_identifier_client.dart';
 import 'package:gpt_detector/core/clients/network_info/network_info_client.dart';
 import 'package:gpt_detector/core/clients/permission_client/permission_client.dart';
 import 'package:gpt_detector/core/clients/text_recognizer/text_recognizer_client.dart';
@@ -26,6 +27,8 @@ class MockImageCropperClient extends Mock implements ImageCropperClient {}
 
 class MockTextRecognizerClient extends Mock implements TextRecognizerClient {}
 
+class MockLanguageIdentifierClient extends Mock implements LanguageIdentifierClient {}
+
 class MockNetworkInfoClient extends Mock implements NetworkInfoClient {}
 
 class MockDetectorModel extends Mock implements DetectorModel {}
@@ -37,6 +40,7 @@ void main() {
   late MockPermissionClient permissionClient;
   late MockImageCropperClient imageCropperClient;
   late MockTextRecognizerClient textRecognizerClient;
+  late MockLanguageIdentifierClient languageIdentifierClient;
   late MockNetworkInfoClient mockNetworkInfoClient;
   late DetectorRepository detectorRepository;
   late MockDetectorModel mockDetectorModel;
@@ -49,6 +53,7 @@ void main() {
     permissionClient = MockPermissionClient();
     imageCropperClient = MockImageCropperClient();
     textRecognizerClient = MockTextRecognizerClient();
+    languageIdentifierClient = MockLanguageIdentifierClient();
     mockNetworkInfoClient = MockNetworkInfoClient();
     detectorRepository = DetectorRepositoryImpl(
       detectorRemoteDataSource: detectorRemoteDataSource,
@@ -57,6 +62,7 @@ void main() {
       permissionClient: permissionClient,
       imageCropperClient: imageCropperClient,
       textRecognizerClient: textRecognizerClient,
+      languageIdentifierClient: languageIdentifierClient,
       networkInfoClient: mockNetworkInfoClient,
     );
     mockDetectorModel = MockDetectorModel();
@@ -76,6 +82,7 @@ void main() {
   group('Detect Requests', () {
     test('Should return  Detector Entity when there is no exception', () async {
       when(() => mockNetworkInfoClient.isConnected).thenAnswer((_) async => true);
+      when(() => languageIdentifierClient.identifyLanguage(userInput: userInput)).thenAnswer((_) async => 'en');
       when(() => detectorRemoteDataSource.detect(userInput)).thenAnswer((_) async => mockDetectorModel);
       final result = await detectorRepository.detect(userInput);
 
@@ -85,6 +92,7 @@ void main() {
 
     test('Should return Failure type of object when an exception caught', () async {
       when(() => mockNetworkInfoClient.isConnected).thenAnswer((_) async => true);
+      when(() => languageIdentifierClient.identifyLanguage(userInput: userInput)).thenAnswer((_) async => 'en');
       when(() => detectorRemoteDataSource.detect(userInput)).thenThrow(Exception());
       final result = await detectorRepository.detect(userInput);
 

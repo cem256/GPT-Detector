@@ -77,6 +77,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "unsupportedLanguage": "Please input a text in English. Using other languages may give inaccurate results.",
+  "@unsupportedLanguage": {
+    "description": "Displayed when the user enters a text in an unsupported language",
+    "type": "text",
+    "placeholders": {}
+  },
   "percentOriginal": "% Original",
   "@percentOriginal": {
     "description": "% Original text on the DetectView",

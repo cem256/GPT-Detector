@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,6 +66,12 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
               context: context,
               message: context.l10n.noInternetFailure,
             ),
+          );
+        }
+        if (state.status.isSubmissionSuccess && !state.result.isSupportedLanguage) {
+          SnackbarUtils.showSnackbar(
+            context: context,
+            message: context.l10n.unsupportedLanguage,
           );
         }
       },
@@ -148,6 +156,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                             onPressed: () async {
                               await context.read<DetectorCubit>().ocrFromGalleryPressed();
                               if (context.mounted) {
+                                log(context.read<DetectorCubit>().state.userInput.value);
                                 _controller.text = context.read<DetectorCubit>().state.userInput.value;
                               }
                             },
@@ -199,7 +208,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                 builder: (context, state) {
                   return ElevatedButton(
                     onPressed: state.status.isValidated && !state.status.isSubmissionInProgress
-                        ? () => context.read<DetectorCubit>().detectionRequested(text: state.userInput.value)
+                        ? () => context.read<DetectorCubit>().detectionRequested(text: _controller.text)
                         : null,
                     child: state.status.isSubmissionInProgress
                         ? const CircularProgressIndicator.adaptive()
