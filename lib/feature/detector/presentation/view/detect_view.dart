@@ -130,18 +130,12 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                     ),
                     Positioned(
                       right: 0,
-                      child: BlocListener<DetectorCubit, DetectorState>(
-                        listenWhen: (previous, current) {
-                          return previous.userInput.value != current.userInput.value &&
-                              _controller.text != current.userInput.value;
+                      child: IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          _controller.clear();
+                          context.read<DetectorCubit>().clearTextPressed();
                         },
-                        listener: (context, state) {
-                          _controller.text = state.userInput.value;
-                        },
-                        child: IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () => context.read<DetectorCubit>().clearTextPressed(),
-                        ),
                       ),
                     ),
                     Positioned(
