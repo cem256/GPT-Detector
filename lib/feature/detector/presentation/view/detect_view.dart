@@ -9,8 +9,8 @@ import 'package:gpt_detector/feature/detector/data/model/detector/detector_model
 import 'package:gpt_detector/feature/detector/presentation/cubit/detector_cubit.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_card.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_drawer.dart';
+import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_faq_dialog.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_text_field.dart';
-import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_title_text.dart';
 import 'package:gpt_detector/injection.dart';
 
 class DetectView extends StatelessWidget {
@@ -21,6 +21,12 @@ class DetectView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(context.l10n.appName),
+        actions: [
+          IconButton(
+            onPressed: () => showDialog<void>(context: context, builder: (context) => const GPTFAQDialog()),
+            icon: const Icon(Icons.info),
+          )
+        ],
       ),
       drawer: const GPTDrawer(),
       body: BlocProvider(
@@ -89,8 +95,9 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                           color: state.getCardColor(context.theme.colorScheme),
                           child: Padding(
                             padding: context.paddingAllLow,
-                            child: GPTTitleText(
-                              text: state.convertToLocalizedString(context.l10n),
+                            child: Text(
+                              state.convertToLocalizedString(context.l10n),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         );

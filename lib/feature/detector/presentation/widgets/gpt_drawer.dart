@@ -39,16 +39,6 @@ class GPTDrawer extends StatelessWidget {
                 SizedBox(
                   height: context.mediumValue,
                 ),
-                ExpansionTile(
-                  leading: const Icon(Icons.info),
-                  title: Text(context.l10n.drawerInfo),
-                  childrenPadding: context.paddingAllDefault,
-                  expandedAlignment: Alignment.centerLeft,
-                  children: [
-                    Text(context.l10n.drawerInfoDetail1),
-                    Text(context.l10n.drawerInfoDetail2),
-                  ],
-                ),
                 ListTile(
                   leading: const Icon(Icons.privacy_tip),
                   title: Text(context.l10n.privacyPolicy),

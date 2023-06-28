@@ -11,6 +11,7 @@ abstract class BaseTheme {
       colorScheme: colorScheme,
       appBarTheme: _appBarTheme,
       cardTheme: _cardTheme,
+      dialogTheme: _dialogTheme,
       elevatedButtonTheme: _elevatedButtonTheme,
       inputDecorationTheme: _inputDecorationTheme,
       typography: Typography.material2021(),
@@ -32,6 +33,14 @@ abstract class BaseTheme {
     return CardTheme(
       elevation: 4,
       margin: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: ThemeConstants.borderRadiusCircular,
+      ),
+    );
+  }
+
+  DialogTheme get _dialogTheme {
+    return DialogTheme(
       shape: RoundedRectangleBorder(
         borderRadius: ThemeConstants.borderRadiusCircular,
       ),

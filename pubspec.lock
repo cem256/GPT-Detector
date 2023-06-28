@@ -185,14 +185,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
-  countup:
-    dependency: "direct main"
-    description:
-      name: countup
-      sha256: "3a7509b20170fd78ff9553848016465d34fdbc4ce8adb3d5361be80592b92675"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.4"
   coverage:
     dependency: transitive
     description:
