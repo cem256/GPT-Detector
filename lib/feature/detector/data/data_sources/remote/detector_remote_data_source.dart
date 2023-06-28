@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:gpt_detector/app/env/env.dart';
 import 'package:gpt_detector/app/errors/exceptions.dart';
 import 'package:gpt_detector/core/clients/network/network_client.dart';
 import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
@@ -12,7 +15,10 @@ class DetectorRemoteDataSource {
 
   Future<DetectorModel> detect(String userInput) async {
     try {
-      final response = await _networkClient.get<Map<String, dynamic>>('/?query=$userInput');
+      final response = await _networkClient.post<Map<String, dynamic>>(
+        Env.predict,
+        data: {'document': jsonEncode(userInput)},
+      );
       final model = response.data;
       if (model == null) {
         throw NetworkException();

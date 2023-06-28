@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.8+10
+version: 1.0.9+11
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -58,7 +58,6 @@ dependencies:
     path: packages/form_inputs
 
   # UI
-  countup: ^0.1.4
   cupertino_icons: ^1.0.2
   flutter_animate: ^4.1.1+1
 

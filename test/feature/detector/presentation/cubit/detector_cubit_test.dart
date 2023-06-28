@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
+import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/detect_use_case.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/ocr_from_camera_use_case.dart';
@@ -52,7 +53,7 @@ void main() {
       ocrFromCameraUseCase: mockOCRFromCameraUseCase,
     );
     mockDetectorEntity = MockDetectorEntity();
-    validUserInput = generateRandomString(200);
+    validUserInput = generateRandomString(250);
     validInputForm = UserInputForm.dirty(validUserInput);
     invalidUserInput = '';
     invalidInputForm = UserInputForm.dirty(invalidUserInput);
@@ -63,11 +64,16 @@ void main() {
     });
 
     test(
-        "Default value of the 'result' variable must be \"(DetectorEntity(fakeProb: 0.00, realProb: 0.00, isSupportedLanguage: true)\" at start",
+        "Default value of the 'result' variable must be \"DetectorEntity(averagePerplexity: 0,maxPerplexity: 0,classification: Classification.initial,isSupportedLanguage: true,),\" at start",
         () {
       expect(
         detectorCubit.state.result,
-        const DetectorEntity(fakeProb: 0, realProb: 0, isSupportedLanguage: true),
+        const DetectorEntity(
+          averagePerplexity: 0,
+          maxPerplexity: 0,
+          classification: Classification.initial,
+          isSupportedLanguage: true,
+        ),
       );
     });
 
@@ -103,8 +109,9 @@ void main() {
           status: FormzStatus.submissionInProgress,
           failure: null,
           result: const DetectorEntity(
-            realProb: 0,
-            fakeProb: 0,
+            averagePerplexity: 0,
+            maxPerplexity: 0,
+            classification: Classification.initial,
             isSupportedLanguage: true,
           ),
         ),
