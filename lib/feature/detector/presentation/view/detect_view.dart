@@ -1,4 +1,3 @@
-import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
@@ -6,10 +5,12 @@ import 'package:gpt_detector/app/l10n/l10n.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/extensions/widget_extensions.dart';
 import 'package:gpt_detector/core/utils/snackbar/snackbar_utils.dart';
+import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
 import 'package:gpt_detector/feature/detector/presentation/cubit/detector_cubit.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_card.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_drawer.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_text_field.dart';
+import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_title_text.dart';
 import 'package:gpt_detector/injection.dart';
 
 class DetectView extends StatelessWidget {
@@ -81,47 +82,19 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
               Row(
                 children: [
                   Expanded(
-                    child: GPTCard(
-                      color: context.theme.colorScheme.tertiaryContainer,
-                      child: SizedBox(
-                        height: context.highValue,
-                        child: Center(
-                          child: BlocSelector<DetectorCubit, DetectorState, double>(
-                            selector: (state) => state.result.realProb,
-                            builder: (context, state) {
-                              return Countup(
-                                begin: 0,
-                                end: state,
-                                precision: 2,
-                                duration: context.durationHigh,
-                                suffix: context.l10n.percentOriginal,
-                              );
-                            },
+                    child: BlocSelector<DetectorCubit, DetectorState, Classification>(
+                      selector: (state) => state.result.classification,
+                      builder: (context, state) {
+                        return GPTCard(
+                          color: state.getCardColor(context.theme.colorScheme),
+                          child: Padding(
+                            padding: context.paddingAllLow,
+                            child: GPTTitleText(
+                              text: state.convertToLocalizedString(context.l10n),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: GPTCard(
-                      color: context.theme.colorScheme.errorContainer,
-                      child: SizedBox(
-                        height: context.highValue,
-                        child: Center(
-                          child: BlocSelector<DetectorCubit, DetectorState, double>(
-                            selector: (state) => state.result.fakeProb,
-                            builder: (context, state) {
-                              return Countup(
-                                precision: 2,
-                                begin: 0,
-                                end: state,
-                                duration: context.durationHigh,
-                                suffix: context.l10n.percentAI,
-                              );
-                            },
-                          ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ),
                 ].spaceBetween(width: context.mediumValue),
@@ -153,7 +126,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                             icon: const Icon(Icons.photo_library),
                             onPressed: () async {
                               await context.read<DetectorCubit>().ocrFromGalleryPressed();
-                              if (context.mounted) {
+                              if (mounted) {
                                 _controller.text = context.read<DetectorCubit>().state.userInput.value;
                               }
                             },
@@ -176,15 +149,27 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  BlocSelector<DetectorCubit, DetectorState, bool>(
-                    selector: (state) => state.status.isValidated,
+                  BlocSelector<DetectorCubit, DetectorState, UserInputFormError?>(
+                    selector: (state) => state.userInput.error,
                     builder: (context, state) {
-                      return !state
-                          ? Text(
-                              context.l10n.textFieldHelper,
-                              style: context.textTheme.bodySmall,
-                            )
-                          : const SizedBox.shrink();
+                      switch (state) {
+                        case UserInputFormError.tooShort:
+                          return Flexible(
+                            child: Text(
+                              context.l10n.textFieldHelperShortText,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          );
+                        case UserInputFormError.tooLong:
+                          return Flexible(
+                            child: Text(
+                              context.l10n.textFieldHelperLongText,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          );
+                        case null:
+                          return const SizedBox.shrink();
+                      }
                     },
                   ),
                   BlocSelector<DetectorCubit, DetectorState, int>(

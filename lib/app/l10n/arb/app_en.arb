@@ -65,6 +65,30 @@
     "type": "text",
     "placeholders": {}
   },
+  "classificationInitial": "Enter English Text For Analysis\n-",
+  "@classificationInitial": {
+    "description": "Displayed in case of a Classification.initial",
+    "type": "text",
+    "placeholders": {}
+  },
+  "classificationAI": "AI\nLikely Written by AI",
+  "@classificationAI": {
+    "description": "Displayed in case of a Classification.ai",
+    "type": "text",
+    "placeholders": {}
+  },
+  "classificationMixed": "Mixed Content\nMay Include Parts Written by AI",
+  "@classificationMixed": {
+    "description": "Displayed in case of a Classification.mixed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "classificationHuman": "Human\nLikely Written by Human",
+  "@classificationHuman": {
+    "description": "Displayed in case of a Classification.human",
+    "type": "text",
+    "placeholders": {}
+  },
   "networkFailure": "Oops, looks like we're having trouble connecting to the server.",
   "@networkFailure": {
     "description": "Displayed in case of a Failure.networkfailure()",
@@ -83,31 +107,25 @@
     "type": "text",
     "placeholders": {}
   },
-  "percentOriginal": "% Original",
-  "@percentOriginal": {
-    "description": "% Original text on the DetectView",
-    "type": "text",
-    "placeholders": {}
-  },
-  "percentAI": "% AI",
-  "@percentAI": {
-    "description": "% AI text on the DetectView",
-    "type": "text",
-    "placeholders": {}
-  },
-  "textFieldHint": "Paste text or write here...",
+  "textFieldHint": "Paste text or type here...",
   "@textFieldHint": {
     "description": "TextField hint value on the DetectView",
     "type": "text",
     "placeholders": {}
   },
-  "textFieldHelper": "Enter at least 200 characters.",
-  "@textFieldHelper": {
+  "textFieldHelperShortText": "Enter at least 250 characters.",
+  "@textFieldHelperShortText": {
     "description": "TextField helper text value on the DetectView",
     "type": "text",
     "placeholders": {}
   },
-  "textFieldCounterText": "Characters: {characterCount}/200",
+  "textFieldHelperLongText": "Enter at most 3000 characters.",
+  "@textFieldHelperLongText": {
+    "description": "TextField helper text value on the DetectView",
+    "type": "text",
+    "placeholders": {}
+  },
+  "textFieldCounterText": "Characters: {characterCount}/250",
   "@textFieldCounterText": {
     "description": "TextField counter text value on the DetectView",
     "type": "text",

@@ -52,7 +52,7 @@ void main() {
       ocrFromCameraUseCase: mockOCRFromCameraUseCase,
     );
     mockDetectorEntity = MockDetectorEntity();
-    validUserInput = generateRandomString(200);
+    validUserInput = generateRandomString(250);
     validInputForm = UserInputForm.dirty(validUserInput);
     invalidUserInput = '';
     invalidInputForm = UserInputForm.dirty(invalidUserInput);
