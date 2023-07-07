@@ -10,7 +10,6 @@ class CompleteOnboardingUseCase {
   final OnboardingRepository _onboardingRepository;
 
   Future<void> call() async {
-    await _onboardingRepository.completeOnboarding();
-    return;
+    return _onboardingRepository.completeOnboarding();
   }
 }
