@@ -11,7 +11,7 @@ import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_card.dart
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_drawer.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_faq_dialog.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_text_field.dart';
-import 'package:gpt_detector/injection.dart';
+import 'package:gpt_detector/locator.dart';
 
 class DetectView extends StatelessWidget {
   const DetectView({super.key});
@@ -30,7 +30,7 @@ class DetectView extends StatelessWidget {
       ),
       drawer: const GPTDrawer(),
       body: BlocProvider(
-        create: (context) => getIt<DetectorCubit>(),
+        create: (context) => Locator.instance<DetectorCubit>(),
         child: _DetectViewBody(),
       ),
     );

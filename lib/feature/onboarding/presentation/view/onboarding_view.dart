@@ -10,7 +10,7 @@ import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/extensions/widget_extensions.dart';
 import 'package:gpt_detector/feature/detector/presentation/view/detect_view.dart';
 import 'package:gpt_detector/feature/onboarding/presentation/cubit/onboarding_cubit.dart';
-import 'package:gpt_detector/injection.dart';
+import 'package:gpt_detector/locator.dart';
 
 class OnboardingView extends StatelessWidget {
   const OnboardingView({super.key});
@@ -19,7 +19,7 @@ class OnboardingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (context) => getIt<OnboardingCubit>(),
+        create: (context) => Locator.instance<OnboardingCubit>(),
         child: const _OnboardingViewBody(),
       ),
     );

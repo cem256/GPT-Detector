@@ -1,7 +1,7 @@
 // ignore_for_file: one_member_abstracts
 
 import 'package:gpt_detector/app/theme/light/light_theme.dart';
-import 'package:gpt_detector/injection.dart';
+import 'package:gpt_detector/locator.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:injectable/injectable.dart';
 
@@ -36,9 +36,9 @@ class ImageCropperClientImpl implements ImageCropperClient {
   final List<PlatformUiSettings> _uiSettings = [
     AndroidUiSettings(
       toolbarTitle: 'Edit Photo',
-      toolbarColor: getIt<LightTheme>().theme.colorScheme.primary,
-      toolbarWidgetColor: getIt<LightTheme>().theme.colorScheme.background,
-      activeControlsWidgetColor: getIt<LightTheme>().theme.colorScheme.primary,
+      toolbarColor: Locator.instance<LightTheme>().theme.colorScheme.primary,
+      toolbarWidgetColor: Locator.instance<LightTheme>().theme.colorScheme.background,
+      activeControlsWidgetColor: Locator.instance<LightTheme>().theme.colorScheme.primary,
       initAspectRatio: CropAspectRatioPreset.original,
       lockAspectRatio: false,
       showCropGrid: false,

@@ -6,7 +6,7 @@ import 'package:gpt_detector/feature/detector/presentation/view/detect_view.dart
 import 'package:gpt_detector/feature/onboarding/presentation/view/onboarding_view.dart';
 import 'package:gpt_detector/feature/splash/presentation/cubit/splash_cubit.dart';
 
-import 'package:gpt_detector/injection.dart';
+import 'package:gpt_detector/locator.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
@@ -14,7 +14,7 @@ class SplashView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<SplashCubit>()..checkIsOnboardingCompleted(),
+      create: (context) => Locator.instance<SplashCubit>()..checkIsOnboardingCompleted(),
       child: const Scaffold(
         body: _SplashViewBody(),
       ),
