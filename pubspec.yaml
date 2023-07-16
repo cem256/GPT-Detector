@@ -44,10 +44,10 @@ dependencies:
   device_info_plus: ^8.1.0
   image_picker: ^0.8.6+1
   image_cropper: ^3.0.1
-  flutter_dotenv: ^5.0.2
   in_app_review: ^2.0.6
   url_launcher: ^6.1.8
   share_plus: ^6.3.1
+  envied: ^0.3.0+3
   intl: ^0.18.0
 
   # OCR
@@ -75,6 +75,7 @@ dev_dependencies:
   freezed: ^2.3.4
   build_runner: ^2.4.4
   json_serializable: ^6.7.0
+  envied_generator: ^0.3.0+3
   injectable_generator: ^2.1.5
 
   # Linter
@@ -101,5 +102,4 @@ flutter:
   uses-material-design: true
 
   assets:
-    - env/
     - assets/icons/
