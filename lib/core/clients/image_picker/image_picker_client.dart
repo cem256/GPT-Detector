@@ -1,13 +1,13 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 
-abstract class ImagePickerClient {
+abstract interface class ImagePickerClient {
   Future<XFile?> selectFromGallery();
   Future<XFile?> takePhoto();
 }
 
 @Injectable(as: ImagePickerClient)
-class ImagePickerClientImpl implements ImagePickerClient {
+final class ImagePickerClientImpl implements ImagePickerClient {
   ImagePickerClientImpl({required ImagePicker imagePicker}) : _imagePicker = imagePicker;
 
   final ImagePicker _imagePicker;

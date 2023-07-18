@@ -4,13 +4,13 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:injectable/injectable.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-abstract class PermissionClient {
+abstract interface class PermissionClient {
   Future<bool> hasCameraPermission();
   Future<bool> hasGalleryPermission();
 }
 
 @Injectable(as: PermissionClient)
-class PermissionClientImpl implements PermissionClient {
+final class PermissionClientImpl implements PermissionClient {
   PermissionClientImpl({required DeviceInfoPlugin deviceInfoPlugin}) : _deviceInfoPlugin = deviceInfoPlugin;
 
   final DeviceInfoPlugin _deviceInfoPlugin;

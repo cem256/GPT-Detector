@@ -37,7 +37,7 @@ class GPTDrawer extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: context.mediumValue,
+                  height: context.defaultValue,
                 ),
                 ListTile(
                   leading: const Icon(Icons.privacy_tip),

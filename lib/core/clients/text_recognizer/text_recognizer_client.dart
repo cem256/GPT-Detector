@@ -1,14 +1,12 @@
-// ignore_for_file: one_member_abstracts
-
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:injectable/injectable.dart';
 
-abstract class TextRecognizerClient {
+abstract interface class TextRecognizerClient {
   Future<String> recognizeTextFormFilePath({required String filePath});
 }
 
 @Injectable(as: TextRecognizerClient)
-class TextRecognizerClientImpl implements TextRecognizerClient {
+final class TextRecognizerClientImpl implements TextRecognizerClient {
   TextRecognizerClientImpl({required TextRecognizer textRecognizer}) : _textRecognizer = textRecognizer;
 
   final TextRecognizer _textRecognizer;

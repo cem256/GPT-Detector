@@ -3,7 +3,7 @@ import 'package:gpt_detector/feature/onboarding/domain/repositories/onboarding_r
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: OnboardingRepository)
-class OnboardingRepositoryImpl implements OnboardingRepository {
+final class OnboardingRepositoryImpl implements OnboardingRepository {
   OnboardingRepositoryImpl({required OnboardingLocalDataSource onboardingLocalDataSource})
       : _onboardingLocalDataSource = onboardingLocalDataSource;
 

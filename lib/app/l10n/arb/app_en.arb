@@ -5,7 +5,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "version": "Version 1.0.9",
+  "version": "Version 1.1.0",
   "@version": {
     "description": "Displays the current version of the app",
     "type": "text",
@@ -47,7 +47,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "faqTitle": "FAQ",
+  "faqTitle": "F.A.Q.",
   "@faqTitle": {
     "description": "FAQDialog title text",
     "type": "text",

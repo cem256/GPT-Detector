@@ -1,1 +1,1 @@
-class NetworkException implements Exception {}
+final class NetworkException implements Exception {}

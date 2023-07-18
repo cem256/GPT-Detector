@@ -3,7 +3,7 @@ import 'package:gpt_detector/app/theme/base/base_theme.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-class LightTheme extends BaseTheme {
+final class LightTheme extends BaseTheme {
   @override
   Brightness get brightness => Brightness.light;
 

@@ -1,9 +1,15 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:envied/envied.dart';
 
-class Env {
-  Env._();
-  static String get fileName => 'env/.env';
-  static String get baseUrl => dotenv.env['BASE_URL'] ?? 'BASE_URL NOT FOUND';
-  static String get bearer => dotenv.env['BEARER'] ?? 'BEARER NOT FOUND';
-  static String get predict => dotenv.env['PREDICT'] ?? 'PREDICT NOT FOUND';
+part 'env.g.dart';
+
+@Envied(path: 'env/.env', obfuscate: true)
+abstract final class Env {
+  @EnviedField(varName: 'BASE_URL')
+  static final String baseUrl = _Env.baseUrl;
+
+  @EnviedField(varName: 'BEARER')
+  static final String bearer = _Env.bearer;
+
+  @EnviedField(varName: 'PREDICT')
+  static final String predict = _Env.predict;
 }
