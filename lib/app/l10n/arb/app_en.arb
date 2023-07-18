@@ -47,7 +47,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "faqTitle": "FAQ",
+  "faqTitle": "F.A.Q.",
   "@faqTitle": {
     "description": "FAQDialog title text",
     "type": "text",
