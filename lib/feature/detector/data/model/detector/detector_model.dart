@@ -10,8 +10,8 @@ part 'detector_model.g.dart';
 @freezed
 class DetectorModel with _$DetectorModel {
   const factory DetectorModel({
-    @JsonKey(name: 'average_perplexity') double? averagePerplexity,
-    @JsonKey(name: 'max_perplexity') double? maxPerplexity,
+    @JsonKey(name: 'average_perplexity') required double? averagePerplexity,
+    @JsonKey(name: 'max_perplexity') required double? maxPerplexity,
     String? classification,
   }) = _DetectorModel;
 

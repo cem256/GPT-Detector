@@ -6,13 +6,18 @@ import 'package:gpt_detector/core/clients/network/network_client.dart';
 import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
 import 'package:injectable/injectable.dart';
 
-@injectable
-class DetectorRemoteDataSource {
-  DetectorRemoteDataSource({
+abstract interface class DetectorRemoteDataSource {
+  Future<DetectorModel> detect(String userInput);
+}
+
+@Injectable(as: DetectorRemoteDataSource)
+final class DetectorRemoteDataSourceImpl implements DetectorRemoteDataSource {
+  DetectorRemoteDataSourceImpl({
     required NetworkClient networkClient,
   }) : _networkClient = networkClient;
   final NetworkClient _networkClient;
 
+  @override
   Future<DetectorModel> detect(String userInput) async {
     try {
       final response = await _networkClient.post<Map<String, dynamic>>(
