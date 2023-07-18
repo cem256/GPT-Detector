@@ -9,7 +9,7 @@ class GPTFAQDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return SimpleDialog(
       contentPadding: context.paddingAllDefault,
-      titlePadding: EdgeInsets.only(top: context.mediumValue, left: context.mediumValue),
+      titlePadding: EdgeInsets.only(top: context.defaultValue, left: context.defaultValue),
       title: Text(context.l10n.faqTitle),
       children: [
         Column(

@@ -14,7 +14,7 @@ import 'package:gpt_detector/feature/detector/domain/repositories/detector_repos
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: DetectorRepository)
-class DetectorRepositoryImpl implements DetectorRepository {
+final class DetectorRepositoryImpl implements DetectorRepository {
   DetectorRepositoryImpl({
     required DetectorRemoteDataSource detectorRemoteDataSource,
     required GalleryLocalDataSource galleryLocalDataSource,

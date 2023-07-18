@@ -1,12 +1,12 @@
 import 'package:injectable/injectable.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
-abstract class NetworkInfoClient {
+abstract interface class NetworkInfoClient {
   Future<bool> get isConnected;
 }
 
 @Injectable(as: NetworkInfoClient)
-class NetworkInfoClientImpl implements NetworkInfoClient {
+final class NetworkInfoClientImpl implements NetworkInfoClient {
   NetworkInfoClientImpl({required InternetConnectionChecker connectionChecker})
       : _connectionChecker = connectionChecker;
 

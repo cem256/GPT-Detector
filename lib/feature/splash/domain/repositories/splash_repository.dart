@@ -1,5 +1,3 @@
-// ignore_for_file: one_member_abstracts
-
-abstract class SplashRepository {
+abstract interface class SplashRepository {
   bool? checkIsOnboardingCompleted();
 }

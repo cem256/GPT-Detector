@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gpt_detector/app/env/env.dart';
@@ -6,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 @lazySingleton
-class NetworkClient {
+final class NetworkClient {
   NetworkClient({
     required Dio dio,
   }) : _dio = dio {

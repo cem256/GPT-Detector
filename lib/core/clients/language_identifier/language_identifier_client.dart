@@ -1,14 +1,12 @@
-// ignore_for_file: one_member_abstracts
-
 import 'package:google_mlkit_language_id/google_mlkit_language_id.dart';
 import 'package:injectable/injectable.dart';
 
-abstract class LanguageIdentifierClient {
+abstract interface class LanguageIdentifierClient {
   Future<String> identifyLanguage({required String userInput});
 }
 
 @Injectable(as: LanguageIdentifierClient)
-class LanguageIdentifierClientImpl implements LanguageIdentifierClient {
+final class LanguageIdentifierClientImpl implements LanguageIdentifierClient {
   LanguageIdentifierClientImpl({required LanguageIdentifier languageIdentifier})
       : _languageIdentifier = languageIdentifier;
 

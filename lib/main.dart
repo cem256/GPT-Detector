@@ -11,11 +11,16 @@ import 'package:gpt_detector/locator.dart';
 
 Future<void> main() async {
   final widgetBinding = WidgetsFlutterBinding.ensureInitialized();
+  // Initialize Flutter Native Splash
   FlutterNativeSplash.preserve(widgetsBinding: widgetBinding);
+  // Initialize Bloc Observer
   Bloc.observer = AppBlocObserver();
-
+  // Initialize Locator
   await Locator.locateServices();
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  // Set Screen Orientation
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
   runApp(const GPTDetector());
 }
 

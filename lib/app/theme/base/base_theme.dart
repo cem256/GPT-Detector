@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gpt_detector/app/theme/theme_constants.dart';
 
-abstract class BaseTheme {
+abstract base class BaseTheme {
   Brightness get brightness;
   ColorScheme get colorScheme;
 

@@ -3,7 +3,7 @@ import 'package:gpt_detector/feature/splash/domain/repositories/splash_repositor
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: SplashRepository)
-class SplashRepositoryImpl implements SplashRepository {
+final class SplashRepositoryImpl implements SplashRepository {
   SplashRepositoryImpl({required SplashLocalDataSource splashLocalDataSource})
       : _splashLocalDataSource = splashLocalDataSource;
 

@@ -70,7 +70,7 @@ class _OnboardingViewBody extends StatelessWidget {
               .animate(interval: 400.ms)
               .fadeIn(duration: 600.ms, delay: 200.ms)
               .move(begin: const Offset(-16, 0), curve: Curves.easeOutQuad)
-              .spaceBetween(height: context.mediumValue),
+              .spaceBetween(height: context.defaultValue),
         ),
       ),
     );

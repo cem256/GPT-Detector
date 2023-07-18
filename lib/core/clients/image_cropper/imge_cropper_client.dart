@@ -1,16 +1,14 @@
-// ignore_for_file: one_member_abstracts
-
 import 'package:gpt_detector/app/theme/light/light_theme.dart';
 import 'package:gpt_detector/locator.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:injectable/injectable.dart';
 
-abstract class ImageCropperClient {
+abstract interface class ImageCropperClient {
   Future<String?> cropPhoto({required String filePath});
 }
 
 @Injectable(as: ImageCropperClient)
-class ImageCropperClientImpl implements ImageCropperClient {
+final class ImageCropperClientImpl implements ImageCropperClient {
   ImageCropperClientImpl({required ImageCropper imageCropper}) : _imageCropper = imageCropper;
 
   final ImageCropper _imageCropper;

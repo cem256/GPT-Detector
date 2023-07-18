@@ -104,7 +104,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                       },
                     ),
                   ),
-                ].spaceBetween(width: context.mediumValue),
+                ].spaceBetween(width: context.defaultValue),
               ),
               Expanded(
                 child: Stack(
@@ -205,7 +205,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                   );
                 },
               ),
-            ].spaceBetween(height: context.mediumValue),
+            ].spaceBetween(height: context.defaultValue),
           ),
         ),
       ),
