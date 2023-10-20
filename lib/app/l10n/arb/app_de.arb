@@ -11,7 +11,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "privacyPolicy": "Datenschurzerklärung",
+  "privacyPolicy": "Datenschuzerklärung",
   "@privacyPolicy": {
     "description": "Privacy Policy text on drawer",
     "type": "text",
