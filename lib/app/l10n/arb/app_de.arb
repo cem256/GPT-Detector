@@ -1,0 +1,162 @@
+{
+  "appName": "GPT Detector",
+  "@appName": {
+    "description": "Name of the application",
+    "type": "text",
+    "placeholders": {}
+  },
+  "version": "Version 1.1.0",
+  "@version": {
+    "description": "Displays the current version of the app",
+    "type": "text",
+    "placeholders": {}
+  },
+  "privacyPolicy": "Datenschuzerklärung",
+  "@privacyPolicy": {
+    "description": "Privacy Policy text on drawer",
+    "type": "text",
+    "placeholders": {}
+  },
+  "drawerRateUs": "Bewerte uns",
+  "@drawerRateUs": {
+    "description": "Rate Us text on drawer",
+    "type": "text",
+    "placeholders": {}
+  },
+  "drawerShareApp": "App teilen",
+  "@drawerShareApp": {
+    "description": "Share App text on drawer",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingInfo1": "Willkommen bei GPT Detector! GPT Detector analysiert, ob ein Text von einem Sprachmodell wie ChatGPT geschrieben wurde oder nicht.",
+  "@onboardingInfo1": {
+    "description": "First Info text on the OnboardingView",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onboardingInfo2": "Für die beste Analyseergebnisse empfehlen wir, einen englischsprachigen Text einzugeben.",
+  "@onboardingInfo2": {
+    "description": "Second Info text on the OnboardingView",
+    "type": "text",
+    "placeholders": {}
+  },
+  "getStarted": "Los geht's",
+  "@getStarted": {
+    "description": "Get Started text on the OnboardingView",
+    "type": "text",
+    "placeholders": {}
+  },
+  "faqTitle": "F.A.Q.",
+  "@faqTitle": {
+    "description": "FAQDialog title text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "faqQuestion1": "Wie funktioniert GPT Detector?",
+  "@faqQuestion1": {
+    "description": "FAQDialog question1 text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "faqQuestion1anwer1": "- textbasierte KI-Modelle wie ChatGPT generieren üblicherweise weniger komplexe und zufällige Texte als von Menschen erstellte Inhalte. Der Grad der Zufälligkeit und Komplexität kann analysiert werden, um zwischen von KI generierten und von Menschen erstellten Inhalten zu unterscheiden.",
+  "@faqQuestion1answer1": {
+    "description": "FAQDialog question1 answer1",
+    "type": "text",
+    "placeholders": {}
+  },
+  "faqQuestion2": "Was sind die Einschränkungen des GPT Detectors?",
+  "@faqQuestion2": {
+    "description": "FAQDialog question2 text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "faqQuestion2answer1": "- Die aktuelle Version des GPT Detectors ist für Texte in englischer Sprache optimiert. Die Verwendung von Texten in anderen Sprachen kann daher zu ungenauen Ergebnissen führen.",
+  "@faqQuestion2answer1": {
+    "description": "FAQDialog question2 answer1",
+    "type": "text",
+    "placeholders": {}
+  },
+  "faqQuestion2answer2": "- Da sich KI-Modelle weiterentwickeln, werden sie besser darin, Texte zu generieren, die menschlichem Schreiben ähneln. Daher wird nicht empfohlen, sich ausschließlich auf die Ergebnisse von GPT Detector zur Entscheidungsfindung zu verlassen.",
+  "@faqQuestion2answer2": {
+    "description": "FAQDialog question2 answer2",
+    "type": "text",
+    "placeholders": {}
+  },
+  "classificationInitial": "Gib ein: Text zur Analyse",
+  "@classificationInitial": {
+    "description": "Displayed in case of a Classification.initial",
+    "type": "text",
+    "placeholders": {}
+  },
+  "classificationAI": "KI\nWahrscheinlich von KI geschrieben",
+  "@classificationAI": {
+    "description": "Displayed in case of a Classification.ai",
+    "type": "text",
+    "placeholders": {}
+  },
+  "classificationMixed": "Gemischt\nKann Teile enthalten, die von KI geschrieben wurden",
+  "@classificationMixed": {
+    "description": "Displayed in case of a Classification.mixed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "classificationHuman": "Mensch\nWahrscheinlich von Mensch geschrieben",
+  "@classificationHuman": {
+    "description": "Displayed in case of a Classification.human",
+    "type": "text",
+    "placeholders": {}
+  },
+  "networkFailure": "Ups, es scheint, dass wir Probleme haben, eine Verbindung zum Server herzustellen.",
+  "@networkFailure": {
+    "description": "Displayed in case of a Failure.networkfailure()",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noInternalFailure": "Bitte überprüfe deine Internetverbindung.",
+  "@noInternetFailure": {
+    "description": "Displayed in case of a Failure.noInternetFailure()",
+    "type": "text",
+    "placeholders": {}
+  },
+  "unsupportedLanguage": "Bitte gib Text in Englisch ein. Die Verwendung anderer Sprachen kann zu ungenauen Ergebnissen führen.",
+  "@unsupportedLanguage": {
+    "description": "Displayed when the user enters a text in an unsupported language",
+    "type": "text",
+    "placeholders": {}
+  },
+  "textFieldLabel": "Text hier eingeben oder einfügen",
+  "@textFieldHint": {
+    "description": "TextField hint value on the DetectView",
+    "type": "text",
+    "placeholders": {}
+  },
+  "textFieldHelperShortText": "Bitte gib mindestens 250 Zeichen ein.",
+  "@textFieldHelperShortText": {
+    "description": "TextField helper text value on the DetectView",
+    "type": "text",
+    "placeholders": {}
+  },
+  "textFieldHelperLongText": "Bitte gib maximal 3000 Zeichen ein.",
+  "@textFieldHelperLongText": {
+    "description": "TextField helper text value on the DetectView",
+    "type": "text",
+    "placeholders": {}
+  },
+  "textFieldCounterText": "Zeichen: {characterCount}/250",
+  "@textFieldCounterText": {
+    "description": "TextField counter text value on the DetectView",
+    "type": "text",
+    "placeholders": {
+      "characterCount": {
+        "type": "int"
+      }
+    }
+  },
+  "analyzeText": "Text analysieren",
+  "@analyzeText": {
+    "description": "Analyze Text button text on the OnboardingView",
+    "type": "text",
+    "placeholders": {}
+  }
+}
