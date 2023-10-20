@@ -25,7 +25,7 @@ class DetectView extends StatelessWidget {
           IconButton(
             onPressed: () => showDialog<void>(context: context, builder: (context) => const GPTFAQDialog()),
             icon: const Icon(Icons.info),
-          )
+          ),
         ],
       ),
       drawer: const GPTDrawer(),

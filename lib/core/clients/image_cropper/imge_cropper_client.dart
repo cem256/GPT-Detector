@@ -43,6 +43,6 @@ final class ImageCropperClientImpl implements ImageCropperClient {
     ),
     IOSUiSettings(
       title: 'Edit Photo',
-    )
+    ),
   ];
 }
