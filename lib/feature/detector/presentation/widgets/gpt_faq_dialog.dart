@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gpt_detector/app/l10n/l10n.dart';
+import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 
 class GPTFAQDialog extends StatelessWidget {

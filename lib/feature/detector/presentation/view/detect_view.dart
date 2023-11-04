@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
-import 'package:gpt_detector/app/l10n/l10n.dart';
+import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/extensions/widget_extensions.dart';
 import 'package:gpt_detector/core/utils/snackbar/snackbar_utils.dart';
@@ -10,6 +10,7 @@ import 'package:gpt_detector/feature/detector/presentation/cubit/detector_cubit.
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_card.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_drawer.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_faq_dialog.dart';
+import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_language_dialog.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_text_field.dart';
 import 'package:gpt_detector/locator.dart';
 
@@ -25,6 +26,10 @@ class DetectView extends StatelessWidget {
           IconButton(
             onPressed: () => showDialog<void>(context: context, builder: (context) => const GPTFAQDialog()),
             icon: const Icon(Icons.info),
+          ),
+          IconButton(
+            onPressed: () => showDialog<void>(context: context, builder: (context) => const GPTLanguageDialog()),
+            icon: const Icon(Icons.language),
           ),
         ],
       ),

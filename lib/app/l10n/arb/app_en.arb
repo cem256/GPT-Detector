@@ -1,15 +1,22 @@
 {
+  "contribute": "Contribute",
+  "language": "Language",
   "appName": "GPT Detector",
   "@appName": {
     "description": "Name of the application",
     "type": "text",
     "placeholders": {}
   },
-  "version": "Version 1.1.1",
+  "version": "Version {versionNumber}",
   "@version": {
     "description": "Displays the current version of the app",
     "type": "text",
-    "placeholders": {}
+    "placeholders": {
+      "versionNumber": {
+        "type": "String",
+        "example": "1.0.0"
+      }
+    }
   },
   "privacyPolicy": "Privacy Policy",
   "@privacyPolicy": {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gpt_detector/app/constants/asset_constants.dart';
-import 'package:gpt_detector/app/l10n/l10n.dart';
+import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
 import 'package:gpt_detector/app/router/app_router.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/extensions/widget_extensions.dart';
@@ -35,12 +35,13 @@ class _OnboardingViewBody extends StatelessWidget {
       child: Padding(
         padding: context.paddingAllDefault,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              AssetConstants.appIcon,
-              height: context.veryHighValue2x,
-              width: double.infinity,
+            Center(
+              child: Image.asset(
+                AssetConstants.appIcon,
+                height: context.veryHighValue2x,
+                width: double.infinity,
+              ),
             ),
             Center(
               child: Text(
@@ -48,13 +49,39 @@ class _OnboardingViewBody extends StatelessWidget {
                 style: context.textTheme.headlineMedium,
               ),
             ),
-            Text(
-              context.l10n.onboardingInfo1,
-              style: context.textTheme.bodyLarge,
+            Row(
+              children: [
+                Icon(
+                  Icons.hail_rounded,
+                  size: context.dynamicHeight(0.04),
+                ),
+                SizedBox(
+                  width: context.defaultValue,
+                ),
+                Expanded(
+                  child: Text(
+                    context.l10n.onboardingInfo1,
+                    style: context.textTheme.bodyLarge,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              context.l10n.onboardingInfo2,
-              style: context.textTheme.bodyLarge,
+            Row(
+              children: [
+                Icon(
+                  Icons.language,
+                  size: context.dynamicHeight(0.04),
+                ),
+                SizedBox(
+                  width: context.defaultValue,
+                ),
+                Expanded(
+                  child: Text(
+                    context.l10n.onboardingInfo2,
+                    style: context.textTheme.bodyLarge,
+                  ),
+                ),
+              ],
             ),
             const Spacer(),
             ElevatedButton(

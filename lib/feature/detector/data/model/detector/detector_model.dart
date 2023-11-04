@@ -1,7 +1,7 @@
 // ignore_for_file: invalid_annotation_target
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:gpt_detector/app/l10n/l10n.dart';
+import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
 
 part 'detector_model.freezed.dart';

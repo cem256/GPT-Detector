@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gpt_detector/app/constants/asset_constants.dart';
 import 'package:gpt_detector/app/constants/string_constants.dart';
-import 'package:gpt_detector/app/l10n/l10n.dart';
+import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
+import 'package:gpt_detector/core/utils/package_info/package_info_utils.dart';
 import 'package:gpt_detector/core/utils/rate_app/rate_app.dart';
 import 'package:gpt_detector/core/utils/share_app/share_app.dart';
 import 'package:gpt_detector/core/utils/url_launcher/url_launcher.dart';
@@ -32,7 +33,7 @@ class GPTDrawer extends StatelessWidget {
                       style: context.textTheme.bodyLarge,
                     ),
                     Text(
-                      context.l10n.version,
+                      context.l10n.version(PackageInfoUtils.getAppVersion()),
                     ),
                   ],
                 ),
@@ -53,6 +54,11 @@ class GPTDrawer extends StatelessWidget {
                   leading: const Icon(Icons.share),
                   title: Text(context.l10n.drawerShareApp),
                   onTap: () async => ShareAppUtils.shareApp(),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.code),
+                  title: Text(context.l10n.contribute),
+                  onTap: () async => UrlLauncherUtils.launchUrlFromString(url: StringConstants.githubUrl),
                 ),
               ],
             ),

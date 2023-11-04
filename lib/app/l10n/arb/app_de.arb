@@ -1,15 +1,22 @@
 {
+  "contribute": "Beiträgen",
+  "language": "Sprache",
   "appName": "GPT Detector",
   "@appName": {
     "description": "Name of the application",
     "type": "text",
     "placeholders": {}
   },
-  "version": "Version 1.1.1",
+  "version": "Version {versionNumber}",
   "@version": {
     "description": "Displays the current version of the app",
     "type": "text",
-    "placeholders": {}
+    "placeholders": {
+      "versionNumber": {
+        "type": "String",
+        "example": "1.0.0"
+      }
+    }
   },
   "privacyPolicy": "Datenschuzerklärung",
   "@privacyPolicy": {
@@ -17,13 +24,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "drawerRateUs": "Bewerte uns",
+  "drawerRateUs": "Bewerte Uns",
   "@drawerRateUs": {
     "description": "Rate Us text on drawer",
     "type": "text",
     "placeholders": {}
   },
-  "drawerShareApp": "App teilen",
+  "drawerShareApp": "App Teilen",
   "@drawerShareApp": {
     "description": "Share App text on drawer",
     "type": "text",
@@ -59,7 +66,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "faqQuestion1anwer1": "- textbasierte KI-Modelle wie ChatGPT generieren üblicherweise weniger komplexe und zufällige Texte als von Menschen erstellte Inhalte. Der Grad der Zufälligkeit und Komplexität kann analysiert werden, um zwischen von KI generierten und von Menschen erstellten Inhalten zu unterscheiden.",
+  "faqQuestion1answer1": "- textbasierte KI-Modelle wie ChatGPT generieren üblicherweise weniger komplexe und zufällige Texte als von Menschen erstellte Inhalte. Der Grad der Zufälligkeit und Komplexität kann analysiert werden, um zwischen von KI generierten und von Menschen erstellten Inhalten zu unterscheiden.",
   "@faqQuestion1answer1": {
     "description": "FAQDialog question1 answer1",
     "type": "text",
@@ -83,7 +90,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "classificationInitial": "Gib ein\nText zur Analyse",
+  "classificationInitial": "Gib Ein\nText Zur Analyse",
   "@classificationInitial": {
     "description": "Displayed in case of a Classification.initial",
     "type": "text",
@@ -113,7 +120,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "noInternalFailure": "Bitte überprüfe deine Internetverbindung.",
+  "noInternetFailure": "Bitte überprüfe deine Internetverbindung.",
   "@noInternetFailure": {
     "description": "Displayed in case of a Failure.noInternetFailure()",
     "type": "text",
@@ -153,7 +160,7 @@
       }
     }
   },
-  "analyzeText": "Text analysieren",
+  "analyzeText": "Text Analysieren",
   "@analyzeText": {
     "description": "Analyze Text button text on the OnboardingView",
     "type": "text",
