@@ -92,7 +92,3 @@ You can help translate this app to other languages!
 ## Privacy Policy
 
 You can access the privacy policy by clicking [here](privacy-policy.md).
-
-## License
-
-Licensed under the MIT license, click [here](LICENSE.md) for details.
