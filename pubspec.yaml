@@ -88,6 +88,7 @@ flutter_launcher_icons:
   android: true
   ios: true
   remove_alpha_ios: true
+  min_sdk_android: 21
   image_path: "assets/icons/logo.png"
   adaptive_icon_background: "#6200EE"
   # Padding 8%
@@ -96,13 +97,8 @@ flutter_launcher_icons:
 flutter_native_splash:
   android: true
   ios: true
-  android12: true
   color: "#6200EE"
   image: "assets/icons/logo_no_bg.png"
-
-  android_12:
-    image: assets/icons/logo_no_bg.png
-    color: "#6200EE"
 
 flutter:
   generate: true
