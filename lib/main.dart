@@ -5,6 +5,7 @@ import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:gpt_detector/app/l10n/cubit/l10n_cubit.dart';
 import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
+import 'package:gpt_detector/app/theme/dark/dark_theme.dart';
 import 'package:gpt_detector/app/theme/light/light_theme.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/utils/observer/bloc_observer.dart';
@@ -56,6 +57,7 @@ class GPTDetector extends StatelessWidget {
 
             // Theme
             theme: Locator.instance<LightTheme>().theme,
+            darkTheme: Locator.instance<DarkTheme>().theme,
 
             // Localization
             locale: l10nState.locale,

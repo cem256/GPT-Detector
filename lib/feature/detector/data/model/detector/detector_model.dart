@@ -1,7 +1,9 @@
 // ignore_for_file: invalid_annotation_target
+
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
+import 'package:gpt_detector/app/theme/theme_extensions/theme_extensions.dart';
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
 
 part 'detector_model.freezed.dart';
@@ -54,16 +56,17 @@ enum Classification {
   }
 
   /// Returns color depending on [Classification] enum
-  Color getCardColor(ColorScheme colorScheme) {
+  Color getCardColor(ThemeData themeData) {
     switch (this) {
-      // Return light green in case of initial state or human content
+      // Return default card color in case initial
       case Classification.initial:
+        return themeData.cardColor;
       case Classification.human:
-        return colorScheme.tertiaryContainer;
-      // Return light red in case of ai or mixed content
+        return themeData.extension<ThemeExtensions>()?.humanContent ?? themeData.cardColor;
       case Classification.ai:
+        return themeData.extension<ThemeExtensions>()?.aiContent ?? themeData.cardColor;
       case Classification.mixed:
-        return colorScheme.errorContainer;
+        return themeData.extension<ThemeExtensions>()?.mixedContent ?? themeData.cardColor;
     }
   }
 }

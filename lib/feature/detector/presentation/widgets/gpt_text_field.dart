@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gpt_detector/app/theme/theme_constants.dart';
 
 class GPTTextField extends StatelessWidget {
   const GPTTextField({
@@ -14,17 +15,21 @@ class GPTTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      onChanged: onChanged,
-      textInputAction: TextInputAction.done,
-      textAlignVertical: TextAlignVertical.top,
-      keyboardType: TextInputType.multiline,
-      expands: true,
-      maxLines: null,
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.fromLTRB(16, 16, 32, 40),
-        hintText: hintText,
+    return Material(
+      borderRadius: ThemeConstants.borderRadiusCircular,
+      elevation: ThemeConstants.elevation,
+      child: TextField(
+        controller: controller,
+        onChanged: onChanged,
+        textInputAction: TextInputAction.done,
+        textAlignVertical: TextAlignVertical.top,
+        keyboardType: TextInputType.multiline,
+        expands: true,
+        maxLines: null,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.fromLTRB(16, 16, 32, 40),
+          hintText: hintText,
+        ),
       ),
     );
   }

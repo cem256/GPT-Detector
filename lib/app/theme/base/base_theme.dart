@@ -1,39 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:gpt_detector/app/theme/theme_constants.dart';
+import 'package:gpt_detector/app/theme/theme_extensions/theme_extensions.dart';
 
 abstract base class BaseTheme {
   Brightness get brightness;
-  ColorScheme get colorScheme;
+  Iterable<ThemeExtension<ThemeExtensions>> get extensions;
 
   ThemeData get theme {
     return ThemeData(
-      useMaterial3: false,
+      useMaterial3: true,
       brightness: brightness,
-      colorScheme: colorScheme,
+      extensions: extensions,
+      colorSchemeSeed: Colors.deepPurple,
       appBarTheme: _appBarTheme,
       cardTheme: _cardTheme,
       dialogTheme: _dialogTheme,
       elevatedButtonTheme: _elevatedButtonTheme,
       inputDecorationTheme: _inputDecorationTheme,
-      typography: Typography.material2021(),
     );
   }
 
   AppBarTheme get _appBarTheme {
-    return AppBarTheme(
+    return const AppBarTheme(
       centerTitle: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          bottom: ThemeConstants.radiusCircular,
-        ),
-      ),
     );
   }
 
   CardTheme get _cardTheme {
     return CardTheme(
-      elevation: 4,
       margin: EdgeInsets.zero,
+      elevation: ThemeConstants.elevation,
       shape: RoundedRectangleBorder(
         borderRadius: ThemeConstants.borderRadiusCircular,
       ),
@@ -42,6 +38,7 @@ abstract base class BaseTheme {
 
   DialogTheme get _dialogTheme {
     return DialogTheme(
+      elevation: ThemeConstants.elevation,
       shape: RoundedRectangleBorder(
         borderRadius: ThemeConstants.borderRadiusCircular,
       ),
@@ -50,7 +47,8 @@ abstract base class BaseTheme {
 
   ElevatedButtonThemeData get _elevatedButtonTheme => ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          minimumSize: const Size.fromHeight(56),
+          elevation: ThemeConstants.elevation,
+          minimumSize: const Size.fromHeight(kToolbarHeight),
           shape: RoundedRectangleBorder(
             borderRadius: ThemeConstants.borderRadiusCircular,
           ),

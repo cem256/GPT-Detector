@@ -95,13 +95,20 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                     child: BlocSelector<DetectorCubit, DetectorState, Classification>(
                       selector: (state) => state.result.classification,
                       builder: (context, state) {
+                        final cardColor = state.getCardColor(context.theme);
+                        // Calculates the text color based on the card color
+                        final textColor = cardColor.computeLuminance() > 0.5 ? Colors.black : Colors.white;
                         return GPTCard(
-                          color: state.getCardColor(context.theme.colorScheme),
+                          color: cardColor,
                           child: Padding(
                             padding: context.paddingAllLow,
                             child: Text(
                               state.convertToLocalizedString(context.l10n),
                               textAlign: TextAlign.center,
+                              style: context.textTheme.bodyLarge?.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: textColor,
+                              ),
                             ),
                           ),
                         );

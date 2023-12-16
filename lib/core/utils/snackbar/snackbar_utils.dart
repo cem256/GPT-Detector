@@ -5,12 +5,6 @@ abstract final class SnackbarUtils {
   static void showSnackbar({required BuildContext context, required String message}) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          padding: context.paddingAllDefault,
-          duration: context.durationVeryHigh,
-          content: Text(message),
-        ),
-      );
+      ..showSnackBar(SnackBar(content: Text(message), duration: context.durationHigh4x));
   }
 }
