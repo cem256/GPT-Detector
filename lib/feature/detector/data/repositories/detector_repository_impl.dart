@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
 import 'package:gpt_detector/core/clients/image_cropper/imge_cropper_client.dart';
 import 'package:gpt_detector/core/clients/language_identifier/language_identifier_client.dart';

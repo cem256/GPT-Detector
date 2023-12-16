@@ -46,7 +46,7 @@ class GPTDetector extends StatelessWidget {
 
             builder: (context, child) => MediaQuery(
               // Disables font scaling and bold text
-              data: context.mediaQuery.copyWith(textScaleFactor: 1, boldText: false),
+              data: context.mediaQuery.copyWith(textScaler: TextScaler.noScaling, boldText: false),
               // Dismisses the keyboard globally
               child: GestureDetector(
                 onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

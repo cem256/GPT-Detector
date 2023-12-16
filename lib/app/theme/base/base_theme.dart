@@ -7,6 +7,7 @@ abstract base class BaseTheme {
 
   ThemeData get theme {
     return ThemeData(
+      useMaterial3: false,
       brightness: brightness,
       colorScheme: colorScheme,
       appBarTheme: _appBarTheme,
