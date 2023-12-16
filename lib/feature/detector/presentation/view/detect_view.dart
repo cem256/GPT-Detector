@@ -146,15 +146,26 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                           IconButton(
                             icon: const Icon(Icons.photo_library),
                             onPressed: () async {
+                              // Control the gallery permission
+                              await context.read<DetectorCubit>().checkGalleryPermission();
+                              if (!context.mounted) return;
+                              // If there is no gallery access, then exit
+                              if (!(context.read<DetectorCubit>().state.hasGalleryPermission ?? true)) return;
+                              if (!context.mounted) return;
                               await context.read<DetectorCubit>().ocrFromGalleryPressed();
-                              if (mounted) {
-                                _controller.text = context.read<DetectorCubit>().state.userInput.value;
-                              }
+                              if (!context.mounted) return;
+                              _controller.text = context.read<DetectorCubit>().state.userInput.value;
                             },
                           ),
                           IconButton(
                             icon: const Icon(Icons.photo_camera),
                             onPressed: () async {
+                              // Control the camera permission
+                              await context.read<DetectorCubit>().checkCameraPermission();
+                              if (!context.mounted) return;
+                              // If there is no camera access, then exit
+                              if (!(context.read<DetectorCubit>().state.hasCameraPermission ?? true)) return;
+                              if (!context.mounted) return;
                               await context.read<DetectorCubit>().ocrFromCameraPressed();
                               if (!context.mounted) return;
                               _controller.text = context.read<DetectorCubit>().state.userInput.value;

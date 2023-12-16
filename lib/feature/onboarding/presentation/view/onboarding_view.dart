@@ -96,9 +96,8 @@ class _OnboardingViewBody extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 await context.read<OnboardingCubit>().completeOnboarding();
-                if (context.mounted) {
-                  unawaited(AppRouter.pushReplacement(context, const DetectView()));
-                }
+                if (!context.mounted) return;
+                unawaited(AppRouter.pushReplacement(context, const DetectView()));
               },
               child: Text(context.l10n.getStarted),
             ),

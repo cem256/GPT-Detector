@@ -6,4 +6,6 @@ abstract interface class DetectorRepository {
   Future<Either<Failure, DetectorEntity>> detect(String userInput);
   Future<Either<Failure, String>> ocrFromGallery();
   Future<Either<Failure, String>> ocrFromCamera();
+  Future<bool> hasGalleryPermission();
+  Future<bool> hasCameraPermission();
 }

@@ -7,6 +7,8 @@ class DetectorState with _$DetectorState {
     required UserInputForm userInput,
     required DetectorEntity result,
     Failure? failure,
+    bool? hasCameraPermission,
+    bool? hasGalleryPermission,
   }) = _DetectorState;
 
   factory DetectorState.initial() => DetectorState(
