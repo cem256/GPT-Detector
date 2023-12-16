@@ -156,9 +156,8 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                             icon: const Icon(Icons.photo_camera),
                             onPressed: () async {
                               await context.read<DetectorCubit>().ocrFromCameraPressed();
-                              if (context.mounted) {
-                                _controller.text = context.read<DetectorCubit>().state.userInput.value;
-                              }
+                              if (!context.mounted) return;
+                              _controller.text = context.read<DetectorCubit>().state.userInput.value;
                             },
                           ),
                         ],

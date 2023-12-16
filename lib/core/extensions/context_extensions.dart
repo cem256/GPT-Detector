@@ -122,23 +122,3 @@ extension ThemeExtension on BuildContext {
   /// Get the brightness
   Brightness get brightness => Theme.of(this).brightness;
 }
-
-extension DurationExtension on BuildContext {
-  /// Duration of 250 milliseconds
-  Duration get durationLow => const Duration(milliseconds: 250);
-
-  /// Duration of 500 milliseconds
-  Duration get durationDefault => const Duration(milliseconds: 500);
-
-  /// Duration of 1 second
-  Duration get durationHigh => const Duration(seconds: 1);
-
-  /// Duration of 2 seconds
-  Duration get durationHigh2x => const Duration(seconds: 2);
-
-  /// Duration of 3 seconds
-  Duration get durationHigh3x => const Duration(seconds: 3);
-
-  /// Duration of 4 seconds
-  Duration get durationHigh4x => const Duration(seconds: 4);
-}

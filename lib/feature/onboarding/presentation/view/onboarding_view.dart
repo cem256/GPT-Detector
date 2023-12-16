@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gpt_detector/app/constants/asset_constants.dart';
+import 'package:gpt_detector/app/constants/duration_constants.dart';
 import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
 import 'package:gpt_detector/app/router/app_router.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
@@ -102,8 +103,8 @@ class _OnboardingViewBody extends StatelessWidget {
               child: Text(context.l10n.getStarted),
             ),
           ]
-              .animate(interval: 400.ms)
-              .fadeIn(duration: 600.ms, delay: 200.ms)
+              .animate(interval: DurationConstants.ms250())
+              .fadeIn(duration: DurationConstants.ms500(), delay: DurationConstants.ms250())
               .move(begin: const Offset(-16, 0), curve: Curves.easeOutQuad),
         ),
       ),
