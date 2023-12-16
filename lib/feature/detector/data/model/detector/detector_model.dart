@@ -12,7 +12,7 @@ class DetectorModel with _$DetectorModel {
   const factory DetectorModel({
     @JsonKey(name: 'average_perplexity') required double? averagePerplexity,
     @JsonKey(name: 'max_perplexity') required double? maxPerplexity,
-    String? classification,
+    @JsonKey(name: 'classification') Classification? classification,
   }) = _DetectorModel;
 
   factory DetectorModel.fromJson(Map<String, dynamic> json) => _$DetectorModelFromJson(json);
@@ -23,31 +23,21 @@ extension DetectorModelX on DetectorModel {
     return DetectorEntity(
       averagePerplexity: averagePerplexity ?? 0.0,
       maxPerplexity: maxPerplexity ?? 0.0,
-      classification: Classification.fromName(classification),
+      classification: classification ?? Classification.initial,
       isSupportedLanguage: isSupportedLanguage,
     );
   }
 }
 
+@JsonEnum(valueField: 'value')
 enum Classification {
-  initial,
-  ai,
-  mixed,
-  human;
+  initial(null),
+  ai('AI'),
+  mixed('MIXED'),
+  human('HUMAN');
 
-  /// Converts the api response into [Classification] enum
-  static Classification fromName(String? name) {
-    switch (name) {
-      case 'AI':
-        return Classification.ai;
-      case 'MIXED':
-        return Classification.mixed;
-      case 'HUMAN':
-        return Classification.human;
-      default:
-        return Classification.initial;
-    }
-  }
+  const Classification(this.value);
+  final String? value;
 
   /// Returns localized string depending on [Classification] enum
   String convertToLocalizedString(AppLocalizations l10n) {
