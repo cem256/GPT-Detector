@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
-import 'package:gpt_detector/core/extensions/widget_extensions.dart';
 import 'package:gpt_detector/core/utils/snackbar/snackbar_utils.dart';
 import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
 import 'package:gpt_detector/feature/detector/presentation/cubit/detector_cubit.dart';
@@ -109,7 +108,10 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                       },
                     ),
                   ),
-                ].spaceBetween(width: context.defaultValue),
+                ],
+              ),
+              SizedBox(
+                height: context.defaultValue,
               ),
               Expanded(
                 child: Stack(
@@ -158,6 +160,9 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: context.defaultValue,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -195,6 +200,9 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                   ),
                 ],
               ),
+              SizedBox(
+                height: context.defaultValue,
+              ),
               BlocBuilder<DetectorCubit, DetectorState>(
                 buildWhen: (previous, current) =>
                     (previous.status.isValidated && !previous.status.isSubmissionInProgress) !=
@@ -210,7 +218,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                   );
                 },
               ),
-            ].spaceBetween(height: context.defaultValue),
+            ],
           ),
         ),
       ),

@@ -15,6 +15,9 @@ extension MediaQueryExtension on BuildContext {
   /// Default value is 2% of the screen height
   double get defaultValue => height * 0.02;
 
+  /// Returns 4% of the screen height
+  double get mediumValue => height * 0.04;
+
   /// Returns 5% of the screen height
   double get highValue => height * 0.05;
 

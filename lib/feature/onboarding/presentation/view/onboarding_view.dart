@@ -7,7 +7,6 @@ import 'package:gpt_detector/app/constants/asset_constants.dart';
 import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
 import 'package:gpt_detector/app/router/app_router.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
-import 'package:gpt_detector/core/extensions/widget_extensions.dart';
 import 'package:gpt_detector/feature/detector/presentation/view/detect_view.dart';
 import 'package:gpt_detector/feature/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:gpt_detector/locator.dart';
@@ -49,16 +48,19 @@ class _OnboardingViewBody extends StatelessWidget {
                 style: context.textTheme.headlineMedium,
               ),
             ),
+            SizedBox(
+              height: context.defaultValue,
+            ),
             Row(
               children: [
-                Icon(
-                  Icons.hail_rounded,
-                  size: context.dynamicHeight(0.04),
-                ),
-                SizedBox(
-                  width: context.defaultValue,
+                Expanded(
+                  child: Icon(
+                    Icons.hail_rounded,
+                    size: context.mediumValue,
+                  ),
                 ),
                 Expanded(
+                  flex: 5,
                   child: Text(
                     context.l10n.onboardingInfo1,
                     style: context.textTheme.bodyLarge,
@@ -66,16 +68,19 @@ class _OnboardingViewBody extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(
+              height: context.defaultValue,
+            ),
             Row(
               children: [
-                Icon(
-                  Icons.language,
-                  size: context.dynamicHeight(0.04),
-                ),
-                SizedBox(
-                  width: context.defaultValue,
+                Expanded(
+                  child: Icon(
+                    Icons.language,
+                    size: context.mediumValue,
+                  ),
                 ),
                 Expanded(
+                  flex: 5,
                   child: Text(
                     context.l10n.onboardingInfo2,
                     style: context.textTheme.bodyLarge,
@@ -84,6 +89,9 @@ class _OnboardingViewBody extends StatelessWidget {
               ],
             ),
             const Spacer(),
+            SizedBox(
+              height: context.defaultValue,
+            ),
             ElevatedButton(
               onPressed: () async {
                 await context.read<OnboardingCubit>().completeOnboarding();
@@ -96,8 +104,7 @@ class _OnboardingViewBody extends StatelessWidget {
           ]
               .animate(interval: 400.ms)
               .fadeIn(duration: 600.ms, delay: 200.ms)
-              .move(begin: const Offset(-16, 0), curve: Curves.easeOutQuad)
-              .spaceBetween(height: context.defaultValue),
+              .move(begin: const Offset(-16, 0), curve: Curves.easeOutQuad),
         ),
       ),
     );
