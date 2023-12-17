@@ -19,91 +19,86 @@ dependencies:
 
   # State management
   flutter_bloc: ^8.1.3
-  hydrated_bloc: ^9.1.2
+  hydrated_bloc: ^9.1.3
 
   # Networking
-  dio: ^5.1.2
+  dio: ^5.4.0
   pretty_dio_logger: ^1.3.1
   internet_connection_checker: ^1.0.0+1
 
   # Caching
-  shared_preferences: ^2.2.0
+  shared_preferences: ^2.2.2
 
   # Dependency injection
-  injectable: ^2.1.2
-  get_it: ^7.6.0
+  injectable: ^2.3.2
+  get_it: ^7.6.4
 
   # Data class generation
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
 
   # Functional programming
-  dartz: ^0.10.1
+  fpdart: ^1.1.0
 
   # Utility
-  google_mlkit_language_id: ^0.8.0
-  permission_handler: ^10.4.3
-  package_info_plus: ^4.2.0
-  device_info_plus: ^9.0.2
-  image_picker: ^1.0.1
-  image_cropper: ^5.0.0
-  in_app_review: ^2.0.6
-  url_launcher: ^6.1.12
+  google_mlkit_language_id: ^0.9.0
+  permission_handler: ^11.1.0
+  package_info_plus: ^5.0.1
+  device_info_plus: ^9.1.1
+  image_picker: ^1.0.5
+  image_cropper: ^5.0.1
+  in_app_review: ^2.0.8
+  url_launcher: ^6.2.2
   path_provider: ^2.1.1
-  share_plus: ^7.0.2
-  envied: ^0.3.0+3
+  share_plus: ^7.2.1
+  envied: ^0.5.2
   intl: ^0.18.0
 
   # OCR
-  google_mlkit_text_recognition: ^0.9.0
+  google_mlkit_text_recognition: ^0.11.0
 
   # Packages
   form_inputs:
     path: packages/form_inputs
 
   # UI
-  cupertino_icons: ^1.0.2
-  flutter_animate: ^4.2.0
+  flutter_animate: ^4.3.0
 
   # App Icons
   flutter_launcher_icons: ^0.13.1
-  flutter_native_splash: ^2.3.1
+  flutter_native_splash: ^2.3.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mocktail: ^0.3.0
-  bloc_test: ^9.1.3
+  mocktail: ^1.0.2
+  bloc_test: ^9.1.5
 
   # Code gen
-  freezed: ^2.4.1
-  build_runner: ^2.4.6
+  freezed: ^2.4.6
+  build_runner: ^2.4.7
   json_serializable: ^6.7.1
-  envied_generator: ^0.3.0+3
-  injectable_generator: ^2.1.6
+  envied_generator: ^0.5.2
+  injectable_generator: ^2.4.1
 
   # Linter
-  very_good_analysis: ^5.0.0+1
+  very_good_analysis: ^5.1.0
 
 flutter_launcher_icons:
   android: true
   ios: true
   remove_alpha_ios: true
+  min_sdk_android: 21
   image_path: "assets/icons/logo.png"
-  adaptive_icon_background: "#6200EE"
+  adaptive_icon_background: "#673AB7"
   # Padding 8%
   adaptive_icon_foreground: "assets/icons/logo_foreground.png"
 
 flutter_native_splash:
   android: true
   ios: true
-  android12: true
-  color: "#6200EE"
+  color: "#673AB7"
   image: "assets/icons/logo_no_bg.png"
-
-  android_12:
-    image: assets/icons/logo_no_bg.png
-    color: "#6200EE"
 
 flutter:
   generate: true

@@ -1,7 +1,9 @@
 // ignore_for_file: invalid_annotation_target
+
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
+import 'package:gpt_detector/app/theme/theme_extensions/theme_extensions.dart';
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
 
 part 'detector_model.freezed.dart';
@@ -12,7 +14,7 @@ class DetectorModel with _$DetectorModel {
   const factory DetectorModel({
     @JsonKey(name: 'average_perplexity') required double? averagePerplexity,
     @JsonKey(name: 'max_perplexity') required double? maxPerplexity,
-    String? classification,
+    @JsonKey(name: 'classification') Classification? classification,
   }) = _DetectorModel;
 
   factory DetectorModel.fromJson(Map<String, dynamic> json) => _$DetectorModelFromJson(json);
@@ -23,31 +25,21 @@ extension DetectorModelX on DetectorModel {
     return DetectorEntity(
       averagePerplexity: averagePerplexity ?? 0.0,
       maxPerplexity: maxPerplexity ?? 0.0,
-      classification: Classification.fromName(classification),
+      classification: classification ?? Classification.initial,
       isSupportedLanguage: isSupportedLanguage,
     );
   }
 }
 
+@JsonEnum(valueField: 'value')
 enum Classification {
-  initial,
-  ai,
-  mixed,
-  human;
+  initial(null),
+  ai('AI'),
+  mixed('MIXED'),
+  human('HUMAN');
 
-  /// Converts the api response into [Classification] enum
-  static Classification fromName(String? name) {
-    switch (name) {
-      case 'AI':
-        return Classification.ai;
-      case 'MIXED':
-        return Classification.mixed;
-      case 'HUMAN':
-        return Classification.human;
-      default:
-        return Classification.initial;
-    }
-  }
+  const Classification(this.value);
+  final String? value;
 
   /// Returns localized string depending on [Classification] enum
   String convertToLocalizedString(AppLocalizations l10n) {
@@ -64,16 +56,17 @@ enum Classification {
   }
 
   /// Returns color depending on [Classification] enum
-  Color getCardColor(ColorScheme colorScheme) {
+  Color getCardColor(ThemeData themeData) {
     switch (this) {
-      // Return light green in case of initial state or human content
+      // Return default card color in case initial
       case Classification.initial:
+        return themeData.cardColor;
       case Classification.human:
-        return colorScheme.tertiaryContainer;
-      // Return light red in case of ai or mixed content
+        return themeData.extension<ThemeExtensions>()?.humanContent ?? themeData.cardColor;
       case Classification.ai:
+        return themeData.extension<ThemeExtensions>()?.aiContent ?? themeData.cardColor;
       case Classification.mixed:
-        return colorScheme.errorContainer;
+        return themeData.extension<ThemeExtensions>()?.mixedContent ?? themeData.cardColor;
     }
   }
 }

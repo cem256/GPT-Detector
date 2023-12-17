@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
-import 'package:gpt_detector/core/extensions/widget_extensions.dart';
 import 'package:gpt_detector/core/utils/snackbar/snackbar_utils.dart';
 import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
 import 'package:gpt_detector/feature/detector/presentation/cubit/detector_cubit.dart';
@@ -96,20 +95,30 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                     child: BlocSelector<DetectorCubit, DetectorState, Classification>(
                       selector: (state) => state.result.classification,
                       builder: (context, state) {
+                        final cardColor = state.getCardColor(context.theme);
+                        // Calculates the text color based on the card color
+                        final textColor = cardColor.computeLuminance() > 0.5 ? Colors.black : Colors.white;
                         return GPTCard(
-                          color: state.getCardColor(context.theme.colorScheme),
+                          color: cardColor,
                           child: Padding(
                             padding: context.paddingAllLow,
                             child: Text(
                               state.convertToLocalizedString(context.l10n),
                               textAlign: TextAlign.center,
+                              style: context.textTheme.bodyLarge?.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: textColor,
+                              ),
                             ),
                           ),
                         );
                       },
                     ),
                   ),
-                ].spaceBetween(width: context.defaultValue),
+                ],
+              ),
+              SizedBox(
+                height: context.defaultValue,
               ),
               Expanded(
                 child: Stack(
@@ -137,19 +146,29 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                           IconButton(
                             icon: const Icon(Icons.photo_library),
                             onPressed: () async {
+                              // Control the gallery permission
+                              await context.read<DetectorCubit>().checkGalleryPermission();
+                              if (!context.mounted) return;
+                              // If there is no gallery access, then exit
+                              if (!(context.read<DetectorCubit>().state.hasGalleryPermission ?? true)) return;
+                              if (!context.mounted) return;
                               await context.read<DetectorCubit>().ocrFromGalleryPressed();
-                              if (mounted) {
-                                _controller.text = context.read<DetectorCubit>().state.userInput.value;
-                              }
+                              if (!context.mounted) return;
+                              _controller.text = context.read<DetectorCubit>().state.userInput.value;
                             },
                           ),
                           IconButton(
                             icon: const Icon(Icons.photo_camera),
                             onPressed: () async {
+                              // Control the camera permission
+                              await context.read<DetectorCubit>().checkCameraPermission();
+                              if (!context.mounted) return;
+                              // If there is no camera access, then exit
+                              if (!(context.read<DetectorCubit>().state.hasCameraPermission ?? true)) return;
+                              if (!context.mounted) return;
                               await context.read<DetectorCubit>().ocrFromCameraPressed();
-                              if (context.mounted) {
-                                _controller.text = context.read<DetectorCubit>().state.userInput.value;
-                              }
+                              if (!context.mounted) return;
+                              _controller.text = context.read<DetectorCubit>().state.userInput.value;
                             },
                           ),
                         ],
@@ -157,6 +176,9 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                     ),
                   ],
                 ),
+              ),
+              SizedBox(
+                height: context.defaultValue,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -195,6 +217,9 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                   ),
                 ],
               ),
+              SizedBox(
+                height: context.defaultValue,
+              ),
               BlocBuilder<DetectorCubit, DetectorState>(
                 buildWhen: (previous, current) =>
                     (previous.status.isValidated && !previous.status.isSubmissionInProgress) !=
@@ -210,7 +235,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                   );
                 },
               ),
-            ].spaceBetween(height: context.defaultValue),
+            ],
           ),
         ),
       ),

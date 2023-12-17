@@ -9,4 +9,4 @@ dependencies:
   formz: ^0.4.1
 
 dev_dependencies:
-  very_good_analysis: ^4.0.0
+  very_good_analysis: ^5.1.0

@@ -15,6 +15,9 @@ extension MediaQueryExtension on BuildContext {
   /// Default value is 2% of the screen height
   double get defaultValue => height * 0.02;
 
+  /// Returns 4% of the screen height
+  double get mediumValue => height * 0.04;
+
   /// Returns 5% of the screen height
   double get highValue => height * 0.05;
 
@@ -118,18 +121,4 @@ extension ThemeExtension on BuildContext {
 
   /// Get the brightness
   Brightness get brightness => Theme.of(this).brightness;
-}
-
-extension DurationExtension on BuildContext {
-  /// Duration of 250 milliseconds
-  Duration get durationLow => const Duration(milliseconds: 250);
-
-  /// Duration of 500 milliseconds
-  Duration get durationDefault => const Duration(milliseconds: 500);
-
-  /// Duration of 1000 milliseconds
-  Duration get durationHigh => const Duration(milliseconds: 1000);
-
-  /// Duration of 2000 milliseconds
-  Duration get durationVeryHigh => const Duration(milliseconds: 2000);
 }

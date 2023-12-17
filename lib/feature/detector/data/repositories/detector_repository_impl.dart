@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
 import 'package:gpt_detector/core/clients/image_cropper/imge_cropper_client.dart';
 import 'package:gpt_detector/core/clients/language_identifier/language_identifier_client.dart';
@@ -45,6 +45,22 @@ final class DetectorRepositoryImpl implements DetectorRepository {
   final List<String> _supportedLanguages = ['en'];
 
   @override
+  Future<bool> hasGalleryPermission() async {
+    final hasGalleryPermission = await _permissionClient.hasGalleryPermission();
+    if (hasGalleryPermission) return true;
+    await _permissionClient.requestGalleryPermission();
+    return _permissionClient.hasGalleryPermission();
+  }
+
+  @override
+  Future<bool> hasCameraPermission() async {
+    final hasCameraPermission = await _permissionClient.hasCameraPermission();
+    if (hasCameraPermission) return true;
+    await _permissionClient.requestCameraPermission();
+    return _permissionClient.hasCameraPermission();
+  }
+
+  @override
   Future<Either<Failure, DetectorEntity>> detect(String userInput) async {
     if (await _networkInfoClient.isConnected) {
       try {
@@ -64,53 +80,39 @@ final class DetectorRepositoryImpl implements DetectorRepository {
 
   @override
   Future<Either<Failure, String>> ocrFromGallery() async {
-    final hasPermission = await _permissionClient.hasGalleryPermission();
-
-    if (hasPermission) {
-      final filePath = await _galleryLocalDataSource.selectFromGallery();
-      if (filePath == null) {
-        // No file selected or unknown path
+    final filePath = await _galleryLocalDataSource.selectFromGallery();
+    if (filePath == null) {
+      // No file selected or unknown path
+      return left(const Failure.ocrFailure());
+    } else {
+      final croppedFilePath = await _imageCropperClient.cropPhoto(filePath: filePath);
+      if (croppedFilePath == null) {
+        // File not cropped  or unknown path
         return left(const Failure.ocrFailure());
       } else {
-        final croppedFilePath = await _imageCropperClient.cropPhoto(filePath: filePath);
-        if (croppedFilePath == null) {
-          // File not cropped  or unknown path
-          return left(const Failure.ocrFailure());
-        } else {
-          final recognizedText = await _textRecognizerClient.recognizeTextFormFilePath(filePath: croppedFilePath);
-          // No text detected
-          return recognizedText.isEmpty ? left(const Failure.ocrFailure()) : right(recognizedText);
-        }
+        final recognizedText = await _textRecognizerClient.recognizeTextFormFilePath(filePath: croppedFilePath);
+        // No text detected
+        return recognizedText.isEmpty ? left(const Failure.ocrFailure()) : right(recognizedText);
       }
-    } else {
-      //  No permission
-      return left(const Failure.noPermission());
     }
   }
 
   @override
   Future<Either<Failure, String>> ocrFromCamera() async {
-    final hasPermission = await _permissionClient.hasCameraPermission();
-
-    if (hasPermission) {
-      final filePath = await _cameraLocalDataSource.takePhoto();
-      if (filePath == null) {
-        // No photo taken or unknown path
+    final filePath = await _cameraLocalDataSource.takePhoto();
+    if (filePath == null) {
+      // No photo taken or unknown path
+      return left(const Failure.ocrFailure());
+    } else {
+      final croppedFilePath = await _imageCropperClient.cropPhoto(filePath: filePath);
+      if (croppedFilePath == null) {
+        // File not cropped  or unknown path
         return left(const Failure.ocrFailure());
       } else {
-        final croppedFilePath = await _imageCropperClient.cropPhoto(filePath: filePath);
-        if (croppedFilePath == null) {
-          // File not cropped  or unknown path
-          return left(const Failure.ocrFailure());
-        } else {
-          final recognizedText = await _textRecognizerClient.recognizeTextFormFilePath(filePath: croppedFilePath);
-          // No text detected
-          return recognizedText.isEmpty ? left(const Failure.ocrFailure()) : right(recognizedText);
-        }
+        final recognizedText = await _textRecognizerClient.recognizeTextFormFilePath(filePath: croppedFilePath);
+        // No text detected
+        return recognizedText.isEmpty ? left(const Failure.ocrFailure()) : right(recognizedText);
       }
-    } else {
-      // No permission
-      return left(const Failure.noPermission());
     }
   }
 }

@@ -31,18 +31,18 @@ final class ImageCropperClientImpl implements ImageCropperClient {
     CropAspectRatioPreset.ratio16x9,
   ];
 
-  final List<PlatformUiSettings> _uiSettings = [
-    AndroidUiSettings(
-      toolbarTitle: 'Edit Photo',
-      toolbarColor: Locator.instance<LightTheme>().theme.colorScheme.primary,
-      toolbarWidgetColor: Locator.instance<LightTheme>().theme.colorScheme.background,
-      activeControlsWidgetColor: Locator.instance<LightTheme>().theme.colorScheme.primary,
-      initAspectRatio: CropAspectRatioPreset.original,
-      lockAspectRatio: false,
-      showCropGrid: false,
-    ),
-    IOSUiSettings(
-      title: 'Edit Photo',
-    ),
-  ];
+  List<PlatformUiSettings> get _uiSettings => [
+        AndroidUiSettings(
+          toolbarTitle: 'Edit Photo',
+          toolbarColor: Locator.instance<LightTheme>().theme.colorScheme.primary,
+          toolbarWidgetColor: Locator.instance<LightTheme>().theme.colorScheme.background,
+          activeControlsWidgetColor: Locator.instance<LightTheme>().theme.colorScheme.primary,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: false,
+          showCropGrid: false,
+        ),
+        IOSUiSettings(
+          title: 'Edit Photo',
+        ),
+      ];
 }

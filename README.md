@@ -65,7 +65,7 @@ You can help translate this app to other languages!
   - [Freezed](https://pub.dev/packages/freezed)
   - [JsonSerializable](https://pub.dev/packages/json_serializable)
 - Functional Programming
-  - [Dartz](https://pub.dev/packages/dartz)
+  - [Fpdart](https://pub.dev/packages/fpdart)
 - Network
   - [Dio](https://pub.dev/packages/dio)
   - [PrettyDioLogger](https://pub.dev/packages/pretty_dio_logger)

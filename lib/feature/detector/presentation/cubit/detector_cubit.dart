@@ -5,6 +5,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/detect_use_case.dart';
+import 'package:gpt_detector/feature/detector/domain/use_cases/has_camera_permission_use_case.dart';
+import 'package:gpt_detector/feature/detector/domain/use_cases/has_gallery_permission_use_case.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/ocr_from_camera_use_case.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/ocr_from_gallery_use_case.dart';
 import 'package:injectable/injectable.dart';
@@ -18,14 +20,30 @@ class DetectorCubit extends Cubit<DetectorState> {
     required DetectUseCase detectUseCase,
     required OCRFromGalleryUseCase ocrFromGalleryUseCase,
     required OCRFromCameraUseCase ocrFromCameraUseCase,
+    required HasCameraPermissionUseCase hasCameraPermissionUseCase,
+    required HasGalleryPermissionUseCase hasGalleryPermissionUseCase,
   })  : _detectUseCase = detectUseCase,
         _ocrFromGalleryUseCase = ocrFromGalleryUseCase,
         _ocrFromCameraUseCase = ocrFromCameraUseCase,
+        _hasCameraPermissionUseCase = hasCameraPermissionUseCase,
+        _hasGalleryPermissionUseCase = hasGalleryPermissionUseCase,
         super(DetectorState.initial());
 
   final DetectUseCase _detectUseCase;
   final OCRFromGalleryUseCase _ocrFromGalleryUseCase;
   final OCRFromCameraUseCase _ocrFromCameraUseCase;
+  final HasCameraPermissionUseCase _hasCameraPermissionUseCase;
+  final HasGalleryPermissionUseCase _hasGalleryPermissionUseCase;
+
+  Future<void> checkCameraPermission() async {
+    final hasCameraPermission = await _hasCameraPermissionUseCase.call();
+    emit(state.copyWith(hasCameraPermission: hasCameraPermission));
+  }
+
+  Future<void> checkGalleryPermission() async {
+    final hasGalleryPermission = await _hasGalleryPermissionUseCase.call();
+    emit(state.copyWith(hasGalleryPermission: hasGalleryPermission));
+  }
 
   Future<void> detectionRequested({required String text}) async {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
