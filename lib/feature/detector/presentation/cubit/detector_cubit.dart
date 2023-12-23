@@ -1,6 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:gpt_detector/app/base/cubit/base_cubit.dart';
 
 import 'package:gpt_detector/app/errors/failure.dart';
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
@@ -15,7 +15,7 @@ part 'detector_cubit.freezed.dart';
 part 'detector_state.dart';
 
 @injectable
-class DetectorCubit extends BaseCubit<DetectorState> {
+class DetectorCubit extends Cubit<DetectorState> {
   DetectorCubit({
     required DetectUseCase detectUseCase,
     required OCRFromGalleryUseCase ocrFromGalleryUseCase,
