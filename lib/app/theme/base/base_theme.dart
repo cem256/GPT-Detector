@@ -15,6 +15,8 @@ abstract base class BaseTheme {
       appBarTheme: _appBarTheme,
       cardTheme: _cardTheme,
       dialogTheme: _dialogTheme,
+      expansionTileTheme: _expansionTileThemeData,
+      listTileTheme: _listTileThemeData,
       elevatedButtonTheme: _elevatedButtonTheme,
       inputDecorationTheme: _inputDecorationTheme,
     );
@@ -44,6 +46,11 @@ abstract base class BaseTheme {
       ),
     );
   }
+
+  final ExpansionTileThemeData _expansionTileThemeData =
+      const ExpansionTileThemeData(tilePadding: EdgeInsets.zero, shape: Border());
+
+  final ListTileThemeData _listTileThemeData = const ListTileThemeData(contentPadding: EdgeInsets.zero);
 
   ElevatedButtonThemeData get _elevatedButtonTheme => ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
