@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
+import 'package:gpt_detector/app/constants/string_constants.dart';
 import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/utils/snackbar/snackbar_utils.dart';
@@ -20,7 +21,7 @@ class DetectView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.l10n.appName),
+        title: const Text(StringConstants.appName),
         actions: [
           IconButton(
             onPressed: () => showDialog<void>(context: context, builder: (context) => const GPTFAQDialog()),

@@ -40,7 +40,7 @@ class GPTDrawer extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      context.l10n.appName,
+                      StringConstants.appName,
                       style: context.textTheme.bodyLarge,
                     ),
                     Text(
@@ -70,6 +70,23 @@ class GPTDrawer extends StatelessWidget {
                   leading: const Icon(Icons.code),
                   title: Text(context.l10n.contribute),
                   onTap: () async => UrlLauncherUtils.launchUrlFromString(url: StringConstants.githubUrl),
+                ),
+                ExpansionTile(
+                  leading: const Icon(Icons.smartphone),
+                  title: Text(context.l10n.drawerDiscoverMoreApps),
+                  initiallyExpanded: true,
+                  children: [
+                    ListTile(
+                      onTap: () async =>
+                          UrlLauncherUtils.launchUrlFromString(url: StringConstants.passwordGeneratorPlayStoreUrl),
+                      leading: Image.asset(
+                        AssetConstants.passwordGeneratorIcon,
+                        height: 24,
+                      ),
+                      title: const Text(StringConstants.passwordGenerator),
+                      subtitle: Text(context.l10n.passwordGeneratorDescription),
+                    ),
+                  ],
                 ),
               ],
             ),

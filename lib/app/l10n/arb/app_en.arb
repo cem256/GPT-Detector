@@ -1,12 +1,6 @@
 {
   "contribute": "Contribute",
   "language": "Language",
-  "appName": "GPT Detector",
-  "@appName": {
-    "description": "Name of the application",
-    "type": "text",
-    "placeholders": {}
-  },
   "version": "Version {versionNumber}",
   "@version": {
     "description": "Displays the current version of the app",
@@ -33,6 +27,18 @@
   "drawerShareApp": "Share App",
   "@drawerShareApp": {
     "description": "Share App text on drawer",
+    "type": "text",
+    "placeholders": {}
+  },
+  "drawerDiscoverMoreApps": "Discover More Apps",
+  "@drawerDiscoverMoreApps": {
+    "description": "Discover More Apps on drawer",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordGeneratorDescription": "Generates secure passwords of specified length and settings",
+  "@passwordGeneratorDescription": {
+    "description": "Short Description for the app Password Generator",
     "type": "text",
     "placeholders": {}
   },
