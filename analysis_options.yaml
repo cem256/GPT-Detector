@@ -4,6 +4,7 @@ analyzer:
     - "**.g.dart"
     - "**.freezed.dart"
     - "**.config.dart"
+    - "/**firebase_options.dart"
 linter:
   rules:
     file_names: false
