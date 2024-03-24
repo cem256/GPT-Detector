@@ -51,3 +51,9 @@ app.*.map.json
 
 # environment variables
 /env/.env
+
+# firebase
+**/google-services.json
+**/GoogleService-Info.plist
+**/firebase_app_id_file.json
+**/firebase_options.dart

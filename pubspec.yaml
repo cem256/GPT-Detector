@@ -29,6 +29,10 @@ dependencies:
   # Caching
   shared_preferences: ^2.2.2
 
+  # firebase
+  firebase_core: ^2.27.1
+  firebase_crashlytics: ^3.4.19
+
   # Dependency injection
   injectable: ^2.3.2
   get_it: ^7.6.4
@@ -43,7 +47,7 @@ dependencies:
   # Utility
   google_mlkit_language_id: ^0.9.0
   permission_handler: ^11.1.0
-  package_info_plus: ^5.0.1
+  package_info_plus: ^6.0.0
   device_info_plus: ^9.1.1
   image_picker: ^1.0.5
   image_cropper: ^5.0.1
@@ -52,6 +56,7 @@ dependencies:
   path_provider: ^2.1.1
   share_plus: ^7.2.1
   envied: ^0.5.2
+  logger: ^2.2.0
   intl: ^0.18.0
 
   # OCR
