@@ -205,6 +205,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                           return Flexible(
                             child: Text(
                               context.l10n.textFieldHelperShortText,
+                              style: context.textTheme.bodySmall,
                               overflow: TextOverflow.ellipsis,
                             ),
                           );
@@ -212,6 +213,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                           return Flexible(
                             child: Text(
                               context.l10n.textFieldHelperLongText,
+                              style: context.textTheme.bodySmall,
                               overflow: TextOverflow.ellipsis,
                             ),
                           );
