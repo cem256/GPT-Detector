@@ -57,7 +57,7 @@ dependencies:
   share_plus: ^7.2.1
   envied: ^0.5.2
   logger: ^2.2.0
-  intl: ^0.18.0
+  intl: ^0.19.0
 
   # OCR
   google_mlkit_text_recognition: ^0.11.0

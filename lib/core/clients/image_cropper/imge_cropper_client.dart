@@ -35,7 +35,7 @@ final class ImageCropperClientImpl implements ImageCropperClient {
         AndroidUiSettings(
           toolbarTitle: 'Edit Photo',
           toolbarColor: Locator.instance<LightTheme>().theme.colorScheme.primary,
-          toolbarWidgetColor: Locator.instance<LightTheme>().theme.colorScheme.background,
+          toolbarWidgetColor: Locator.instance<LightTheme>().theme.colorScheme.surface,
           activeControlsWidgetColor: Locator.instance<LightTheme>().theme.colorScheme.primary,
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: false,
