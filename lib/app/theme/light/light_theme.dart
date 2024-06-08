@@ -9,8 +9,8 @@ final class LightTheme extends BaseTheme {
   Brightness get brightness => Brightness.light;
 
   @override
-  Iterable<ThemeExtension<ThemeExtensions>> get extensions => [
-        ThemeExtensions(
+  Iterable<ThemeExtension<AppThemeExtensions>> get extensions => [
+        AppThemeExtensions(
           humanContent: const Color(0xFF007256),
           aiContent: const Color(0xFFBA1A1A),
           mixedContent: const Color(0xFFFF7E79),

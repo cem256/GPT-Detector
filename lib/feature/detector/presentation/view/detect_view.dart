@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:gpt_detector/app/constants/string_constants.dart';
 import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
+import 'package:gpt_detector/app/theme/theme_constants.dart';
+import 'package:gpt_detector/app/widgets/gpt_elevated_button.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/core/utils/snackbar/snackbar_utils.dart';
 import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
@@ -22,6 +24,9 @@ class DetectView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(StringConstants.appName),
+        backgroundColor: Colors.transparent,
+        scrolledUnderElevation: 0,
+        elevation: 0,
         actions: [
           IconButton(
             onPressed: () => showDialog<void>(context: context, builder: (context) => const GPTFAQDialog()),
@@ -107,7 +112,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                               state.convertToLocalizedString(context.l10n),
                               textAlign: TextAlign.center,
                               style: context.textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.w500,
+                                fontWeight: ThemeConstants.fontWeightSemiBold,
                                 color: textColor,
                               ),
                             ),
@@ -133,6 +138,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                       right: 0,
                       child: IconButton(
                         icon: const Icon(Icons.clear),
+                        color: context.colorScheme.primary,
                         onPressed: () {
                           _controller.clear();
                           context.read<DetectorCubit>().clearTextPressed();
@@ -146,6 +152,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                         children: [
                           IconButton(
                             icon: const Icon(Icons.photo_library),
+                            color: context.colorScheme.primary,
                             onPressed: () async {
                               // Control the gallery permission
                               await context.read<DetectorCubit>().checkGalleryPermission();
@@ -160,6 +167,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                           ),
                           IconButton(
                             icon: const Icon(Icons.photo_camera),
+                            color: context.colorScheme.primary,
                             onPressed: () async {
                               // Control the camera permission
                               await context.read<DetectorCubit>().checkCameraPermission();
@@ -223,16 +231,15 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
               ),
               BlocBuilder<DetectorCubit, DetectorState>(
                 buildWhen: (previous, current) =>
-                    (previous.status.isValidated && !previous.status.isSubmissionInProgress) !=
-                    (current.status.isValidated && !current.status.isSubmissionInProgress),
+                    previous.status.isSubmissionInProgress != current.status.isSubmissionInProgress,
                 builder: (context, state) {
-                  return ElevatedButton(
-                    onPressed: state.status.isValidated && !state.status.isSubmissionInProgress
-                        ? () => context.read<DetectorCubit>().detectionRequested(text: _controller.text)
-                        : null,
-                    child: state.status.isSubmissionInProgress
-                        ? const CircularProgressIndicator.adaptive()
-                        : Text(context.l10n.analyzeText),
+                  return GPTElevatedButton(
+                    showingLoadingIndicator: state.status.isSubmissionInProgress,
+                    text: context.l10n.analyzeText,
+                    onPressed: () => context.read<DetectorCubit>().detectionRequested(
+                          context: context,
+                          text: _controller.text,
+                        ),
                   );
                 },
               ),

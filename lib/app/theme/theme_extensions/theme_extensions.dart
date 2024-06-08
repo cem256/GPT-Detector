@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ThemeExtensions extends ThemeExtension<ThemeExtensions> {
-  ThemeExtensions({
+class AppThemeExtensions extends ThemeExtension<AppThemeExtensions> {
+  AppThemeExtensions({
     required this.humanContent,
     required this.mixedContent,
     required this.aiContent,
@@ -12,11 +12,11 @@ class ThemeExtensions extends ThemeExtension<ThemeExtensions> {
   final Color? aiContent;
 
   @override
-  ThemeExtension<ThemeExtensions> lerp(ThemeExtension<ThemeExtensions>? other, double t) {
-    if (other is! ThemeExtensions) {
+  ThemeExtension<AppThemeExtensions> lerp(ThemeExtension<AppThemeExtensions>? other, double t) {
+    if (other is! AppThemeExtensions) {
       return this;
     }
-    return ThemeExtensions(
+    return AppThemeExtensions(
       humanContent: Color.lerp(humanContent, other.humanContent, t),
       mixedContent: Color.lerp(mixedContent, other.mixedContent, t),
       aiContent: Color.lerp(aiContent, other.aiContent, t),
@@ -24,12 +24,12 @@ class ThemeExtensions extends ThemeExtension<ThemeExtensions> {
   }
 
   @override
-  ThemeExtensions copyWith({
+  AppThemeExtensions copyWith({
     Color? humanContent,
     Color? mixedContent,
     Color? aiContent,
   }) {
-    return ThemeExtensions(
+    return AppThemeExtensions(
       humanContent: humanContent ?? this.humanContent,
       mixedContent: mixedContent ?? this.mixedContent,
       aiContent: aiContent ?? this.aiContent,
@@ -38,5 +38,5 @@ class ThemeExtensions extends ThemeExtension<ThemeExtensions> {
 
   @override
   String toString() =>
-      'ThemeExtensions(humanContent: $humanContent, mixedContent: $mixedContent, aiContent: $aiContent)';
+      'AppThemeExtensions(humanContent: $humanContent, mixedContent: $mixedContent, aiContent: $aiContent)';
 }

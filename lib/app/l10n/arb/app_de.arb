@@ -166,9 +166,9 @@
       }
     }
   },
-  "analyzeText": "Text Analysieren",
+  "analyzeText": "Analysieren",
   "@analyzeText": {
-    "description": "Analyze Text button text on the OnboardingView",
+    "description": "Analyze button text on the OnboardingView",
     "type": "text",
     "placeholders": {}
   }

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gpt_detector/app/theme/theme_constants.dart';
-import 'package:gpt_detector/app/theme/theme_extensions/theme_extensions.dart';
 
 abstract base class BaseTheme {
   Brightness get brightness;
-  Iterable<ThemeExtension<ThemeExtensions>> get extensions;
+  Iterable<ThemeExtension<ThemeExtension>> get extensions;
 
   ThemeData get theme {
     return ThemeData(
-      useMaterial3: true,
+      fontFamily: 'Poppins',
       brightness: brightness,
       extensions: extensions,
       colorSchemeSeed: Colors.deepPurple,
@@ -22,51 +21,47 @@ abstract base class BaseTheme {
     );
   }
 
-  AppBarTheme get _appBarTheme {
-    return const AppBarTheme(
-      centerTitle: true,
-    );
-  }
+  final AppBarTheme _appBarTheme = const AppBarTheme(
+    centerTitle: true,
+  );
 
-  CardTheme get _cardTheme {
-    return CardTheme(
-      margin: EdgeInsets.zero,
+  final CardTheme _cardTheme = CardTheme(
+    margin: EdgeInsets.zero,
+    elevation: ThemeConstants.elevation,
+    shape: RoundedRectangleBorder(
+      borderRadius: ThemeConstants.borderRadiusCircular,
+    ),
+  );
+
+  final DialogTheme _dialogTheme = DialogTheme(
+    elevation: ThemeConstants.elevation,
+    shape: RoundedRectangleBorder(
+      borderRadius: ThemeConstants.borderRadiusCircular,
+    ),
+  );
+
+  final ExpansionTileThemeData _expansionTileThemeData = const ExpansionTileThemeData(
+    tilePadding: EdgeInsets.zero,
+    shape: Border(),
+  );
+
+  final ListTileThemeData _listTileThemeData = const ListTileThemeData(
+    contentPadding: EdgeInsets.zero,
+  );
+
+  final ElevatedButtonThemeData _elevatedButtonTheme = ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
       elevation: ThemeConstants.elevation,
+      minimumSize: const Size.fromHeight(kToolbarHeight),
       shape: RoundedRectangleBorder(
         borderRadius: ThemeConstants.borderRadiusCircular,
       ),
-    );
-  }
+    ),
+  );
 
-  DialogTheme get _dialogTheme {
-    return DialogTheme(
-      elevation: ThemeConstants.elevation,
-      shape: RoundedRectangleBorder(
-        borderRadius: ThemeConstants.borderRadiusCircular,
-      ),
-    );
-  }
-
-  final ExpansionTileThemeData _expansionTileThemeData =
-      const ExpansionTileThemeData(tilePadding: EdgeInsets.zero, shape: Border());
-
-  final ListTileThemeData _listTileThemeData = const ListTileThemeData(contentPadding: EdgeInsets.zero);
-
-  ElevatedButtonThemeData get _elevatedButtonTheme => ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          elevation: ThemeConstants.elevation,
-          minimumSize: const Size.fromHeight(kToolbarHeight),
-          shape: RoundedRectangleBorder(
-            borderRadius: ThemeConstants.borderRadiusCircular,
-          ),
-        ),
-      );
-
-  InputDecorationTheme get _inputDecorationTheme {
-    return InputDecorationTheme(
-      border: OutlineInputBorder(
-        borderRadius: ThemeConstants.borderRadiusCircular,
-      ),
-    );
-  }
+  final InputDecorationTheme _inputDecorationTheme = InputDecorationTheme(
+    border: OutlineInputBorder(
+      borderRadius: ThemeConstants.borderRadiusCircular,
+    ),
+  );
 }

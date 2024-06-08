@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-extension MediaQueryExtension on BuildContext {
+extension MediaQueryExtensions on BuildContext {
   MediaQueryData get mediaQuery => MediaQuery.of(this);
 
   /// Returns the height of the device
@@ -40,7 +40,7 @@ extension MediaQueryExtension on BuildContext {
   double dynamicHeight(double val) => height * val;
 }
 
-extension PaddingExtension on BuildContext {
+extension PaddingExtensions on BuildContext {
   /// Adds 1% padding from all sides.
   EdgeInsets get paddingAllLow => EdgeInsets.all(lowValue);
 
@@ -112,7 +112,7 @@ extension PaddingExtension on BuildContext {
   EdgeInsets get paddingBottomHigh => EdgeInsets.only(bottom: highValue);
 }
 
-extension ThemeExtension on BuildContext {
+extension ThemeExtensions on BuildContext {
   /// Get the theme data
   ThemeData get theme => Theme.of(this);
 
@@ -121,4 +121,7 @@ extension ThemeExtension on BuildContext {
 
   /// Get the brightness
   Brightness get brightness => Theme.of(this).brightness;
+
+  /// Get the color scheme
+  ColorScheme get colorScheme => Theme.of(this).colorScheme;
 }

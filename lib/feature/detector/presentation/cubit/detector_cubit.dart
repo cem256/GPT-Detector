@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:gpt_detector/app/errors/failure.dart';
+import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
+import 'package:gpt_detector/core/utils/snackbar/snackbar_utils.dart';
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/detect_use_case.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/has_camera_permission_use_case.dart';
@@ -45,9 +48,21 @@ class DetectorCubit extends Cubit<DetectorState> {
     emit(state.copyWith(hasGalleryPermission: hasGalleryPermission));
   }
 
-  Future<void> detectionRequested({required String text}) async {
+  Future<void> detectionRequested({required BuildContext context, required String text}) async {
+    // Validate user input
+    final formStatus = UserInputForm.dirty(text);
+    if (formStatus.invalid) {
+      switch (formStatus.error) {
+        case UserInputFormError.tooShort:
+          SnackbarUtils.showSnackbar(context: context, message: context.l10n.textFieldHelperShortText);
+        case UserInputFormError.tooLong:
+          SnackbarUtils.showSnackbar(context: context, message: context.l10n.textFieldHelperLongText);
+        case null:
+      }
+      return;
+    }
+    // Call use case
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
-
     final response = await _detectUseCase.call(text);
 
     response.fold(
