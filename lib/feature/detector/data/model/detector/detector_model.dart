@@ -60,13 +60,13 @@ enum Classification {
     switch (this) {
       // Return default card color in case initial
       case Classification.initial:
-        return themeData.cardColor;
+        return themeData.secondaryHeaderColor;
       case Classification.human:
-        return themeData.extension<ThemeExtensions>()?.humanContent ?? themeData.cardColor;
+        return themeData.extension<AppThemeExtensions>()?.humanContent ?? themeData.secondaryHeaderColor;
       case Classification.ai:
-        return themeData.extension<ThemeExtensions>()?.aiContent ?? themeData.cardColor;
+        return themeData.extension<AppThemeExtensions>()?.aiContent ?? themeData.secondaryHeaderColor;
       case Classification.mixed:
-        return themeData.extension<ThemeExtensions>()?.mixedContent ?? themeData.cardColor;
+        return themeData.extension<AppThemeExtensions>()?.mixedContent ?? themeData.secondaryHeaderColor;
     }
   }
 }

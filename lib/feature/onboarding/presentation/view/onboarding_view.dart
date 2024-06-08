@@ -8,6 +8,7 @@ import 'package:gpt_detector/app/constants/duration_constants.dart';
 import 'package:gpt_detector/app/constants/string_constants.dart';
 import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
 import 'package:gpt_detector/app/router/app_router.dart';
+import 'package:gpt_detector/app/widgets/gpt_elevated_button.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
 import 'package:gpt_detector/feature/detector/presentation/view/detect_view.dart';
 import 'package:gpt_detector/feature/onboarding/presentation/cubit/onboarding_cubit.dart';
@@ -51,15 +52,19 @@ class _OnboardingViewBody extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: context.defaultValue,
+              height: context.highValue,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
                   child: Icon(
                     Icons.hail_rounded,
                     size: context.mediumValue,
                   ),
+                ),
+                SizedBox(
+                  width: context.lowValue,
                 ),
                 Expanded(
                   flex: 5,
@@ -81,6 +86,9 @@ class _OnboardingViewBody extends StatelessWidget {
                     size: context.mediumValue,
                   ),
                 ),
+                SizedBox(
+                  width: context.lowValue,
+                ),
                 Expanded(
                   flex: 5,
                   child: Text(
@@ -94,13 +102,13 @@ class _OnboardingViewBody extends StatelessWidget {
             SizedBox(
               height: context.defaultValue,
             ),
-            ElevatedButton(
+            GPTElevatedButton(
+              text: context.l10n.getStarted,
               onPressed: () async {
                 await context.read<OnboardingCubit>().completeOnboarding();
                 if (!context.mounted) return;
                 unawaited(AppRouter.pushReplacement(context, const DetectView()));
               },
-              child: Text(context.l10n.getStarted),
             ),
           ]
               .animate(interval: DurationConstants.ms250())

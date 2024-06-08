@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:fpdart/fpdart.dart';
@@ -27,6 +28,8 @@ class MockHasGalleryPermissionUseCase extends Mock implements HasGalleryPermissi
 
 class MockDetectorEntity extends Mock implements DetectorEntity {}
 
+class MockBuildContext extends Mock implements BuildContext {}
+
 String generateRandomString(int len) {
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
   final rnd = Random();
@@ -50,6 +53,7 @@ void main() {
   late UserInputForm validInputForm;
   late String invalidUserInput;
   late UserInputForm invalidInputForm;
+  late BuildContext context;
 
   setUp(() {
     mockDetectUseCase = MockDetectUseCase();
@@ -69,6 +73,7 @@ void main() {
     validInputForm = UserInputForm.dirty(validUserInput);
     invalidUserInput = '';
     invalidInputForm = UserInputForm.dirty(invalidUserInput);
+    context = MockBuildContext();
   });
   group('DetectorCubit.detectionRequested()', () {
     test("Initial value of the 'status' variable must be 'FormzStatus.pure' at start", () {
@@ -97,7 +102,7 @@ void main() {
         );
       },
       build: () => detectorCubit,
-      act: (bloc) => bloc.detectionRequested(text: validUserInput),
+      act: (bloc) => bloc.detectionRequested(context: context, text: validUserInput),
       expect: () => [
         detectorCubit.state.copyWith(status: FormzStatus.submissionInProgress, failure: null),
         detectorCubit.state.copyWith(
@@ -115,7 +120,7 @@ void main() {
         );
       },
       build: () => detectorCubit,
-      act: (bloc) => bloc.detectionRequested(text: validUserInput),
+      act: (bloc) => bloc.detectionRequested(context: context, text: validUserInput),
       expect: () => [
         detectorCubit.state.copyWith(
           status: FormzStatus.submissionInProgress,

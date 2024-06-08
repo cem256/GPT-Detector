@@ -94,10 +94,10 @@ flutter_launcher_icons:
   ios: true
   remove_alpha_ios: true
   min_sdk_android: 21
-  image_path: "assets/icons/logo.png"
+  image_path: "assets/icons/app_icon/logo.png"
   adaptive_icon_background: "#673AB7"
   # Padding 8%
-  adaptive_icon_foreground: "assets/icons/logo_foreground.png"
+  adaptive_icon_foreground: "assets/icons/app_icon/logo_foreground.png"
 
 flutter_native_splash:
   android: true
@@ -111,3 +111,9 @@ flutter:
 
   assets:
     - assets/icons/
+    - assets/icons/app_icon/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
