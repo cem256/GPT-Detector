@@ -6,6 +6,7 @@ import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
 import 'package:gpt_detector/app/theme/theme_constants.dart';
 import 'package:gpt_detector/app/widgets/gpt_elevated_button.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
+import 'package:gpt_detector/core/utils/rate_app/rate_app.dart';
 import 'package:gpt_detector/core/utils/snackbar/snackbar_utils.dart';
 import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
 import 'package:gpt_detector/feature/detector/presentation/cubit/detector_cubit.dart';
@@ -70,7 +71,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<DetectorCubit, DetectorState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state.status.isSubmissionFailure) {
           state.failure!.whenOrNull(
             networkFailure: () => SnackbarUtils.showSnackbar(
@@ -88,6 +89,10 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
             context: context,
             message: context.l10n.unsupportedLanguage,
           );
+        }
+        // Show rate app dialog after 3 successful detection requests
+        if (state.numberOfRequests == 3) {
+          await RateAppUtils.rateApp();
         }
       },
       child: SafeArea(

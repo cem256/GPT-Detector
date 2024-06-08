@@ -6,6 +6,7 @@ class DetectorState with _$DetectorState {
     required FormzStatus status,
     required UserInputForm userInput,
     required DetectorEntity result,
+    required int numberOfRequests,
     Failure? failure,
     bool? hasCameraPermission,
     bool? hasGalleryPermission,
@@ -15,5 +16,6 @@ class DetectorState with _$DetectorState {
         status: FormzStatus.pure,
         userInput: const UserInputForm.pure(),
         result: DetectorEntity.initial(),
+        numberOfRequests: 0,
       );
 }

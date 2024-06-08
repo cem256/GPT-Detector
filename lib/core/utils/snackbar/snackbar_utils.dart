@@ -9,7 +9,7 @@ abstract final class SnackbarUtils {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
-          padding: EdgeInsets.all(context.defaultValue),
+          padding: context.paddingAllDefault,
           content: Text(
             message,
             style: context.textTheme.bodyLarge?.copyWith(
@@ -18,7 +18,7 @@ abstract final class SnackbarUtils {
             ),
           ),
           duration: DurationConstants.s4(),
-          behavior: SnackBarBehavior.fixed,
+          showCloseIcon: true,
         ),
       );
   }

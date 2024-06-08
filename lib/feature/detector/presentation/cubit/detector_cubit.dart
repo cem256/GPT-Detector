@@ -67,7 +67,13 @@ class DetectorCubit extends Cubit<DetectorState> {
 
     response.fold(
       (failure) => emit(state.copyWith(status: FormzStatus.submissionFailure, failure: failure)),
-      (result) => emit(state.copyWith(status: FormzStatus.submissionSuccess, result: result)),
+      (result) => emit(
+        state.copyWith(
+          status: FormzStatus.submissionSuccess,
+          result: result,
+          numberOfRequests: state.numberOfRequests + 1,
+        ),
+      ),
     );
   }
 
