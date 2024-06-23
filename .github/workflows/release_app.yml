@@ -1,0 +1,99 @@
+name: Build and release Flutter App
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag name for the release'
+        required: true
+
+jobs:
+  build-app:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout 📥
+        uses: actions/checkout@v4.1.7
+
+      - name: Get google-services.json 🗝 
+        id: google_services
+        uses: timheuer/base64-to-file@v1.2.4
+        with:
+          fileName: google-services.json
+          fileDir: './android/app/'
+          encodedString: ${{ secrets.GOOGLE_SERVICES }}
+
+      - name: Get firebase_options.dart 🗂️
+        id: firebase_options
+        uses: timheuer/base64-to-file@v1.2.4
+        with:
+          fileName: firebase_options.dart
+          fileDir: './lib/'
+          encodedString: ${{ secrets.FIREBASE_OPTIONS }}
+
+      - name: Get env file 🗝 
+        id: env_file
+        uses: timheuer/base64-to-file@v1.2.4
+        with:
+          fileName: .env
+          fileDir: './env/'
+          encodedString: ${{ secrets.ENV_FILE }}
+
+      - name: Get keystore file 🗝 
+        id: android_keystore
+        uses: timheuer/base64-to-file@v1.2.4
+        with:
+          fileName: upload-keystore.jks
+          fileDir: './android/app/'
+          encodedString: ${{ secrets.KEYSTORE }}
+
+      - name: Get key properties file 🗝 
+        id: key_properties
+        uses: timheuer/base64-to-file@v1.2.4
+        with:
+          fileName: key.properties
+          fileDir: './android/'
+          encodedString: ${{ secrets.KEY_PROPERTIES }}
+
+      - name: Setup Java ☕
+        uses: actions/setup-java@v4.2.1
+        with:
+          distribution: 'adopt'
+          java-version: "17.x"
+          cache: 'gradle'
+
+      - name: Setup Flutter 📱
+        uses: subosito/flutter-action@v2.16.0
+        with:
+          channel: 'stable'
+          flutter-version: '${{ vars.FLUTTER_VERSION }}'
+
+      - name: Install dependencies 📦
+        run: flutter pub get
+
+      - name: Run build_runner 🏗️
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build Android App (fat APK) 📦
+        run: flutter build apk
+
+      - name: Build Android App (Multiple APKs) 📦📦
+        run: flutter build apk --split-per-abi
+
+      - name: Rename files ✏️
+        run: |
+          cd build/app/outputs/flutter-apk &&
+          mv app-release.apk gpt_detector-universal.apk &&
+          mv app-arm64-v8a-release.apk gpt_detector-arm64.apk &&
+          mv app-armeabi-v7a-release.apk gpt_detector-armeabi.apk &&
+          mv app-x86_64-release.apk gpt_detector-x86.apk
+
+      - name: Upload APKs 🚀
+        uses: softprops/action-gh-release@v2.0.6
+        with:
+          files: 'build/app/outputs/flutter-apk/*.apk'
+          tag_name: ${{ github.event.inputs.tag_name }}
+          token: ${{ secrets.GH_TOKEN }}
