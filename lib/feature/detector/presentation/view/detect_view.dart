@@ -243,10 +243,13 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
                   return GPTElevatedButton(
                     showingLoadingIndicator: state.status.isSubmissionInProgress,
                     text: context.l10n.analyzeText,
-                    onPressed: () => context.read<DetectorCubit>().detectionRequested(
-                          context: context,
-                          text: _controller.text,
-                        ),
+                    onPressed: () {
+                      FocusScope.of(context).unfocus();
+                      context.read<DetectorCubit>().detectionRequested(
+                            context: context,
+                            text: _controller.text,
+                          );
+                    },
                   );
                 },
               ),
