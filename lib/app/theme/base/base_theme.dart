@@ -10,7 +10,7 @@ abstract base class BaseTheme {
       fontFamily: 'Poppins',
       brightness: brightness,
       extensions: extensions,
-      colorSchemeSeed: Colors.deepPurple,
+      colorSchemeSeed: const Color(0xFF6750A4),
       appBarTheme: _appBarTheme,
       cardTheme: _cardTheme,
       dialogTheme: _dialogTheme,
