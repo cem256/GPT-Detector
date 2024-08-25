@@ -13,7 +13,6 @@ import 'package:gpt_detector/feature/detector/presentation/cubit/detector_cubit.
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_card.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_drawer.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_faq_dialog.dart';
-import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_language_dialog.dart';
 import 'package:gpt_detector/feature/detector/presentation/widgets/gpt_text_field.dart';
 import 'package:gpt_detector/locator.dart';
 
@@ -32,10 +31,6 @@ class DetectView extends StatelessWidget {
           IconButton(
             onPressed: () => showDialog<void>(context: context, builder: (context) => const GPTFAQDialog()),
             icon: const Icon(Icons.info),
-          ),
-          IconButton(
-            onPressed: () => showDialog<void>(context: context, builder: (context) => const GPTLanguageDialog()),
-            icon: const Icon(Icons.language),
           ),
         ],
       ),
