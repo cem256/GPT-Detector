@@ -38,7 +38,10 @@ Future<void> bootstrap({required FutureOr<Widget> Function() builder}) async {
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
   // Initialize Bloc Observer
-  Bloc.observer = AppBlocObserver();
+  Bloc.observer = AppBlocObserver(
+    logEvents: false,
+    logTransitions: false,
+  );
   // Initialize Locator
   await Locator.locateServices();
   // Set Screen Orientation
