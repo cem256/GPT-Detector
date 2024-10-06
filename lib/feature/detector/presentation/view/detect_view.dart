@@ -54,6 +54,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
   @override
   void initState() {
     _controller = TextEditingController();
+    RateAppUtils.rateApp();
     super.initState();
   }
 
