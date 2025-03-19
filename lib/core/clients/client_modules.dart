@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 @module
 abstract class ClientModules {
-  InternetConnectionChecker get connectionChecker => InternetConnectionChecker();
+  InternetConnectionChecker get connectionChecker => InternetConnectionChecker.createInstance();
 
   Dio get dio => Dio();
 
