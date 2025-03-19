@@ -17,7 +17,6 @@ final class ImageCropperClientImpl implements ImageCropperClient {
     final file = await _imageCropper.cropImage(
       sourcePath: filePath,
       compressQuality: 100,
-      aspectRatioPresets: _aspectRatioPresets,
       uiSettings: _uiSettings,
     );
 
@@ -37,12 +36,14 @@ final class ImageCropperClientImpl implements ImageCropperClient {
           toolbarColor: Locator.instance<LightTheme>().theme.colorScheme.primary,
           toolbarWidgetColor: Locator.instance<LightTheme>().theme.colorScheme.surface,
           activeControlsWidgetColor: Locator.instance<LightTheme>().theme.colorScheme.primary,
+          aspectRatioPresets: _aspectRatioPresets,
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: false,
           showCropGrid: false,
         ),
         IOSUiSettings(
           title: 'Edit Photo',
+          aspectRatioPresets: _aspectRatioPresets,
         ),
       ];
 }
