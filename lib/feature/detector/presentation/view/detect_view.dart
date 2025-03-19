@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:gpt_detector/app/constants/ad_constants.dart';
 import 'package:gpt_detector/app/constants/string_constants.dart';
 import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
 import 'package:gpt_detector/app/theme/theme_constants.dart';
 import 'package:gpt_detector/app/widgets/gpt_elevated_button.dart';
 import 'package:gpt_detector/core/extensions/context_extensions.dart';
+import 'package:gpt_detector/core/utils/logger/logger_utils.dart';
 import 'package:gpt_detector/core/utils/rate_app/rate_app.dart';
 import 'package:gpt_detector/core/utils/snackbar/snackbar_utils.dart';
 import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
@@ -50,18 +53,40 @@ class _DetectViewBody extends StatefulWidget {
 
 class _DetectViewBodyState extends State<_DetectViewBody> {
   late final TextEditingController _controller;
+  BannerAd? _bannerAd;
 
   @override
   void initState() {
     _controller = TextEditingController();
     RateAppUtils.rateApp();
+    _loadBannerAd();
     super.initState();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _bannerAd?.dispose();
     super.dispose();
+  }
+
+  void _loadBannerAd() {
+    _bannerAd = BannerAd(
+      adUnitId: AdConstants.testBannerAdUnitId,
+      size: AdSize.banner,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() => _bannerAd = ad as BannerAd);
+          LoggerUtils.instance.logInfo('BannerAd loaded successfully');
+        },
+        onAdFailedToLoad: (ad, error) {
+          LoggerUtils.instance.logError('BannerAd failed to load: $error');
+          setState(() => _bannerAd = null);
+          ad.dispose();
+        },
+      ),
+    )..load();
   }
 
   @override
@@ -232,6 +257,16 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
               SizedBox(
                 height: context.defaultValue,
               ),
+              if (_bannerAd != null) ...[
+                SizedBox(
+                  width: _bannerAd!.size.width.toDouble(),
+                  height: _bannerAd!.size.height.toDouble(),
+                  child: AdWidget(ad: _bannerAd!),
+                ),
+                SizedBox(
+                  height: context.defaultValue,
+                ),
+              ],
               BlocBuilder<DetectorCubit, DetectorState>(
                 buildWhen: (previous, current) =>
                     previous.status.isSubmissionInProgress != current.status.isSubmissionInProgress,
