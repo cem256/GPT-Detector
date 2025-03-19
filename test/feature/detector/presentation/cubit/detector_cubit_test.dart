@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
+import 'package:gpt_detector/core/clients/cache/cache_client.dart';
 import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/detect_use_case.dart';
@@ -29,6 +30,8 @@ class MockHasGalleryPermissionUseCase extends Mock implements HasGalleryPermissi
 class MockDetectorEntity extends Mock implements DetectorEntity {}
 
 class MockBuildContext extends Mock implements BuildContext {}
+
+class MockCacheClient extends Mock implements CacheClient {}
 
 String generateRandomString(int len) {
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -67,6 +70,7 @@ void main() {
       ocrFromCameraUseCase: mockOCRFromCameraUseCase,
       hasCameraPermissionUseCase: mockHasCameraPermissionUseCase,
       hasGalleryPermissionUseCase: mockHasGalleryPermissionUseCase,
+      cacheClient: MockCacheClient(),
     );
     mockDetectorEntity = MockDetectorEntity();
     validUserInput = generateRandomString(250);

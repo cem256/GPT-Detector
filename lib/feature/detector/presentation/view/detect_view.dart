@@ -72,8 +72,7 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
 
   void _loadBannerAd() {
     _bannerAd = BannerAd(
-      // TODO: Change to AdConstants.bannerAdUnitId in production
-      adUnitId: AdConstants.testBannerAdUnitId,
+      adUnitId: AdConstants.bannerAdUnitId,
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
