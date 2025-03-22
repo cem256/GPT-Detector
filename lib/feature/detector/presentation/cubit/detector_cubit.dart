@@ -89,7 +89,7 @@ class DetectorCubit extends Cubit<DetectorState> {
     emit(state.copyWith(status: FormzStatus.submissionInProgress, totalAnalysisCount: state.totalAnalysisCount + 1));
     await _cacheClient.setInt(CacheConstants.totalAnalysisCount, state.totalAnalysisCount);
     // Show interstitial ad after each 3 detection requests
-    if (state.totalAnalysisCount % 1 == 0) {
+    if (state.totalAnalysisCount % 3 == 0) {
       emit(state.copyWith(showInterstitialAd: true));
       await Future<void>.delayed(DurationConstants.ms250());
       emit(state.copyWith(showInterstitialAd: false));
