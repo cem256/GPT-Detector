@@ -11,9 +11,9 @@ final class NetworkClient {
   }) : _dio = dio {
     _dio.options.baseUrl = Env.baseUrl;
     _dio.options.headers['Authorization'] = 'Bearer ${Env.bearer}';
-    _dio.options.connectTimeout = const Duration(seconds: 20);
-    _dio.options.sendTimeout = const Duration(seconds: 20);
-    _dio.options.receiveTimeout = const Duration(seconds: 20);
+    _dio.options.connectTimeout = const Duration(seconds: 45);
+    _dio.options.sendTimeout = const Duration(seconds: 45);
+    _dio.options.receiveTimeout = const Duration(seconds: 45);
 
     if (kDebugMode) {
       _dio.interceptors.add(

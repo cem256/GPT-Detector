@@ -9,10 +9,10 @@ Calculates the perplexity and burstiness of a given text to determine whether it
 ## Preview
 
 <p align='center'>
-    <img src="screenshots/ss1.jpeg" width="24%"/>
-    <img src="screenshots/ss2.jpeg" width="24%"/>
-    <img src="screenshots/ss3.jpeg" width="24%"/>
-    <img src="screenshots/ss4.jpeg" width="24%"/>
+    <img src="screenshots/store/ss1.jpeg" width="24%"/>
+    <img src="screenshots/store/ss2.jpeg" width="24%"/>
+    <img src="screenshots/store/ss3.jpeg" width="24%"/>
+    <img src="screenshots/store/ss4.jpeg" width="24%"/>
 </p>
 
 ## Features
