@@ -20,4 +20,8 @@ abstract final class AppRouter {
       ),
     );
   }
+
+  static void pop<T>(BuildContext context, [T? result]) {
+    Navigator.of(context).pop<T>(result);
+  }
 }

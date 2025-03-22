@@ -73,40 +73,17 @@ class _DetectorBody extends StatefulWidget {
 
 class _DetectorBodyState extends State<_DetectorBody> {
   late final TextEditingController _controller;
-  BannerAd? _bannerAd;
 
   @override
   void initState() {
     _controller = TextEditingController();
-    _loadBannerAd();
     super.initState();
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    _bannerAd?.dispose();
     super.dispose();
-  }
-
-  void _loadBannerAd() {
-    _bannerAd = BannerAd(
-      // TODO: Remove this
-      adUnitId: AdConstants.testBannerAdUnitId,
-      size: AdSize.banner,
-      request: const AdRequest(),
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          setState(() => _bannerAd = ad as BannerAd);
-          LoggerUtils.instance.logInfo('BannerAd loaded successfully');
-        },
-        onAdFailedToLoad: (ad, error) {
-          LoggerUtils.instance.logError('BannerAd failed to load: $error');
-          setState(() => _bannerAd = null);
-          ad.dispose();
-        },
-      ),
-    )..load();
   }
 
   @override
@@ -136,8 +113,7 @@ class _DetectorBodyState extends State<_DetectorBody> {
         }
         if (state.showInterstitialAd) {
           await InterstitialAd.load(
-            // TODO: Remove this
-            adUnitId: AdConstants.testInterstitialAdUnitId,
+            adUnitId: AdConstants.interstitialAdUnitId,
             request: const AdRequest(),
             adLoadCallback: InterstitialAdLoadCallback(
               onAdLoaded: (InterstitialAd ad) {
@@ -305,16 +281,6 @@ class _DetectorBodyState extends State<_DetectorBody> {
                   SizedBox(
                     height: context.defaultValue,
                   ),
-                  if (_bannerAd != null) ...[
-                    SizedBox(
-                      width: _bannerAd!.size.width.toDouble(),
-                      height: _bannerAd!.size.height.toDouble(),
-                      child: AdWidget(ad: _bannerAd!),
-                    ),
-                    SizedBox(
-                      height: context.defaultValue,
-                    ),
-                  ],
                   BlocBuilder<DetectorCubit, DetectorState>(
                     buildWhen: (previous, current) =>
                         previous.status.isSubmissionInProgress != current.status.isSubmissionInProgress,

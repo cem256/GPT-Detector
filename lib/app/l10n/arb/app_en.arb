@@ -30,6 +30,18 @@
     "type": "text",
     "placeholders": {}
   },
+  "drawerChangePrivacyPreferences": "Change Privacy Preferences",
+  "@drawerChangePrivacyPreferences": {
+    "description": "Change Privacy Preferences text on drawer",
+    "type": "text",
+    "placeholders": {}
+  },
+  "drawerPrivacyPreferencesChanged": "Privacy preferences changed",
+  "@drawerPrivacyPreferencesChanged": {
+    "description": "Privacy preferences changed text on drawer",
+    "type": "text",
+    "placeholders": {}
+  },
   "drawerDiscoverMoreApps": "Discover More Apps",
   "@drawerDiscoverMoreApps": {
     "description": "Discover More Apps on drawer",

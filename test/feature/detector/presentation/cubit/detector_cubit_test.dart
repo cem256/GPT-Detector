@@ -7,7 +7,7 @@ import 'package:form_inputs/form_inputs.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
 import 'package:gpt_detector/core/clients/cache/cache_client.dart';
-import 'package:gpt_detector/core/clients/gdpr_consent/gdpr_constent_client.dart';
+import 'package:gpt_detector/core/clients/gdpr_consent/gdpr_consent_client.dart';
 import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/detect_use_case.dart';

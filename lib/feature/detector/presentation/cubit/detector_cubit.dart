@@ -7,7 +7,8 @@ import 'package:gpt_detector/app/constants/duration_constants.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
 import 'package:gpt_detector/app/l10n/extensions/app_l10n_extensions.dart';
 import 'package:gpt_detector/core/clients/cache/cache_client.dart';
-import 'package:gpt_detector/core/clients/gdpr_consent/gdpr_constent_client.dart';
+import 'package:gpt_detector/core/clients/gdpr_consent/gdpr_consent_client.dart';
+import 'package:gpt_detector/core/utils/logger/logger_utils.dart';
 import 'package:gpt_detector/core/utils/snackbar/snackbar_utils.dart';
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/detect_use_case.dart';
@@ -49,7 +50,9 @@ class DetectorCubit extends Cubit<DetectorState> {
 
   Future<void> initialize() async {
     final successfulAnalysisCount = _cacheClient.getInt(CacheConstants.successfulAnalysisCount) ?? 0;
+    LoggerUtils.instance.logWarning('successfulAnalysisCount: $successfulAnalysisCount');
     final totalAnalysisCount = _cacheClient.getInt(CacheConstants.totalAnalysisCount) ?? 0;
+    LoggerUtils.instance.logWarning('totalAnalysisCount: $totalAnalysisCount');
     emit(state.copyWith(successfulAnalysisCount: successfulAnalysisCount, totalAnalysisCount: totalAnalysisCount));
   }
 
@@ -86,7 +89,7 @@ class DetectorCubit extends Cubit<DetectorState> {
     emit(state.copyWith(status: FormzStatus.submissionInProgress, totalAnalysisCount: state.totalAnalysisCount + 1));
     await _cacheClient.setInt(CacheConstants.totalAnalysisCount, state.totalAnalysisCount);
     // Show interstitial ad after each 3 detection requests
-    if (state.totalAnalysisCount % 3 == 0) {
+    if (state.totalAnalysisCount % 1 == 0) {
       emit(state.copyWith(showInterstitialAd: true));
       await Future<void>.delayed(DurationConstants.ms250());
       emit(state.copyWith(showInterstitialAd: false));
