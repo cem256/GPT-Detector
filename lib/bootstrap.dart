@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:gpt_detector/core/utils/logger/logger_utils.dart';
 import 'package:gpt_detector/core/utils/observer/bloc_observer.dart';
 import 'package:gpt_detector/firebase_options.dart';
@@ -20,7 +19,6 @@ Future<void> bootstrap({required FutureOr<Widget> Function() builder}) async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetBinding);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(kReleaseMode);
-  // unawaited(MobileAds.instance.initialize());
   // Register error handlers. For more info, see:
   // https://docs.flutter.dev/testing/errors
   // Pass all uncaught Flutter framework exceptions to Crashlytics

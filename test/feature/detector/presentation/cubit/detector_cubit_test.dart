@@ -7,6 +7,7 @@ import 'package:form_inputs/form_inputs.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:gpt_detector/app/errors/failure.dart';
 import 'package:gpt_detector/core/clients/cache/cache_client.dart';
+import 'package:gpt_detector/core/clients/gdpr_consent/gdpr_constent_client.dart';
 import 'package:gpt_detector/feature/detector/data/model/detector/detector_model.dart';
 import 'package:gpt_detector/feature/detector/domain/entities/detector/detector_entity.dart';
 import 'package:gpt_detector/feature/detector/domain/use_cases/detect_use_case.dart';
@@ -33,6 +34,8 @@ class MockBuildContext extends Mock implements BuildContext {}
 
 class MockCacheClient extends Mock implements CacheClient {}
 
+class MockGdprConsentClient extends Mock implements GdprConsentClient {}
+
 String generateRandomString(int len) {
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
   final rnd = Random();
@@ -52,6 +55,8 @@ void main() {
   late MockHasCameraPermissionUseCase mockHasCameraPermissionUseCase;
   late MockHasGalleryPermissionUseCase mockHasGalleryPermissionUseCase;
   late MockDetectorEntity mockDetectorEntity;
+  late MockGdprConsentClient mockGdprConsentClient;
+  late MockCacheClient mockCacheClient;
   late String validUserInput;
   late UserInputForm validInputForm;
   late String invalidUserInput;
@@ -64,13 +69,16 @@ void main() {
     mockOCRFromCameraUseCase = MockOCRFromCameraUseCase();
     mockHasCameraPermissionUseCase = MockHasCameraPermissionUseCase();
     mockHasGalleryPermissionUseCase = MockHasGalleryPermissionUseCase();
+    mockGdprConsentClient = MockGdprConsentClient();
+    mockCacheClient = MockCacheClient();
     detectorCubit = DetectorCubit(
+      gdprConsentClient: mockGdprConsentClient,
       detectUseCase: mockDetectUseCase,
       ocrFromGalleryUseCase: mockOCRFromGalleryUseCase,
       ocrFromCameraUseCase: mockOCRFromCameraUseCase,
       hasCameraPermissionUseCase: mockHasCameraPermissionUseCase,
       hasGalleryPermissionUseCase: mockHasGalleryPermissionUseCase,
-      cacheClient: MockCacheClient(),
+      cacheClient: mockCacheClient,
     );
     mockDetectorEntity = MockDetectorEntity();
     validUserInput = generateRandomString(250);

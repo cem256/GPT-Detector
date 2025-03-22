@@ -39,7 +39,9 @@ class DetectView extends StatelessWidget {
       ),
       drawer: const GPTDrawer(),
       body: BlocProvider(
-        create: (context) => Locator.instance<DetectorCubit>(),
+        create: (context) => Locator.instance<DetectorCubit>()
+          ..initialize()
+          ..requestGdprConsent(),
         child: _DetectViewBody(),
       ),
     );
@@ -52,13 +54,30 @@ class _DetectViewBody extends StatefulWidget {
 }
 
 class _DetectViewBodyState extends State<_DetectViewBody> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<DetectorCubit, DetectorState>(
+      builder: (context, state) {
+        return state.requestingGdprConsent ? const Center(child: CircularProgressIndicator()) : const _DetectorBody();
+      },
+    );
+  }
+}
+
+class _DetectorBody extends StatefulWidget {
+  const _DetectorBody();
+
+  @override
+  State<_DetectorBody> createState() => _DetectorBodyState();
+}
+
+class _DetectorBodyState extends State<_DetectorBody> {
   late final TextEditingController _controller;
   BannerAd? _bannerAd;
 
   @override
   void initState() {
     _controller = TextEditingController();
-    RateAppUtils.rateApp();
     _loadBannerAd();
     super.initState();
   }
@@ -72,7 +91,8 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
 
   void _loadBannerAd() {
     _bannerAd = BannerAd(
-      adUnitId: AdConstants.bannerAdUnitId,
+      // TODO: Remove this
+      adUnitId: AdConstants.testBannerAdUnitId,
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
@@ -111,182 +131,212 @@ class _DetectViewBodyState extends State<_DetectViewBody> {
             message: context.l10n.unsupportedLanguage,
           );
         }
-        // Show rate app dialog after 3 successful detection requests
-        if (state.numberOfRequests == 3) {
+        if (state.showRateAppDialog) {
           await RateAppUtils.rateApp();
         }
+        if (state.showInterstitialAd) {
+          await InterstitialAd.load(
+            // TODO: Remove this
+            adUnitId: AdConstants.testInterstitialAdUnitId,
+            request: const AdRequest(),
+            adLoadCallback: InterstitialAdLoadCallback(
+              onAdLoaded: (InterstitialAd ad) {
+                LoggerUtils.instance.logInfo('InterstitialAd loaded successfully');
+                ad
+                  ..fullScreenContentCallback = FullScreenContentCallback(
+                    onAdDismissedFullScreenContent: (ad) {
+                      LoggerUtils.instance.logInfo('InterstitialAd dismissed');
+                      ad.dispose();
+                    },
+                    onAdFailedToShowFullScreenContent: (ad, error) {
+                      LoggerUtils.instance.logError('InterstitialAd failed to show: $error');
+                      ad.dispose();
+                    },
+                  )
+                  ..show();
+              },
+              onAdFailedToLoad: (LoadAdError error) {
+                LoggerUtils.instance.logError('InterstitialAd failed to load: $error');
+              },
+            ),
+          );
+        }
       },
-      child: SafeArea(
-        child: Padding(
-          padding: context.paddingAllDefault,
-          child: Column(
-            children: [
-              Row(
+      child: BlocBuilder<DetectorCubit, DetectorState>(
+        builder: (context, state) {
+          return SafeArea(
+            child: Padding(
+              padding: context.paddingAllDefault,
+              child: Column(
                 children: [
-                  Expanded(
-                    child: BlocSelector<DetectorCubit, DetectorState, Classification>(
-                      selector: (state) => state.result.classification,
-                      builder: (context, state) {
-                        final cardColor = state.getCardColor(context.theme);
-                        // Calculates the text color based on the card color
-                        final textColor = cardColor.computeLuminance() > 0.5 ? Colors.black : Colors.white;
-                        return GPTCard(
-                          color: cardColor,
-                          child: Padding(
-                            padding: context.paddingAllLow,
-                            child: Text(
-                              state.convertToLocalizedString(context.l10n),
-                              textAlign: TextAlign.center,
-                              style: context.textTheme.bodyLarge?.copyWith(
-                                fontWeight: ThemeConstants.fontWeightSemiBold,
-                                color: textColor,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: BlocSelector<DetectorCubit, DetectorState, Classification>(
+                          selector: (state) => state.result.classification,
+                          builder: (context, state) {
+                            final cardColor = state.getCardColor(context.theme);
+                            // Calculates the text color based on the card color
+                            final textColor = cardColor.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+                            return GPTCard(
+                              color: cardColor,
+                              child: Padding(
+                                padding: context.paddingAllLow,
+                                child: Text(
+                                  state.convertToLocalizedString(context.l10n),
+                                  textAlign: TextAlign.center,
+                                  style: context.textTheme.bodyLarge?.copyWith(
+                                    fontWeight: ThemeConstants.fontWeightSemiBold,
+                                    color: textColor,
+                                  ),
+                                ),
                               ),
-                            ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: context.defaultValue,
+                  ),
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        GPTTextField(
+                          controller: _controller,
+                          onChanged: (text) => context.read<DetectorCubit>().textChanged(text: text),
+                          hintText: context.l10n.textFieldHint,
+                        ),
+                        Positioned(
+                          right: 0,
+                          child: IconButton(
+                            icon: const Icon(Icons.clear),
+                            color: context.colorScheme.primary,
+                            onPressed: () {
+                              _controller.clear();
+                              context.read<DetectorCubit>().clearTextPressed();
+                            },
                           ),
-                        );
-                      },
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.photo_library),
+                                color: context.colorScheme.primary,
+                                onPressed: () async {
+                                  // Control the gallery permission
+                                  await context.read<DetectorCubit>().checkGalleryPermission();
+                                  if (!context.mounted) return;
+                                  // If there is no gallery access, then exit
+                                  if (!(context.read<DetectorCubit>().state.hasGalleryPermission ?? true)) return;
+                                  if (!context.mounted) return;
+                                  await context.read<DetectorCubit>().ocrFromGalleryPressed();
+                                  if (!context.mounted) return;
+                                  _controller.text = context.read<DetectorCubit>().state.userInput.value;
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.photo_camera),
+                                color: context.colorScheme.primary,
+                                onPressed: () async {
+                                  // Control the camera permission
+                                  await context.read<DetectorCubit>().checkCameraPermission();
+                                  if (!context.mounted) return;
+                                  // If there is no camera access, then exit
+                                  if (!(context.read<DetectorCubit>().state.hasCameraPermission ?? true)) return;
+                                  if (!context.mounted) return;
+                                  await context.read<DetectorCubit>().ocrFromCameraPressed();
+                                  if (!context.mounted) return;
+                                  _controller.text = context.read<DetectorCubit>().state.userInput.value;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-              SizedBox(
-                height: context.defaultValue,
-              ),
-              Expanded(
-                child: Stack(
-                  children: [
-                    GPTTextField(
-                      controller: _controller,
-                      onChanged: (text) => context.read<DetectorCubit>().textChanged(text: text),
-                      hintText: context.l10n.textFieldHint,
-                    ),
-                    Positioned(
-                      right: 0,
-                      child: IconButton(
-                        icon: const Icon(Icons.clear),
-                        color: context.colorScheme.primary,
-                        onPressed: () {
-                          _controller.clear();
-                          context.read<DetectorCubit>().clearTextPressed();
+                  SizedBox(
+                    height: context.defaultValue,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      BlocSelector<DetectorCubit, DetectorState, UserInputFormError?>(
+                        selector: (state) => state.userInput.error,
+                        builder: (context, state) {
+                          switch (state) {
+                            case UserInputFormError.tooShort:
+                              return Flexible(
+                                child: Text(
+                                  context.l10n.textFieldHelperShortText,
+                                  style: context.textTheme.bodySmall,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              );
+                            case UserInputFormError.tooLong:
+                              return Flexible(
+                                child: Text(
+                                  context.l10n.textFieldHelperLongText,
+                                  style: context.textTheme.bodySmall,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              );
+                            case null:
+                              return const SizedBox.shrink();
+                          }
                         },
                       ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.photo_library),
-                            color: context.colorScheme.primary,
-                            onPressed: () async {
-                              // Control the gallery permission
-                              await context.read<DetectorCubit>().checkGalleryPermission();
-                              if (!context.mounted) return;
-                              // If there is no gallery access, then exit
-                              if (!(context.read<DetectorCubit>().state.hasGalleryPermission ?? true)) return;
-                              if (!context.mounted) return;
-                              await context.read<DetectorCubit>().ocrFromGalleryPressed();
-                              if (!context.mounted) return;
-                              _controller.text = context.read<DetectorCubit>().state.userInput.value;
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.photo_camera),
-                            color: context.colorScheme.primary,
-                            onPressed: () async {
-                              // Control the camera permission
-                              await context.read<DetectorCubit>().checkCameraPermission();
-                              if (!context.mounted) return;
-                              // If there is no camera access, then exit
-                              if (!(context.read<DetectorCubit>().state.hasCameraPermission ?? true)) return;
-                              if (!context.mounted) return;
-                              await context.read<DetectorCubit>().ocrFromCameraPressed();
-                              if (!context.mounted) return;
-                              _controller.text = context.read<DetectorCubit>().state.userInput.value;
-                            },
-                          ),
-                        ],
+                      BlocSelector<DetectorCubit, DetectorState, int>(
+                        selector: (state) => state.userInput.value.trim().length,
+                        builder: (context, state) {
+                          return Text(
+                            context.l10n.textFieldCounterText(state),
+                            style: context.textTheme.bodySmall,
+                          );
+                        },
                       ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: context.defaultValue,
+                  ),
+                  if (_bannerAd != null) ...[
+                    SizedBox(
+                      width: _bannerAd!.size.width.toDouble(),
+                      height: _bannerAd!.size.height.toDouble(),
+                      child: AdWidget(ad: _bannerAd!),
+                    ),
+                    SizedBox(
+                      height: context.defaultValue,
                     ),
                   ],
-                ),
-              ),
-              SizedBox(
-                height: context.defaultValue,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  BlocSelector<DetectorCubit, DetectorState, UserInputFormError?>(
-                    selector: (state) => state.userInput.error,
+                  BlocBuilder<DetectorCubit, DetectorState>(
+                    buildWhen: (previous, current) =>
+                        previous.status.isSubmissionInProgress != current.status.isSubmissionInProgress,
                     builder: (context, state) {
-                      switch (state) {
-                        case UserInputFormError.tooShort:
-                          return Flexible(
-                            child: Text(
-                              context.l10n.textFieldHelperShortText,
-                              style: context.textTheme.bodySmall,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          );
-                        case UserInputFormError.tooLong:
-                          return Flexible(
-                            child: Text(
-                              context.l10n.textFieldHelperLongText,
-                              style: context.textTheme.bodySmall,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          );
-                        case null:
-                          return const SizedBox.shrink();
-                      }
-                    },
-                  ),
-                  BlocSelector<DetectorCubit, DetectorState, int>(
-                    selector: (state) => state.userInput.value.trim().length,
-                    builder: (context, state) {
-                      return Text(
-                        context.l10n.textFieldCounterText(state),
-                        style: context.textTheme.bodySmall,
+                      return GPTElevatedButton(
+                        showingLoadingIndicator: state.status.isSubmissionInProgress,
+                        text: context.l10n.analyzeText,
+                        onPressed: () {
+                          FocusScope.of(context).unfocus();
+                          context.read<DetectorCubit>().detectionRequested(
+                                context: context,
+                                text: _controller.text,
+                              );
+                        },
                       );
                     },
                   ),
                 ],
               ),
-              SizedBox(
-                height: context.defaultValue,
-              ),
-              if (_bannerAd != null) ...[
-                SizedBox(
-                  width: _bannerAd!.size.width.toDouble(),
-                  height: _bannerAd!.size.height.toDouble(),
-                  child: AdWidget(ad: _bannerAd!),
-                ),
-                SizedBox(
-                  height: context.defaultValue,
-                ),
-              ],
-              BlocBuilder<DetectorCubit, DetectorState>(
-                buildWhen: (previous, current) =>
-                    previous.status.isSubmissionInProgress != current.status.isSubmissionInProgress,
-                builder: (context, state) {
-                  return GPTElevatedButton(
-                    showingLoadingIndicator: state.status.isSubmissionInProgress,
-                    text: context.l10n.analyzeText,
-                    onPressed: () {
-                      FocusScope.of(context).unfocus();
-                      context.read<DetectorCubit>().detectionRequested(
-                            context: context,
-                            text: _controller.text,
-                          );
-                    },
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
