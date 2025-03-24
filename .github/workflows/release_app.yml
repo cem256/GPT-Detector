@@ -86,10 +86,10 @@ jobs:
       - name: Rename files ✏️
         run: |
           cd build/app/outputs/flutter-apk &&
-          mv app-release.apk gpt_detector-universal.apk &&
-          mv app-arm64-v8a-release.apk gpt_detector-arm64.apk &&
-          mv app-armeabi-v7a-release.apk gpt_detector-armeabi.apk &&
-          mv app-x86_64-release.apk gpt_detector-x86.apk
+          mv app-release.apk ai_detector-universal.apk &&
+          mv app-arm64-v8a-release.apk ai_detector-arm64.apk &&
+          mv app-armeabi-v7a-release.apk ai_detector-armeabi.apk &&
+          mv app-x86_64-release.apk ai_detector-x86.apk
 
       - name: Upload APKs 🚀
         uses: softprops/action-gh-release@v2.0.6
