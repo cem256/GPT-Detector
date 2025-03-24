@@ -54,7 +54,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "onboardingInfo1": "Welcome to GPT Detector! GPT Detector predicts whether a text was written by a large language model such as ChatGPT or not.",
+  "onboardingInfo1": "Welcome to AI Detector! AI Detector predicts whether a text was written by a large language model such as ChatGPT or not.",
   "@onboardingInfo1": {
     "description": "First Info text on the OnboardingView",
     "type": "text",
@@ -90,19 +90,19 @@
     "type": "text",
     "placeholders": {}
   },
-  "faqQuestion2": "What are the limitations of the GPT Detector?",
+  "faqQuestion2": "What are the limitations of the AI Detector?",
   "@faqQuestion2": {
     "description": "FAQDialog question2 text",
     "type": "text",
     "placeholders": {}
   },
-  "faqQuestion2answer1": "- The current version of the GPT Detector is optimized for texts written in English. So, using text in other languages may result in inaccurate results.",
+  "faqQuestion2answer1": "- The current version of the AI Detector is optimized for texts written in English. So, using text in other languages may result in inaccurate results.",
   "@faqQuestion2answer1": {
     "description": "FAQDialog question2 answer1",
     "type": "text",
     "placeholders": {}
   },
-  "faqQuestion2answer2": "- As AI models advance, they become better at generating text that resembles human writing, which affects the reliability of the GPT Detector. Therefore, relying solely on the detector's results for decision making is not recommended.",
+  "faqQuestion2answer2": "- As AI models advance, they become better at generating text that resembles human writing, which affects the reliability of the AI Detector. Therefore, relying solely on the detector's results for decision making is not recommended.",
   "@faqQuestion2answer2": {
     "description": "FAQDialog question2 answer2",
     "type": "text",
